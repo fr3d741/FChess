@@ -1,0 +1,12 @@
+#ifndef FCHESSLIB_GLOBAL_H
+#define FCHESSLIB_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(FCHESSLIB_LIBRARY)
+#  define FCHESSLIBSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define FCHESSLIBSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // FCHESSLIB_GLOBAL_H
