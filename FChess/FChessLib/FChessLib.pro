@@ -11,11 +11,14 @@ TEMPLATE = lib
 
 DEFINES += FCHESSLIB_LIBRARY
 
-SOURCES += fchesslib.cpp
+SOURCES += fchesslib.cpp \
+    Data/board.cpp
 
 HEADERS += fchesslib.h\
         fchesslib_global.h \
-    Data/Puppets.h
+    Data/board.h \
+    Data/CommonData.h \
+    Factory/puppetfactory.h
 
 unix {
     target.path = /usr/lib
