@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     Visual/figureselector.cpp \
     Players/tcpiplayer.cpp \
     messageinterface.cpp \
-    exceptions.cpp
+    exceptions.cpp \
+    Factories/figurefactory.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -49,7 +50,11 @@ HEADERS  += mainwindow.h \
     Visual/figureselector.h \
     Players/tcpiplayer.h \
     messageinterface.h \
-    exceptions.h
+    exceptions.h \
+    Factories/figurefactory.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui
+
+RESOURCES += \
+    icons.qrc
