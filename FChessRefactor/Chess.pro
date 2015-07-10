@@ -13,8 +13,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     board.cpp \
-    figure.cpp \
-    player.cpp \
     rules.cpp \
     Figures/rook.cpp \
     Figures/pawn.cpp \
@@ -30,12 +28,15 @@ SOURCES += main.cpp\
     Players/tcpiplayer.cpp \
     messageinterface.cpp \
     exceptions.cpp \
-    Factories/figurefactory.cpp
+    Factories/figurefactory.cpp \
+    Interfaces/figure.cpp \
+    Visual/boardrendererimpl.cpp \
+    Facade/gameplayfacade.cpp \
+    Interfaces/player.cpp \
+    Factories/playerfactory.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
-    figure.h \
-    player.h \
     rules.h \
     Defines.h \
     Figures/rook.h \
@@ -51,7 +52,13 @@ HEADERS  += mainwindow.h \
     Players/tcpiplayer.h \
     messageinterface.h \
     exceptions.h \
-    Factories/figurefactory.h
+    Factories/figurefactory.h \
+    Interfaces/figure.h \
+    Interfaces/BoardRendererInterface.h \
+    Visual/boardrendererimpl.h \
+    Facade/gameplayfacade.h \
+    Interfaces/player.h \
+    Factories/playerfactory.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui

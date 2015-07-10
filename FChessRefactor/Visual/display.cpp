@@ -1,18 +1,21 @@
 #include <QPainter>
 
 #include "display.h"
-#include "../figure.h"
+#include "../Interfaces/figure.h"
+#include "boardrendererimpl.h"
 
 namespace chessVisialization
 {
 
 Display::Display(QWidget *parent, Qt::WindowFlags f )
     :QWidget(parent, f)
+    ,_renderers()
     ,_cellOverCursor( -1, -1)
     ,_cellSelected( -1, -1 )
     ,_board(0)
 {
     setMouseTracking( true );
+    _renderers.push_back(new BoardRendererImpl());
 }
 
 void Display::setBoard( Board* board )
@@ -35,59 +38,61 @@ void Display::generateImage()
         return;
     }
 
-    int x = _board->sizeHorizontal();
-    int y = _board->sizeVerical();
-    int w = width();
-    int h = height();
-    int cw = w / x;
-    int ch = h / y;
-    int side = std::min( cw, ch );
-    _displayImage = QImage( x * side, y * side, QImage::Format_ARGB32 );
-    QPainter painter( &_displayImage );
-    for ( int i = 0; i < x; ++i )
-    {
-        for ( int j = 0; j < y; ++j )
-        {
-            //! Coloring board
-            if ( cells[i][j].cellColor == Defs::White )
-            {
-                QColor wc( 255, 206, 158);
-                painter.fillRect( i * side, j * side, side, side, wc );
-            }
-            else
-            {
-                QColor bc( 209, 139, 71);
-                painter.fillRect( i * side, j * side, side, side, bc );
-            }
+//    int x = _board->sizeHorizontal();
+//    int y = _board->sizeVerical();
+//    int w = width();
+//    int h = height();
+//    int cw = w / x;
+//    int ch = h / y;
+//    int side = std::min( cw, ch );
+//    _displayImage = QImage( x * side, y * side, QImage::Format_ARGB32 );
+//    QPainter painter( &_displayImage );
+//    for ( int i = 0; i < x; ++i )
+//    {
+//        for ( int j = 0; j < y; ++j )
+//        {
+//            //! Coloring board
+//            if ( cells[i][j].cellColor == Defs::White )
+//            {
+//                QColor wc( 255, 206, 158);
+//                painter.fillRect( i * side, j * side, side, side, wc );
+//            }
+//            else
+//            {
+//                QColor bc( 209, 139, 71);
+//                painter.fillRect( i * side, j * side, side, side, bc );
+//            }
 
-            //! Draw puppets
-            if ( puppets::ChessFigures.contains( cells[i][j].figure ) )
-            {
-                QRect r(i * side, j * side, side, side);
-                painter.drawImage(r, puppets::ChessFigures[cells[i][j].figure]->iconImage() );
-            }
-        }
-    }
+//            //! Draw puppets
+//            if ( puppets::ChessFigures.contains( cells[i][j].figure ) )
+//            {
+//                QRect r(i * side, j * side, side, side);
+//                painter.drawImage(r, puppets::ChessFigures[cells[i][j].figure]->iconImage() );
+//            }
+//        }
+//    }
 
-    if ( _board->currentPlayer() )
-    {
-        _cellOverCursor = _board->currentPlayer()->cellOverCursor();
-    }
+    _displayImage = _renderers[0]->Render(_board);
 
-    if ( _cellOverCursor.first != -1 && _cellOverCursor.second != -1 )
-    {
-        QColor selected( 255, 0, 0 );
-        painter.setPen( selected );
-        painter.drawRect( _cellOverCursor.first * side, _cellOverCursor.second * side, side, side );
-    }
+//    if ( _board->currentPlayer() )
+//    {
+//        _cellOverCursor = _board->currentPlayer()->cellOverCursor();
+//    }
 
-    std::pair<int, int>& cellSelected = _board->selectedCell();
-    if ( cellSelected.first != -1 && cellSelected.second != -1 )
-    {
-        QColor selected( 0, 255, 0 );
-        painter.setPen( selected );
-        painter.drawRect( cellSelected.first * side, cellSelected.second * side, side, side );
-    }
+//    if ( _cellOverCursor.first != -1 && _cellOverCursor.second != -1 )
+//    {
+//        QColor selected( 255, 0, 0 );
+//        painter.setPen( selected );
+//        painter.drawRect( _cellOverCursor.first * side, _cellOverCursor.second * side, side, side );
+//    }
+
+//    std::pair<int, int>& cellSelected = _board->selectedCell();
+//    if ( cellSelected.first != -1 && cellSelected.second != -1 )
+//    {
+//        QColor selected( 0, 255, 0 );
+//        painter.setPen( selected );
+//        painter.drawRect( cellSelected.first * side, cellSelected.second * side, side, side );
+//    }
 
 }
 

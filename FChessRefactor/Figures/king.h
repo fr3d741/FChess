@@ -1,12 +1,12 @@
 #ifndef KING_H
 #define KING_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class King : public Figure
+class King : public FigureInterface
 {
 public:
     King( QString path, Defs::EColors color, Defs::EFigures figure );

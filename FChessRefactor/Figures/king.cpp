@@ -4,7 +4,7 @@ namespace puppets
 {
 
 King::King( QString path, Defs::EColors color, Defs::EFigures figure )
-    :Figure( path, color, figure )
+    :FigureInterface( path, color, figure )
 {
 }
 

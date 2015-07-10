@@ -1,12 +1,12 @@
 #ifndef KNIGHT_H
 #define KNIGHT_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Knight : public Figure
+class Knight : public FigureInterface
 {
 public:
     Knight( QString path, Defs::EColors color, Defs::EFigures figure );

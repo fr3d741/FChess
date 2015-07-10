@@ -1,28 +1,7 @@
-#include "player.h"
-#include "Players/human.h"
-#include "Players/tcpiplayer.h"
+#include "playerfactory.h"
 
-PlayerFactory PlayerFactory::_factory;
-
-Player::Player(Defs::EColors color, QObject *parent)
-    :QObject(parent)
-    ,_playerColor( color )
-{
-}
-
-Player::~Player()
-{
-}
-
-Defs::EColors Player::color()
-{
-    return _playerColor;
-}
-
-PlayerFactory* PlayerFactory::instance()
-{
-    return &_factory;
-}
+#include "../Players/human.h"
+#include "../Players/tcpiplayer.h"
 
 Player* PlayerFactory::createPlayer( Defs::EColors color, QString player )
 {
@@ -58,10 +37,3 @@ Player* PlayerFactory::createPlayer( QString color, QString player )
 
 return 0;
 }
-
-PlayerFactory::PlayerFactory()
-{
-}
-
-
-

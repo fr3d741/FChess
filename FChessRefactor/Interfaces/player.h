@@ -3,8 +3,8 @@
 
 #include <QObject>
 
-#include "messageinterface.h"
-#include "Defines.h"
+#include "../messageinterface.h"
+#include "../Defines.h"
 
 /*!
 * \brief Abstract class of players( PC, Human, etc. )
@@ -54,21 +54,6 @@ public slots:
 
 protected:
     Defs::EColors _playerColor;
-};
-
-class PlayerFactory
-{
-public:
-    static PlayerFactory* instance();
-
-    Player* createPlayer( QString color, QString player );
-
-    Player* createPlayer( Defs::EColors color, QString player );
-
-private:
-    PlayerFactory();
-
-    static PlayerFactory _factory;
 };
 
 #endif // PLAYER_H

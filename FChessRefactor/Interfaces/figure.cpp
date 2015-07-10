@@ -1,12 +1,15 @@
+#define TEXTURE_W 44
+#define TEXTURE_H 44
+
 #include <QFileInfo>
 
 #include "figure.h"
-#include "Factories/figurefactory.h"
+#include "../Factories/figurefactory.h"
 
 namespace puppets
 {
 
-    Figure::Figure( QString path, Defs::EColors color, Defs::EFigures figure )
+    FigureInterface::FigureInterface( QString path, Defs::EColors color, Defs::EFigures figure )
         :_icon(0)
         ,_iconPix(0)
         ,_color( color )
@@ -15,13 +18,13 @@ namespace puppets
     {
     }
 
-    Figure::~Figure()
+    FigureInterface::~FigureInterface()
     {
         delete _icon;
         delete _iconPix;
     }
 
-    const QPixmap& Figure::iconPixmap()
+    const QPixmap& FigureInterface::iconPixmap()
     {
         if ( !_iconPix )
         {
@@ -30,7 +33,7 @@ namespace puppets
         return *_iconPix;
     }
 
-    const QImage& Figure::iconImage()
+    const QImage& FigureInterface::iconImage()
     {
         if ( !_icon )
         {
@@ -39,14 +42,19 @@ namespace puppets
         return *_icon;
     }
 
-    Defs::EColors Figure::color()
+    Defs::EColors FigureInterface::color()
     {
         return _color;
     }
 
-    Defs::EFigures Figure::type()
+    Defs::EFigures FigureInterface::type()
     {
         return _figure;
+    }
+
+    QSize FigureInterface::IconSize()
+    {
+        return QSize(TEXTURE_W, TEXTURE_H);
     }
 
 }

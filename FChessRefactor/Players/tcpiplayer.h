@@ -9,7 +9,7 @@ namespace Ui
 #include <QTcpSocket>
 #include <QTcpServer>
 
-#include "../player.h"
+#include "../Interfaces/player.h"
 #include "../messageinterface.h"
 
 class TCPIPlayer : public Player

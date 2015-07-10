@@ -4,7 +4,7 @@ namespace puppets
 {
 
 Knight::Knight( QString path, Defs::EColors color, Defs::EFigures figure )
-    :Figure( path, color, figure )
+    :FigureInterface( path, color, figure )
 {
 }
 

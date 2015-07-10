@@ -1,12 +1,12 @@
 #ifndef QUEEN_H
 #define QUEEN_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Queen : public Figure
+class Queen : public FigureInterface
 {
 public:
     Queen( QString path, Defs::EColors color, Defs::EFigures figure );

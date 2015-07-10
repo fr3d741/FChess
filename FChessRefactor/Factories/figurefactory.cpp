@@ -7,7 +7,7 @@
 #include "../Figures/queen.h"
 #include "../Figures/rook.h"
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
@@ -31,7 +31,7 @@ FigureFactory::FigureFactory()
     _texturePaths[ Defs::Black | Defs::Queen ]  = QString( ":/icon/figure/queen_b.png" );
 }
 
-Figure* FigureFactory::createFigure( Defs::EColors color, Defs::EFigures figure )
+FigureInterface* FigureFactory::createFigure( Defs::EColors color, Defs::EFigures figure )
 {
     switch (figure)
     {

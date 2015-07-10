@@ -2,7 +2,7 @@
 
 #include "board.h"
 
-#include "figure.h"
+#include "Interfaces/figure.h"
 #include "evaluator.h"
 #include "Visual/figureselector.h"
 
@@ -30,6 +30,11 @@ Board::~Board()
     for ( int i = 0; i < VERTICAL_SIZE; ++i )
        delete[] Defs::boardState[i];
     delete[] Defs::boardState;
+}
+
+Defs::Cell **Board::BoardState()
+{
+    return Defs::boardState;
 }
 
 void Board::deletePlayer( int index )

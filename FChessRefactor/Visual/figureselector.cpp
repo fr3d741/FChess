@@ -7,7 +7,7 @@
 #include <QMouseEvent>
 
 #include "figureselector.h"
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 FigureSelector::FigureSelector(QWidget *parent)
     :QDialog(parent)
@@ -31,7 +31,7 @@ FigureSelector::FigureSelector(QWidget *parent)
     layout->insertWidget( 0, &_whiteFrame );
     layout->insertWidget( 0, &_blackFrame );
     layout->insertWidget( 0, new QLabel( "Select a figure for promotion:" ) );
-    for ( QMap< int, puppets::Figure* >::iterator it = puppets::ChessFigures.begin(); it != puppets::ChessFigures.end(); ++it )
+    for ( QMap< int, puppets::FigureInterface* >::iterator it = puppets::ChessFigures.begin(); it != puppets::ChessFigures.end(); ++it )
     {
         int fig = it.key();
         if ( fig & Defs::King )

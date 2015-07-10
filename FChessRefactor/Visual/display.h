@@ -6,6 +6,7 @@
 #include "../messageinterface.h"
 #include "../Defines.h"
 #include "../board.h"
+#include "../Interfaces/BoardRendererInterface.h"
 
 extern Defs::Cell** Defs::boardState;
 
@@ -45,6 +46,8 @@ protected:
 
     virtual void leaveEvent( QEvent * );
 protected:
+    QVector<BoardRendererInterface*> _renderers;
+
     std::pair< int, int >   _cellOverCursor;
 
     std::pair< int, int >   _cellSelected;

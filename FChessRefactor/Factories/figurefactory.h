@@ -2,7 +2,7 @@
 #define FIGUREFACTORY_H
 
 namespace puppets{
-class Figure;
+class FigureInterface;
 }
 
 #include <memory>
@@ -18,7 +18,7 @@ namespace puppets
     class FigureFactory
     {
         public:
-            Figure *createFigure( Defs::EColors color, Defs::EFigures figure );
+            FigureInterface *createFigure( Defs::EColors color, Defs::EFigures figure );
 
             static const std::auto_ptr< FigureFactory > Instance();
 

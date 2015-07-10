@@ -1,12 +1,12 @@
 #ifndef BISHOP_H
 #define BISHOP_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Bishop : public Figure
+class Bishop : public FigureInterface
 {
 public:
     Bishop( QString path, Defs::EColors color, Defs::EFigures figure );

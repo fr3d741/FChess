@@ -1,12 +1,12 @@
 #ifndef ROOK_H
 #define ROOK_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Rook : public Figure
+class Rook : public FigureInterface
 {
 public:
     Rook( QString path, Defs::EColors color, Defs::EFigures figure );

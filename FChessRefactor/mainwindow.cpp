@@ -7,6 +7,7 @@
 #include "ui_mainwindow.h"
 #include "Players/human.h"
 #include "exceptions.h"
+#include "Factories/playerfactory.h"
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -109,6 +110,7 @@ void MainWindow::slotUndoLastMove()
 
 void MainWindow::slotSetupPlayer()
 {
+    //TODO: rewrite to handle by a Facade
     int colorIndex = -1;
     try
     {
@@ -121,7 +123,7 @@ void MainWindow::slotSetupPlayer()
                 if ( menu->title() == "White" )
                 {
                     colorIndex = 0;
-                    Player* player = PlayerFactory::instance()->createPlayer( Defs::White, sndr->text() );
+                    Player* player = PlayerFactory::createPlayer( Defs::White, sndr->text() );
                     _chessBoard->setPlayer( 0, player );
                     connect( player, SIGNAL( signalMessage( QString ) ),                  SLOT( slotReceivedMessage( QString ) ) );
                     connect( player, SIGNAL( signalCellPressed( int, int ) ), _chessBoard,SLOT( cellPressed(int,int) ) );
@@ -130,7 +132,7 @@ void MainWindow::slotSetupPlayer()
                 }
                 else if ( menu->title() == "Black" )
                 {
-                    Player* player = PlayerFactory::instance()->createPlayer( Defs::Black, sndr->text() );
+                    Player* player = PlayerFactory::createPlayer( Defs::Black, sndr->text() );
                     colorIndex = 1;
                     _chessBoard->setPlayer( 1, player );
                     connect( player, SIGNAL( signalMessage( QString ) ),                  SLOT( slotReceivedMessage( QString ) ) );

@@ -6,7 +6,7 @@
 #include <QMap>
 #include <memory>
 
-#include "Defines.h"
+#include "../Defines.h"
 
 namespace puppets
 {
@@ -14,18 +14,18 @@ namespace puppets
 /*!
 * \brief abstract class of chess figures
 */
-class Figure
+class FigureInterface
 {
 public:
     /*!
     * \brief
     */
-    explicit Figure( QString path, Defs::EColors color, Defs::EFigures figure );
+    explicit FigureInterface( QString path, Defs::EColors color, Defs::EFigures figure );
 
     /*!
     * \brief
     */
-    virtual ~Figure();
+    virtual ~FigureInterface();
 
     /*!
     * \brief texture cache
@@ -57,10 +57,13 @@ public:
     */
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position ) = 0;
 
+public:
+    static QSize IconSize();
+
 protected:
 
 private:
-    Figure();
+    FigureInterface();
 
 protected:
     QImage*         _icon;
@@ -78,10 +81,10 @@ namespace puppets
 /*!
 * \brief contains instances of figures
 */
-class PuppetContainer : public QMap< int, puppets::Figure* >
+class PuppetContainer : public QMap< int, puppets::FigureInterface* >
 {
 public:
-    typedef QMap< int, puppets::Figure* >::iterator iterator;
+    typedef QMap< int, puppets::FigureInterface* >::iterator iterator;
     PuppetContainer();
 };
 

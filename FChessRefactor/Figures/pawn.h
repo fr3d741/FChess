@@ -1,12 +1,12 @@
 #ifndef PAWN_H
 #define PAWN_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Pawn : public Figure
+class Pawn : public FigureInterface
 {
 public:
     Pawn( QString path, Defs::EColors color, Defs::EFigures figure );

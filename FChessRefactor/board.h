@@ -6,7 +6,7 @@
 
 #include "Defines.h"
 #include "messageinterface.h"
-#include "player.h"
+#include "Interfaces/player.h"
 
 extern Defs::Cell** Defs::boardState;
 extern Defs::ColorState Defs::WhiteBlackState;
@@ -24,6 +24,8 @@ public:
     explicit Board(QObject *parent = 0);
 
     ~Board();
+
+    Defs::Cell** BoardState();
     
     void setNumberOfPlayers( int i );
 

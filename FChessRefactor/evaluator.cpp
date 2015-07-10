@@ -1,5 +1,5 @@
 #include "evaluator.h"
-#include "figure.h"
+#include "Interfaces/figure.h"
 
 Evaluator::Evaluator()
 {
