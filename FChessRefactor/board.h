@@ -43,7 +43,7 @@ public:
 
     bool setMove( Defs::Move& move );
 
-    Player* currentPlayer();
+    //Player* currentPlayer();
 
     std::pair<int, int>& selectedCell();
 
@@ -68,6 +68,8 @@ public:
     * \brief deletes player, in case of some error
     */
     void deletePlayer( int index );
+
+    void init();
 signals:
     //void signalSendMessage( QString );
     virtual void signalMessage( QString );
@@ -88,7 +90,7 @@ public slots:
     */
     bool cellPressed( int x, int y );
 
-    bool start();
+    //bool start();
 
 protected:
     /*!
@@ -96,9 +98,7 @@ protected:
     */
     int handleSpecificCases( Defs::Move& move );
 
-    void init();
-
-    void nextPlayer();
+    //void nextPlayer();
 
 protected:
     bool                    _started;
@@ -106,7 +106,7 @@ protected:
     bool                    _isCheck;
 
     //! current player, handling availability through gui
-    Player*                 _currentPlayer;
+    //Player*                 _currentPlayer;
 
     //! array of players
     QVector<Player*>        _players;

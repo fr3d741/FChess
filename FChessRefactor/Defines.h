@@ -57,6 +57,11 @@ enum EColors
     Black = 2
 };
 
+enum EPlayers
+{
+    Human
+};
+
 enum EFigures
 {
     King = 4,
@@ -73,12 +78,16 @@ struct Cell
     EColors cellColor;
 };
 
-struct Move
+struct MovePrimitive
+{
+    std::pair<int,int> from;
+    std::pair<int,int> to;
+};
+
+struct Move : public MovePrimitive
 {
     Move();
     ~Move();
-    std::pair<int,int> from;
-    std::pair<int,int> to;
     int figure;
     Cell fromCell;
     Cell toCell;

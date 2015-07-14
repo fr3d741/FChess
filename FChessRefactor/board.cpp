@@ -10,7 +10,6 @@ Board::Board(QObject *parent)
     :QObject(parent)
     ,_started(false)
     ,_isCheck(false)
-    ,_currentPlayer(0)
     ,_players()
     ,_selectedCell( -1, -1)
     ,_stack()
@@ -293,32 +292,32 @@ bool Board::setMove( Defs::Move& move )
     }
 
     _stack.push_back( move );
-    Player* prevPlayer = _currentPlayer;
-    nextPlayer();
-    bool isStillCheck = false;
-    isStillCheck = Evaluator::check( prevPlayer->color() );
-    if ( _isCheck && isStillCheck )
-    {
-        revertStep();
-        emit signalMessage( QString( "You are in Check!" ) );
-        return false;
-    }
-    else if ( isStillCheck )
-    {
-        revertStep();
-        emit signalMessage( QString( "Cant move into a Check position!" ) );
-        return false;
-    }
-    else
-    {
-        _isCheck = Evaluator::check( _currentPlayer->color() );
-        if ( _isCheck )
-        {
-            emit signalMessage( QString( "Check!" ) );
-        }
-    }
+//    Player* prevPlayer = _currentPlayer;
+//    nextPlayer();
+//    bool isStillCheck = false;
+//    isStillCheck = Evaluator::check( prevPlayer->color() );
+//    if ( _isCheck && isStillCheck )
+//    {
+//        revertStep();
+//        emit signalMessage( QString( "You are in Check!" ) );
+//        return false;
+//    }
+//    else if ( isStillCheck )
+//    {
+//        revertStep();
+//        emit signalMessage( QString( "Cant move into a Check position!" ) );
+//        return false;
+//    }
+//    else
+//    {
+//        _isCheck = Evaluator::check( _currentPlayer->color() );
+//        if ( _isCheck )
+//        {
+//            emit signalMessage( QString( "Check!" ) );
+//        }
+//    }
 
-    emit signalBoardChanged();
+//    emit signalBoardChanged();
 
 return true;
 }
@@ -348,7 +347,7 @@ void Board::revertStep( Defs::Move* move )
 
     if ( !move )
     {
-        nextPlayer();
+        //nextPlayer();
     }
 
     emit signalBoardChanged();
@@ -356,12 +355,13 @@ void Board::revertStep( Defs::Move* move )
 
 bool Board::isValidCell( Defs::Cell& cell )
 {
-    if ( !_currentPlayer )
-    {
-        return false;
-    }
+//    if ( !_currentPlayer )
+//    {
+//        return false;
+//    }
 
-return _currentPlayer->isValidCell( cell );
+//return _currentPlayer->isValidCell( cell );
+return false;
 }
 
 bool Board::cellPressed( int x, int y )
@@ -446,30 +446,30 @@ int Board::sizeHorizontal()
     return HORIZONTAL_SIZE;
 }
 
-bool Board::start()
-{
-    if ( _players.isEmpty() )
-    {
-        //no players => exit
-        return false;
-    }
+//bool Board::start()
+//{
+//    if ( _players.isEmpty() )
+//    {
+//        //no players => exit
+//        return false;
+//    }
 
-	_currentPlayer = _players.front();
-	if ( !_currentPlayer )
-	{
-		return false;
-	}
+//	_currentPlayer = _players.front();
+//	if ( !_currentPlayer )
+//	{
+//		return false;
+//	}
 
-    if ( _started )
-    {
-        resetBoard();
-    }
-    _started = true;
-    init();
+//    if ( _started )
+//    {
+//        resetBoard();
+//    }
+//    _started = true;
+//    init();
     
-    emit signalPlayerChanged();
-return true;
-}
+//    emit signalPlayerChanged();
+//return true;
+//}
 
 bool Board::started()
 {
@@ -497,28 +497,28 @@ void Board::resetBoard()
     emit signalBoardChanged();
 }
 
-Player* Board::currentPlayer()
-{
-    return _currentPlayer;
-}
+//Player* Board::currentPlayer()
+//{
+//    return _currentPlayer;
+//}
 
-void Board::nextPlayer()
-{
-    QVector<Player*>::iterator now = std::find( _players.begin(), _players.end(), (Player*)_currentPlayer );
-    if ( now != _players.end() )
-    {
-        ++now;
-        if ( now != _players.end() )
-        {
-            _currentPlayer = *now;
-        }
-        else
-        {
-            _currentPlayer = _players.front();
-        }
-        emit signalPlayerChanged();
-    }
-}
+//void Board::nextPlayer()
+//{
+//    QVector<Player*>::iterator now = std::find( _players.begin(), _players.end(), (Player*)_currentPlayer );
+//    if ( now != _players.end() )
+//    {
+//        ++now;
+//        if ( now != _players.end() )
+//        {
+//            _currentPlayer = *now;
+//        }
+//        else
+//        {
+//            _currentPlayer = _players.front();
+//        }
+//        emit signalPlayerChanged();
+//    }
+//}
 
 std::pair<int, int>& Board::selectedCell()
 {

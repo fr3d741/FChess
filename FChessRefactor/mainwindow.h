@@ -64,7 +64,7 @@ private:
 
     chessVisialization::Display* _display;
 
-    Board*          _chessBoard;
+    //Board*          _chessBoard;
 };
 
 #endif // MAINWINDOW_H

@@ -13,9 +13,7 @@ ColorState& WhiteState = WhiteBlackState;
 ColorState& BlackState = WhiteBlackState;
 
 Move::Move()
-    :from()
-    ,to()
-    ,figure(0)
+    :figure(0)
     ,fromCell()
     ,toCell()
     ,additionalMove()

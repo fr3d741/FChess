@@ -37,3 +37,15 @@ Player* PlayerFactory::createPlayer( QString color, QString player )
 
 return 0;
 }
+
+std::shared_ptr<Player> PlayerFactory::createPlayer(Defs::EColors color, Defs::EPlayers player)
+{
+    switch (player)
+    {
+        case Defs::Human:
+            return std::shared_ptr<Player>(new Human(color));
+            break;
+        default:
+            return std::shared_ptr<Player>();
+    }
+}

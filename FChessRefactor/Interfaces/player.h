@@ -26,6 +26,8 @@ public:
     virtual std::pair< int, int >& cellOverCursor() = 0;
 
 signals:
+    void signalMove( Defs::MovePrimitive );
+
     /*!
     * \brief sends general message
     */
