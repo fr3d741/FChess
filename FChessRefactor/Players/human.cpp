@@ -52,6 +52,7 @@ bool Human::eventFilter( QObject * watched, QEvent * event )
                 {
                     _cellOverCursor.first   = p.x() / ( r.width() / HORIZONTAL_SIZE );
                     _cellOverCursor.second  = p.y() / ( r.height() / VERTICAL_SIZE );
+                    emit signalMouseOver(_cellOverCursor.first, _cellOverCursor.second);
                     emit signalEventFiltered();
                     return true;
                 }

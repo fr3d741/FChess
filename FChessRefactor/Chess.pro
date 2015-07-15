@@ -34,7 +34,10 @@ SOURCES += main.cpp\
     Facade/gameplayfacade.cpp \
     Interfaces/player.cpp \
     Factories/playerfactory.cpp \
-    gameplayobserver.cpp
+    Visual/playerlayer.cpp \
+    Observers/gameplayobserver.cpp \
+    Observers/visualobserver.cpp \
+    Interfaces/singleton.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -60,7 +63,11 @@ HEADERS  += mainwindow.h \
     Facade/gameplayfacade.h \
     Interfaces/player.h \
     Factories/playerfactory.h \
-    gameplayobserver.h
+    Interfaces/RenderObject.h \
+    Visual/playerlayer.h \
+    Observers/gameplayobserver.h \
+    Observers/visualobserver.h \
+    Interfaces/singleton.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui

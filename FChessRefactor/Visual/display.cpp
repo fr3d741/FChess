@@ -3,7 +3,7 @@
 #include "display.h"
 #include "../Interfaces/figure.h"
 #include "boardrendererimpl.h"
-#include "../gameplayobserver.h"
+#include "../Observers/gameplayobserver.h"
 
 namespace chessVisialization
 {
@@ -154,7 +154,9 @@ void Display::paintEvent( QPaintEvent * )
 {
     QPainter p(this);
     //p.drawImage( rect(), _displayImage );
-    p.drawImage( QPoint(0,0), _displayImage );
+    for(QVector<QImage>::iterator it = _layers.begin(); it != _layers.end(); ++it) {
+        p.drawImage( QPoint(0,0), *it );
+    }
 }
 
 void Display::leaveEvent( QEvent * )

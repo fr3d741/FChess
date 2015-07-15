@@ -57,6 +57,7 @@ protected:
     //Board*                  _board;
 
     QImage                  _displayImage;
+    QVector<QImage>         _layers;
 };
 
 }

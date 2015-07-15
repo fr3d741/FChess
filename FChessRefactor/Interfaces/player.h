@@ -48,6 +48,8 @@ signals:
     */
     void signalCellChanged( int, int );
 
+    void signalMouseOver(int, int);
+
     /*!
     * \brief signals eventFilter has been successfully processed
     */

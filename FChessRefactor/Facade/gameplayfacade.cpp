@@ -2,27 +2,17 @@
 #include "../Interfaces/player.h"
 #include "../Factories/playerfactory.h"
 #include "../board.h"
-#include "../gameplayobserver.h"
-
-std::shared_ptr<GameplayFacade> GameplayFacade::_instance;
+#include "../Observers/gameplayobserver.h"
 
 GameplayFacade::GameplayFacade()
     :QObject()
     ,_playerStack()
     ,_board(0)
 {
+    //Singleton<GameplayFacade>* sngl = Singleton<GameplayFacade>::Instance().get();
+
     _board = new Board(this);
     connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)) );
-}
-
-std::shared_ptr<GameplayFacade> GameplayFacade::Instance()
-{
-    if (_instance.get()==nullptr)
-    {
-        _instance = std::shared_ptr<GameplayFacade>(new GameplayFacade());
-    }
-
-    return _instance;
 }
 
 std::shared_ptr<Player> GameplayFacade::currentPlayer()

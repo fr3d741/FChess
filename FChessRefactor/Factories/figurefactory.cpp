@@ -12,8 +12,6 @@
 namespace puppets
 {
 
-std::auto_ptr< FigureFactory > FigureFactory::_globalInst;
-
 FigureFactory::FigureFactory()
 {
     _texturePaths[ Defs::White | Defs::Pawn ]   = QString( ":/icon/figure/pawn_w.png" );
@@ -50,15 +48,6 @@ FigureInterface* FigureFactory::createFigure( Defs::EColors color, Defs::EFigure
         default:
             return 0;
     }
-}
-
-const std::auto_ptr< FigureFactory > FigureFactory::Instance()
-{
-    if ( !_globalInst.get() )
-    {
-        _globalInst = std::auto_ptr< FigureFactory >( new FigureFactory() );
-    }
-    return _globalInst;
 }
 
 } // end namespace

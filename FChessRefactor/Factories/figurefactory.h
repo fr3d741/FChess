@@ -9,23 +9,22 @@ class FigureInterface;
 #include <QMap>
 
 #include "../Defines.h"
+#include "../Interfaces/singleton.h"
 
 namespace puppets
 {
     /*!
     * \brief Factory class for creating chess figures
     */
-    class FigureFactory
+    class FigureFactory : public Singleton<FigureFactory>
     {
+        friend class Singleton<FigureFactory>;
+
         public:
             FigureInterface *createFigure( Defs::EColors color, Defs::EFigures figure );
 
-            static const std::auto_ptr< FigureFactory > Instance();
-
         private:
             FigureFactory();
-
-            static std::auto_ptr< FigureFactory >   _globalInst;
 
             QMap< int, QString >             _texturePaths;
     };

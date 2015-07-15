@@ -9,18 +9,18 @@ class Board;
 #include <QList>
 
 #include "../Defines.h"
+#include "../Interfaces/singleton.h"
 
-class GameplayFacade : public QObject
+class GameplayFacade : public QObject, public Singleton<GameplayFacade>
 {
+    friend class Singleton<GameplayFacade>;
     Q_OBJECT
 
-    static std::shared_ptr<GameplayFacade>  _instance;
     QList<std::shared_ptr<Player>>          _playerStack;
     Board*                                  _board;
 
     explicit GameplayFacade();
 public:
-    static std::shared_ptr<GameplayFacade> Instance();
 
     std::shared_ptr<Player> currentPlayer();
 
