@@ -13,6 +13,7 @@
 #define CELL_TEXTURE_W 44
 #define CELL_TEXTURE_H 44
 
+#include <QMetaType>
 #include <QString>
 #include <QPair>
 #include <QMap>
@@ -83,6 +84,8 @@ struct MovePrimitive
     std::pair<int,int> from;
     std::pair<int,int> to;
 };
+
+Q_DECLARE_METATYPE(MovePrimitive)
 
 struct Move : public MovePrimitive
 {

@@ -22,6 +22,8 @@ signals:
 
     void signalMouseOver(int cellX, int cellY);
 
+    void signalCellSelected(int cellX, int cellY);
+
 public slots:
 
 };

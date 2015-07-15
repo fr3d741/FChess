@@ -18,7 +18,6 @@ Display::Display(QWidget *parent, Qt::WindowFlags f )
     _layers.push_back(new BoardRendererImpl());
     _layers.push_back(new PlayerLayer(this));
 
-    connect(GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), SLOT(slotBoardChanged(std::shared_ptr<Board>)));
     connect(VisualObserver::Instance().get(), SIGNAL(signalUpdateView()), SLOT(update()), Qt::QueuedConnection);
 }
 
