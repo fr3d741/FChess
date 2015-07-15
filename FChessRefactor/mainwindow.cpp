@@ -171,7 +171,6 @@ void MainWindow::start( QAction* )
     {
         sndrAction->setText("Restart");
         _display->installEventFilter( GameplayFacade::Instance()->currentPlayer().get() );
-        _display->boardChanged();
 		_display->update();
     }
 }

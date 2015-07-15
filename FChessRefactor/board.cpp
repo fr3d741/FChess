@@ -10,9 +10,7 @@ Defs::Cell** Board::boardState = nullptr;
 
 Board::Board(QObject *parent)
     :QObject(parent)
-    ,_started(false)
     ,_isCheck(false)
-    ,_players()
     ,_selectedCell( -1, -1)
     ,_stack()
     ,_movedCells(64)
@@ -36,15 +34,6 @@ Board::~Board()
 Defs::Cell **Board::BoardState()
 {
     return boardState;
-}
-
-void Board::deletePlayer( int index )
-{
-    if ( 0 <= index && index < _players.size() )
-    {
-        delete _players[index];
-        _players[index] = 0;
-    }
 }
 
 void Board::init()
@@ -355,89 +344,6 @@ void Board::revertStep( Defs::Move* move )
     emit signalBoardChanged();
 }
 
-bool Board::isValidCell( Defs::Cell& cell )
-{
-//    if ( !_currentPlayer )
-//    {
-//        return false;
-//    }
-
-//return _currentPlayer->isValidCell( cell );
-return false;
-}
-
-bool Board::cellPressed( int x, int y )
-{
-    if ( _selectedCell.first == x && _selectedCell.second == y )
-    {
-        //unselect
-        _selectedCell.first = -1;
-        _selectedCell.second = -1;
-        //emit signalMessage( QString("unselected" ) );
-        emit signalBoardChanged();
-        return true;
-    }
-    else
-    {
-        Defs::Cell cell = boardState[x][y];
-        if ( _selectedCell.first == -1 && _selectedCell.second == -1 )
-        {
-            //select
-            if ( isValidCell( cell ) )
-            {
-                _selectedCell.first = x;
-                _selectedCell.second = y;
-                emit signalBoardChanged();
-                return true;
-            }
-            else
-            {
-                emit signalMessage( QString("Invalid cell: %1,%2").arg(x).arg(y) );
-            }
-        }
-        else if ( 0 <= _selectedCell.first && 0 <= _selectedCell.second )
-        {
-            Defs::Move m;
-            //m.additionalMove = 0;
-            m.from = _selectedCell;
-            m.to = std::pair<int, int>(x , y);
-            m.figure = boardState[_selectedCell.first][_selectedCell.second].figure;
-            if ( setMove( m ) )
-            {
-                _selectedCell.first = -1;
-                _selectedCell.second = -1;
-                emit signalBoardChanged();
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            emit signalMessage( QString("Invalid selection!Reset position.") );
-            _selectedCell.first = -1;
-            _selectedCell.second = -1;
-            return true;
-        }
-    }
-
-return false;
-}
-
-void Board::addPlayer( Player* player )
-{
-    _players.push_back( player );
-}
-
-void Board::setNumberOfPlayers( int i )
-{
-    _players.resize(i);
-}
-
-void Board::setPlayer( int i, Player* player )
-{
-    _players[i] = player;
-}
-
 int Board::sizeVerical()
 {
     return VERTICAL_SIZE;
@@ -446,36 +352,6 @@ int Board::sizeVerical()
 int Board::sizeHorizontal()
 {
     return HORIZONTAL_SIZE;
-}
-
-//bool Board::start()
-//{
-//    if ( _players.isEmpty() )
-//    {
-//        //no players => exit
-//        return false;
-//    }
-
-//	_currentPlayer = _players.front();
-//	if ( !_currentPlayer )
-//	{
-//		return false;
-//	}
-
-//    if ( _started )
-//    {
-//        resetBoard();
-//    }
-//    _started = true;
-//    init();
-    
-//    emit signalPlayerChanged();
-//return true;
-//}
-
-bool Board::started()
-{
-    return _started;
 }
 
 void Board::resetBoard()
@@ -498,29 +374,6 @@ void Board::resetBoard()
 
     emit signalBoardChanged();
 }
-
-//Player* Board::currentPlayer()
-//{
-//    return _currentPlayer;
-//}
-
-//void Board::nextPlayer()
-//{
-//    QVector<Player*>::iterator now = std::find( _players.begin(), _players.end(), (Player*)_currentPlayer );
-//    if ( now != _players.end() )
-//    {
-//        ++now;
-//        if ( now != _players.end() )
-//        {
-//            _currentPlayer = *now;
-//        }
-//        else
-//        {
-//            _currentPlayer = _players.front();
-//        }
-//        emit signalPlayerChanged();
-//    }
-//}
 
 std::pair<int, int>& Board::selectedCell()
 {

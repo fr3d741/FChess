@@ -13,8 +13,6 @@ namespace chessVisialization
 Display::Display(QWidget *parent, Qt::WindowFlags f )
     :QWidget(parent, f)
     ,_layers()
-    ,_cellOverCursor( -1, -1)
-    ,_cellSelected( -1, -1 )
 {
     setMouseTracking( true );
     _layers.push_back(new BoardRendererImpl());

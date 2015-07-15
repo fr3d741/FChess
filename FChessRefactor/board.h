@@ -27,23 +27,13 @@ public:
 
     Defs::Cell** BoardState();
     
-    void setNumberOfPlayers( int i );
-
     int sizeVerical();
 
     int sizeHorizontal();
 
     void resetBoard();
 
-    void addPlayer( Player* player );
-
-    void setPlayer( int i, Player* player );
-
-    bool isValidCell( Defs::Cell& cell );
-
     bool setMove( Defs::Move& move );
-
-    //Player* currentPlayer();
 
     std::pair<int, int>& selectedCell();
 
@@ -64,13 +54,9 @@ public:
     */
     void revertStep( Defs::Move* move = 0 );
 
-    /*!
-    * \brief deletes player, in case of some error
-    */
-    void deletePlayer( int index );
-
     void init();
 
+    //TODO: move to a more convenient location
     static Defs::Cell** boardState;
 signals:
     //void signalSendMessage( QString );
@@ -86,13 +72,6 @@ signals:
     void signalBoardChanged();
 
 public slots:
-    /*!
-    * \brief validates cell position
-    * \returns true if needed to update visuals
-    */
-    bool cellPressed( int x, int y );
-
-    //bool start();
 
 protected:
     /*!
@@ -100,18 +79,8 @@ protected:
     */
     int handleSpecificCases( Defs::Move& move );
 
-    //void nextPlayer();
-
 protected:
-    bool                    _started;
-
     bool                    _isCheck;
-
-    //! current player, handling availability through gui
-    //Player*                 _currentPlayer;
-
-    //! array of players
-    QVector<Player*>        _players;
 
     //!
     std::pair< int, int >   _selectedCell;
