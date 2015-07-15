@@ -2,6 +2,7 @@
 #include "../Interfaces/player.h"
 #include "../Factories/playerfactory.h"
 #include "../board.h"
+#include "../gameplayobserver.h"
 
 std::shared_ptr<GameplayFacade> GameplayFacade::_instance;
 
@@ -11,6 +12,7 @@ GameplayFacade::GameplayFacade()
     ,_board(0)
 {
     _board = new Board(this);
+    connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)) );
 }
 
 std::shared_ptr<GameplayFacade> GameplayFacade::Instance()
@@ -39,7 +41,7 @@ void GameplayFacade::addHumanPlayer(Defs::EColors playerColor)
     _playerStack.push_back(PlayerFactory::createPlayer(playerColor, Defs::Human));
 }
 
-Board *GameplayFacade::GetBoard() const
+const Board *GameplayFacade::GetBoard() const
 {
     return _board;
 }
@@ -54,6 +56,8 @@ bool GameplayFacade::start()
 
     //_started = true;
     _board->init();
+
+    emit signalBoardChanged(std::shared_ptr<Board>(_board));
 
 return true;
 }

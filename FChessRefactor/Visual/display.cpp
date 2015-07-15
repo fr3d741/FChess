@@ -3,6 +3,7 @@
 #include "display.h"
 #include "../Interfaces/figure.h"
 #include "boardrendererimpl.h"
+#include "../gameplayobserver.h"
 
 namespace chessVisialization
 {
@@ -12,15 +13,16 @@ Display::Display(QWidget *parent, Qt::WindowFlags f )
     ,_renderers()
     ,_cellOverCursor( -1, -1)
     ,_cellSelected( -1, -1 )
-    ,_board(0)
 {
     setMouseTracking( true );
     _renderers.push_back(new BoardRendererImpl());
+
+    connect(GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), SLOT(slotBoardChanged(std::shared_ptr<Board>)));
 }
 
 void Display::setBoard( Board* board )
 {
-    _board = board;
+    //_board = board;
 }
 
 void Display::boardChanged()
@@ -72,7 +74,7 @@ void Display::generateImage()
 //        }
 //    }
 
-    _displayImage = _renderers[0]->Render(_board);
+    //_displayImage = _renderers[0]->Render(_board);
 
 //    if ( _board->currentPlayer() )
 //    {
@@ -98,7 +100,7 @@ void Display::generateImage()
 
 void Display::resizeEvent( QResizeEvent* )
 {
-    generateImage();
+    //generateImage();
 }
 
 void Display::slotCellChanged( int x, int y )
@@ -107,6 +109,11 @@ void Display::slotCellChanged( int x, int y )
     _cellOverCursor.second  = y;
     generateImage();
     update();
+}
+
+void Display::slotBoardChanged(std::shared_ptr<Board> board)
+{
+    _displayImage = _renderers[0]->Render(board.get());
 }
 
 void Display::mousePressEvent(QMouseEvent* event )

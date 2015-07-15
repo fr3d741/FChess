@@ -33,6 +33,8 @@ public slots:
 
     void slotCellChanged( int, int );
 
+    void slotBoardChanged(std::shared_ptr<Board> board);
+
 protected:
     void generateImage();
 
@@ -52,7 +54,7 @@ protected:
 
     std::pair< int, int >   _cellSelected;
 
-    Board*                  _board;
+    //Board*                  _board;
 
     QImage                  _displayImage;
 };

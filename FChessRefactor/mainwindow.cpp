@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->boardPlaceholder->setLayout( layout );
 
     _display = new chessVisialization::Display( ui->boardPlaceholder );
-    _display->setBoard( GameplayFacade::Instance()->GetBoard() );
+    //_display->setBoard( GameplayFacade::Instance()->GetBoard() );
     _display->setMinimumSize( 10, 10 );
     _display->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 

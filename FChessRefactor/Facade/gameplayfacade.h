@@ -28,10 +28,11 @@ public:
 
     void addHumanPlayer(Defs::EColors playerColor);
 
-    Board* GetBoard() const;
+    const Board* GetBoard() const;
 
     bool start();
 signals:
+    void signalBoardChanged(std::shared_ptr<Board>);
 
 public slots:
 
