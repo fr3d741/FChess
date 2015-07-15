@@ -8,7 +8,7 @@
 #include "messageinterface.h"
 #include "Interfaces/player.h"
 
-extern Defs::Cell** Defs::boardState;
+//extern Defs::Cell** Defs::boardState;
 extern Defs::ColorState Defs::WhiteBlackState;
 
 /*!
@@ -70,6 +70,8 @@ public:
     void deletePlayer( int index );
 
     void init();
+
+    static Defs::Cell** boardState;
 signals:
     //void signalSendMessage( QString );
     virtual void signalMessage( QString );

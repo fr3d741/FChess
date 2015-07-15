@@ -17,7 +17,7 @@ class GameplayFacade : public QObject, public Singleton<GameplayFacade>
     Q_OBJECT
 
     QList<std::shared_ptr<Player>>          _playerStack;
-    Board*                                  _board;
+    std::shared_ptr<Board>                  _board;
 
     explicit GameplayFacade();
 public:
@@ -28,7 +28,7 @@ public:
 
     void addHumanPlayer(Defs::EColors playerColor);
 
-    const Board* GetBoard() const;
+    Board* GetBoard() const;
 
     bool start();
 signals:

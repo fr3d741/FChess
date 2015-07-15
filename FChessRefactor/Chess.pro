@@ -67,7 +67,8 @@ HEADERS  += mainwindow.h \
     Visual/playerlayer.h \
     Observers/gameplayobserver.h \
     Observers/visualobserver.h \
-    Interfaces/singleton.h
+    Interfaces/singleton.h \
+    Interfaces/LayerInterface.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui

@@ -1,11 +1,20 @@
+#include <QDebug>
 #include <QWidget>
 #include <QPainter>
 #include "boardrendererimpl.h"
+#include "../Facade/gameplayfacade.h"
+#include "../Observers/gameplayobserver.h"
 #include "../Interfaces/figure.h"
 
 BoardRendererImpl::BoardRendererImpl() :
     BoardRendererInterface()
 {
+    connect( GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), SLOT(slotBoardChanged(std::shared_ptr<Board>)) );
+}
+
+void BoardRendererImpl::slotBoardChanged(std::shared_ptr<Board> board)
+{
+    Render(board.get());
 }
 
 QImage BoardRendererImpl::Render(Board* board)
@@ -14,17 +23,11 @@ QImage BoardRendererImpl::Render(Board* board)
     int w = board->sizeHorizontal();
     QSize s = puppets::FigureInterface::IconSize();
 
-    QImage img(s.width() * w, s.height() * h, QImage::Format_ARGB32);
-    QPainter painter(&img);
-    Defs::Cell ** cells = board->BoardState();
+    _layerImg = QImage(s.width() * w, s.height() * h, QImage::Format_ARGB32_Premultiplied);
+    QPainter painter(&_layerImg);
+    //Defs::Cell ** cells = board->BoardState();
+    Defs::Cell ** cells = Board::boardState;
 
-//    int x = _board->sizeHorizontal();
-//    int y = _board->sizeVerical();
-//    int w = width();
-//    int h = height();
-//    int cw = w / x;
-//    int ch = h / y;
-    //int side = std::min( cw, ch );
     for ( int i = 0; i < w; ++i )
     {
         for ( int j = 0; j < h; ++j )
@@ -32,43 +35,29 @@ QImage BoardRendererImpl::Render(Board* board)
             //! Coloring board
             if ( cells[i][j].cellColor == Defs::White )
             {
-                QColor wc( 255, 206, 158);
+                QColor wc( 255, 206, 158, 255);
                 painter.fillRect( i * s.width(), j * s.height(), s.width(), s.height(), wc );
             }
             else
             {
-                QColor bc( 209, 139, 71);
+                QColor bc( 209, 139, 71, 255);
                 painter.fillRect( i * s.width(), j * s.height(), s.width(), s.height(), bc );
             }
 
             //! Draw puppets
-            if ( puppets::ChessFigures.contains( cells[i][j].figure ) )
+            if ( puppets::PuppetContainer::Instance()->contains( cells[i][j].figure ) )
             {
                 QRect r(i * s.width(), j * s.height(), s.width(), s.height());
-                painter.drawImage(r, puppets::ChessFigures[cells[i][j].figure]->iconImage() );
+                painter.drawImage(r, puppets::PuppetContainer::Instance()->value(cells[i][j].figure)->iconImage() );
             }
         }
     }
 
-//    if ( board->currentPlayer() )
-//    {
-//        //_cellOverCursor = _board->currentPlayer()->cellOverCursor();
-//    }
+    return _layerImg;
+}
 
-//    if ( _cellOverCursor.first != -1 && _cellOverCursor.second != -1 )
-//    {
-//        QColor selected( 255, 0, 0 );
-//        painter.setPen( selected );
-//        painter.drawRect( _cellOverCursor.first * side, _cellOverCursor.second * side, side, side );
-//    }
-
-//    std::pair<int, int>& cellSelected = _board->selectedCell();
-//    if ( cellSelected.first != -1 && cellSelected.second != -1 )
-//    {
-//        QColor selected( 0, 255, 0 );
-//        painter.setPen( selected );
-//        painter.drawRect( cellSelected.first * side, cellSelected.second * side, side, side );
-//    }
-
-    return img;
+const QImage &BoardRendererImpl::LayerImage()
+{
+    Render(GameplayFacade::Instance()->GetBoard());
+    return _layerImg;
 }

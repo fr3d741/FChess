@@ -1,5 +1,6 @@
 #include <math.h>
 #include "pawn.h"
+#include "../board.h"
 
 
 namespace puppets
@@ -24,11 +25,11 @@ bool Pawn::isValidMove( Defs::Move step )
         {
             for( int i = step.from.first + 1; i <= step.to.first; ++i  )
             {
-                if ( Defs::boardState[i][step.to.second].figure )
+                if ( Board::boardState[i][step.to.second].figure )
                 {
                     qDebug("False1: %d, %d", step.from.first, step.from.second );
                     qDebug("False2: %d, %d", step.to.first, step.to.second );
-                    qDebug("False3: %d, %d, %d", i, step.to.second, Defs::boardState[i][step.to.second].figure );
+                    qDebug("False3: %d, %d, %d", i, step.to.second, Board::boardState[i][step.to.second].figure );
                     return false;
                 }
             }
@@ -36,7 +37,7 @@ bool Pawn::isValidMove( Defs::Move step )
         }
         else if ( dist == 1 && abs( distSecond ) == 1 )
         {
-            if ( Defs::boardState[step.to.first][step.to.second].figure )
+            if ( Board::boardState[step.to.first][step.to.second].figure )
             {
                 return true;
             }
@@ -53,7 +54,7 @@ bool Pawn::isValidMove( Defs::Move step )
         {
             for( int i = step.from.first - 1; i < step.to.first; --i  )
             {
-                if ( Defs::boardState[i][step.to.second].figure )
+                if ( Board::boardState[i][step.to.second].figure )
                 {
                     return false;
                 }
@@ -62,7 +63,7 @@ bool Pawn::isValidMove( Defs::Move step )
         }
         else if ( dist == -1 && abs( distSecond ) == 1 )
         {
-            if ( Defs::boardState[step.to.first][step.to.second].figure )
+            if ( Board::boardState[step.to.first][step.to.second].figure )
             {
                 return true;
             }
@@ -113,7 +114,7 @@ void Pawn::reachableCells( Defs::state& result, QPair<int,int>& position )
         if ( 0 <= position.second - 1 && position.second - 1 < VERTICAL_SIZE )
         {
             occupied = Defs::testBit( position.first + sign, position.second - 1, Defs::WhiteBlackState._board );
-            sameColor = Defs::boardState[position.first + sign][position.second - 1].figure & _color;
+            sameColor = Board::boardState[position.first + sign][position.second - 1].figure & _color;
             if ( occupied && !sameColor )
             {
                 Defs::setBit( position.first + sign, position.second - 1, result );
@@ -132,7 +133,7 @@ void Pawn::reachableCells( Defs::state& result, QPair<int,int>& position )
         if ( 0 <= position.second + 1 && position.second + 1 < VERTICAL_SIZE )
         {
             occupied = Defs::testBit( position.first + sign, position.second + 1, Defs::WhiteBlackState._board );
-            sameColor = Defs::boardState[position.first + sign][position.second + 1].figure & _color;
+            sameColor = Board::boardState[position.first + sign][position.second + 1].figure & _color;
             if ( occupied && !sameColor )
             {
                 Defs::setBit( position.first + sign, position.second + 1, result );

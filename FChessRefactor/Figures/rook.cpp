@@ -1,4 +1,5 @@
 #include <iostream>
+#include "../board.h"
 #include "rook.h"
 
 namespace puppets
@@ -30,7 +31,7 @@ bool Rook::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.second + step2; i != step.to.second; i += step2 )
         {
-            if ( Defs::boardState[step.from.first][i].figure )
+            if ( Board::boardState[step.from.first][i].figure )
             {
                 return false;
             }
@@ -42,7 +43,7 @@ bool Rook::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.first + step1; i != step.to.first; i += step1 )
         {
-            if ( Defs::boardState[i][step.from.second].figure )
+            if ( Board::boardState[i][step.from.second].figure )
             {
                 return false;
             }
@@ -101,7 +102,7 @@ void Rook::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resu
             {
                 // same color
                 finish = true;
-                if ( !(_color & Defs::boardState[i][j].figure ) )
+                if ( !(_color & Board::boardState[i][j].figure ) )
                 {
                     Defs::setBit( i, j, resultState );
                 }

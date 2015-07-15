@@ -1,5 +1,6 @@
 #include "evaluator.h"
 #include "Interfaces/figure.h"
+#include "board.h"
 
 Evaluator::Evaluator()
 {
@@ -16,12 +17,12 @@ bool Evaluator::check( Defs::EColors color )
     {
         result.reset();
         QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = Defs::boardState[fpos.first][fpos.second].figure;
+        int figure = Board::boardState[fpos.first][fpos.second].figure;
         if ( !figure )
         {
             continue;
         }
-        puppets::ChessFigures[figure]->reachableCells( result, fpos );
+        puppets::PuppetContainer::Instance()->value(figure)->reachableCells( result, fpos );
         if ( Defs::testBit( pos.first, pos.second, result ) )
         {
             return true;
@@ -39,13 +40,13 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
     {
         result.reset();
         QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = Defs::boardState[fpos.first][fpos.second].figure;
+        int figure = Board::boardState[fpos.first][fpos.second].figure;
         if ( !figure || (figure & color) )
         {
             continue;
         }
 
-        puppets::ChessFigures[figure]->reachableCells( result, fpos );
+        puppets::PuppetContainer::Instance()->value(figure)->reachableCells( result, fpos );
         for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
         {
             QPair<int, int>& pos = (*it);

@@ -3,7 +3,7 @@
 
 #include "Defines.h"
 
-extern Defs::Cell** Defs::boardState;
+//extern Defs::Cell** Defs::boardState;
 
 class Evaluator
 {

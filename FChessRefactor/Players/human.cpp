@@ -1,9 +1,12 @@
 #include "human.h"
 #include "../Visual/display.h"
+#include "../Observers/visualobserver.h"
+#include "../Interfaces/figure.h"
 
 Human::Human( Defs::EColors color, QObject *parent )
     :Player(color, parent)
 {
+    connect(this, SIGNAL(signalMouseOver(int,int)), VisualObserver::Instance().get(), SIGNAL(signalMouseOver(int,int)));
 }
 
 bool Human::isValidCell( Defs::Cell& sourceCell )
@@ -46,14 +49,14 @@ bool Human::eventFilter( QObject * watched, QEvent * event )
             if ( mouseEvent->button() == Qt::NoButton )
             {
                 //! Update cursor's position
-                QRect r( 0, 0, disp->displayImage().width(), disp->displayImage().height() );
+                QSize s = puppets::FigureInterface::IconSize();
+                QRect r(0, 0, s.width() * HORIZONTAL_SIZE, s.height() * VERTICAL_SIZE);
                 QPoint p = mouseEvent->pos();
                 if ( r.contains( p ) )
                 {
                     _cellOverCursor.first   = p.x() / ( r.width() / HORIZONTAL_SIZE );
                     _cellOverCursor.second  = p.y() / ( r.height() / VERTICAL_SIZE );
                     emit signalMouseOver(_cellOverCursor.first, _cellOverCursor.second);
-                    emit signalEventFiltered();
                     return true;
                 }
             }

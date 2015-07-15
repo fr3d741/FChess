@@ -1,4 +1,5 @@
 #include "knight.h"
+#include "../board.h"
 
 namespace puppets
 {
@@ -35,7 +36,7 @@ void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
 
 
     occupied = Defs::testBit( xFrom, yFrom, Defs::WhiteBlackState._board );
-    sameColor = Defs::boardState[xFrom][yFrom].figure & _color;
+    sameColor = Board::boardState[xFrom][yFrom].figure & _color;
     if ( !occupied || !sameColor )
     {
         Defs::setBit( xFrom, yFrom, resultState );

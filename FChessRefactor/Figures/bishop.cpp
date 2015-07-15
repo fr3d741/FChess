@@ -1,4 +1,5 @@
 #include "bishop.h"
+#include "../board.h"
 
 namespace puppets
 {
@@ -32,7 +33,7 @@ bool Bishop::isValidMove( Defs::Move step )
 
     for ( int i = step.from.first + step1, j = step.from.second + step2; i != step.to.first || j != step.to.second; i += step1, j += step2 )
     {
-        if ( Defs::boardState[i][j].figure )
+        if ( Board::boardState[i][j].figure )
         {
             return false;
         }
@@ -75,7 +76,7 @@ void Bishop::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& re
             {
                 // same color
                 finish = true;
-                if ( !(_color & Defs::boardState[i][j].figure ) )
+                if ( !(_color & Board::boardState[i][j].figure ) )
                 {
                     Defs::setBit( i, j, resultState );
                 }

@@ -9,9 +9,7 @@ GameplayFacade::GameplayFacade()
     ,_playerStack()
     ,_board(0)
 {
-    //Singleton<GameplayFacade>* sngl = Singleton<GameplayFacade>::Instance().get();
-
-    _board = new Board(this);
+    _board = std::shared_ptr<Board>(new Board);
     connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)) );
 }
 
@@ -31,9 +29,9 @@ void GameplayFacade::addHumanPlayer(Defs::EColors playerColor)
     _playerStack.push_back(PlayerFactory::createPlayer(playerColor, Defs::Human));
 }
 
-const Board *GameplayFacade::GetBoard() const
+Board *GameplayFacade::GetBoard() const
 {
-    return _board;
+    return _board.get();
 }
 
 bool GameplayFacade::start()
@@ -47,7 +45,7 @@ bool GameplayFacade::start()
     //_started = true;
     _board->init();
 
-    emit signalBoardChanged(std::shared_ptr<Board>(_board));
+    emit signalBoardChanged(_board);
 
 return true;
 }

@@ -94,7 +94,6 @@ struct Move : public MovePrimitive
     std::shared_ptr< Move > additionalMove;
 };
 
-extern Cell** boardState;
 extern ColorState WhiteBlackState;
 //extern ColorState& WhiteState;
 //extern ColorState& BlackState;

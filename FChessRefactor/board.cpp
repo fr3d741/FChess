@@ -6,6 +6,8 @@
 #include "evaluator.h"
 #include "Visual/figureselector.h"
 
+Defs::Cell** Board::boardState = nullptr;
+
 Board::Board(QObject *parent)
     :QObject(parent)
     ,_started(false)
@@ -15,9 +17,9 @@ Board::Board(QObject *parent)
     ,_stack()
     ,_movedCells(64)
 {
-    Defs::boardState = new Defs::Cell*[VERTICAL_SIZE];
+    boardState = new Defs::Cell*[VERTICAL_SIZE];
     for ( int i = 0; i < VERTICAL_SIZE; ++i )
-        Defs::boardState[i] = new Defs::Cell[HORIZONTAL_SIZE];
+        boardState[i] = new Defs::Cell[HORIZONTAL_SIZE];
 
     _movedCells.fill( 0 );
     resetBoard();
@@ -27,13 +29,13 @@ Board::Board(QObject *parent)
 Board::~Board()
 {
     for ( int i = 0; i < VERTICAL_SIZE; ++i )
-       delete[] Defs::boardState[i];
-    delete[] Defs::boardState;
+       delete[] boardState[i];
+    delete[] boardState;
 }
 
 Defs::Cell **Board::BoardState()
 {
-    return Defs::boardState;
+    return boardState;
 }
 
 void Board::deletePlayer( int index )
@@ -50,45 +52,45 @@ void Board::init()
     //Right now assume a 8 x 8 table
 
     // 0,0 is lower left corner
-    Defs::boardState[0][0].figure = Defs::White | Defs::Rook;
-    Defs::boardState[0][1].figure = Defs::White | Defs::Knight;
-    Defs::boardState[0][2].figure = Defs::White | Defs::Bishop;
-    Defs::boardState[0][3].figure = Defs::White | Defs::Queen;
-    Defs::boardState[0][4].figure = Defs::White | Defs::King;
-    Defs::boardState[0][5].figure = Defs::White | Defs::Bishop;
-    Defs::boardState[0][6].figure = Defs::White | Defs::Knight;
-    Defs::boardState[0][7].figure = Defs::White | Defs::Rook;
+    boardState[0][0].figure = Defs::White | Defs::Rook;
+    boardState[0][1].figure = Defs::White | Defs::Knight;
+    boardState[0][2].figure = Defs::White | Defs::Bishop;
+    boardState[0][3].figure = Defs::White | Defs::Queen;
+    boardState[0][4].figure = Defs::White | Defs::King;
+    boardState[0][5].figure = Defs::White | Defs::Bishop;
+    boardState[0][6].figure = Defs::White | Defs::Knight;
+    boardState[0][7].figure = Defs::White | Defs::Rook;
 
-    Defs::boardState[1][0].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][1].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][2].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][3].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][4].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][5].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][6].figure = Defs::White | Defs::Pawn;
-    Defs::boardState[1][7].figure = Defs::White | Defs::Pawn;
+    boardState[1][0].figure = Defs::White | Defs::Pawn;
+    boardState[1][1].figure = Defs::White | Defs::Pawn;
+    boardState[1][2].figure = Defs::White | Defs::Pawn;
+    boardState[1][3].figure = Defs::White | Defs::Pawn;
+    boardState[1][4].figure = Defs::White | Defs::Pawn;
+    boardState[1][5].figure = Defs::White | Defs::Pawn;
+    boardState[1][6].figure = Defs::White | Defs::Pawn;
+    boardState[1][7].figure = Defs::White | Defs::Pawn;
 
-    Defs::boardState[7][0].figure = Defs::Black | Defs::Rook;
-    Defs::boardState[7][1].figure = Defs::Black | Defs::Knight;
-    Defs::boardState[7][2].figure = Defs::Black | Defs::Bishop;
-    Defs::boardState[7][3].figure = Defs::Black | Defs::Queen;
-    Defs::boardState[7][4].figure = Defs::Black | Defs::King;
-    Defs::boardState[7][5].figure = Defs::Black | Defs::Bishop;
-    Defs::boardState[7][6].figure = Defs::Black | Defs::Knight;
-    Defs::boardState[7][7].figure = Defs::Black | Defs::Rook;
+    boardState[7][0].figure = Defs::Black | Defs::Rook;
+    boardState[7][1].figure = Defs::Black | Defs::Knight;
+    boardState[7][2].figure = Defs::Black | Defs::Bishop;
+    boardState[7][3].figure = Defs::Black | Defs::Queen;
+    boardState[7][4].figure = Defs::Black | Defs::King;
+    boardState[7][5].figure = Defs::Black | Defs::Bishop;
+    boardState[7][6].figure = Defs::Black | Defs::Knight;
+    boardState[7][7].figure = Defs::Black | Defs::Rook;
 
-    Defs::boardState[6][0].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][1].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][2].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][3].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][4].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][5].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][6].figure = Defs::Black | Defs::Pawn;
-    Defs::boardState[6][7].figure = Defs::Black | Defs::Pawn;
+    boardState[6][0].figure = Defs::Black | Defs::Pawn;
+    boardState[6][1].figure = Defs::Black | Defs::Pawn;
+    boardState[6][2].figure = Defs::Black | Defs::Pawn;
+    boardState[6][3].figure = Defs::Black | Defs::Pawn;
+    boardState[6][4].figure = Defs::Black | Defs::Pawn;
+    boardState[6][5].figure = Defs::Black | Defs::Pawn;
+    boardState[6][6].figure = Defs::Black | Defs::Pawn;
+    boardState[6][7].figure = Defs::Black | Defs::Pawn;
 
     for ( int i = 2; i < 6; ++i )
         for ( int j = 0; j < 8; ++j )
-            Defs::boardState[i][j].figure = 0;
+            boardState[i][j].figure = 0;
 
 //    Defs::WhiteState._board.reset();
 //    Defs::BlackState._board.reset();
@@ -106,8 +108,8 @@ void Board::init()
 
 int Board::handleSpecificCases( Defs::Move& move )
 {
-    Defs::Cell& c1 = Defs::boardState[move.from.first][move.from.second];
-    Defs::Cell& c2 = Defs::boardState[move.to.first][move.to.second];
+    Defs::Cell& c1 = boardState[move.from.first][move.from.second];
+    Defs::Cell& c2 = boardState[move.to.first][move.to.second];
 	int diff = move.to.second - move.from.second;
 
     if ( c1.figure & Defs::King && abs( diff ) == 2 )
@@ -172,16 +174,16 @@ int Board::handleSpecificCases( Defs::Move& move )
             addMove->from.second = rookY;
             addMove->to.first = move.to.first;
             addMove->to.second = move.from.second + diff;
-            addMove->fromCell = Defs::boardState[addMove->from.first][addMove->from.second];
-            addMove->toCell = Defs::boardState[addMove->to.first][addMove->to.second];
+            addMove->fromCell = boardState[addMove->from.first][addMove->from.second];
+            addMove->toCell = boardState[addMove->to.first][addMove->to.second];
             //addMove->additionalMove = 0;
             addMove->figure = addMove->fromCell.figure;
             move.additionalMove = std::tr1::shared_ptr< Defs::Move >( addMove );
             c2.figure = c1.figure;
             c1.figure = 0;
 
-            Defs::Cell& c3 = Defs::boardState[addMove->from.first][addMove->from.second];
-            Defs::Cell& c4 = Defs::boardState[addMove->to.first][addMove->to.second];
+            Defs::Cell& c3 = boardState[addMove->from.first][addMove->from.second];
+            Defs::Cell& c4 = boardState[addMove->to.first][addMove->to.second];
             c4.figure = c3.figure;
             c3.figure = 0;
 
@@ -245,8 +247,8 @@ return Defs::NOT_HANDLED;
 
 bool Board::setMove( Defs::Move& move )
 {
-    Defs::Cell& c1 = Defs::boardState[move.from.first][move.from.second];
-    Defs::Cell& c2 = Defs::boardState[move.to.first][move.to.second];
+    Defs::Cell& c1 = boardState[move.from.first][move.from.second];
+    Defs::Cell& c2 = boardState[move.to.first][move.to.second];
     move.fromCell = c1;
     move.toCell = c2;
 
@@ -255,7 +257,7 @@ bool Board::setMove( Defs::Move& move )
         return false;
     }
 
-    if ( !puppets::ChessFigures[c1.figure]->isValidMove(move) )
+    if ( !puppets::PuppetContainer::Instance()->value(c1.figure)->isValidMove(move) )
     {
         emit signalMessage( QString( "Invalid move from [%1,%2] to [%3,%4] with %5" ).arg( move.from.first ).arg( move.from.second ).arg(move.to.first).arg( move.to.second).arg( Defs::convertFigureToString(c1.figure) ) );
         return false;
@@ -334,8 +336,8 @@ void Board::revertStep( Defs::Move* move )
         m = *move;
     }
 
-    Defs::boardState[m.from.first][m.from.second]   = m.fromCell;
-    Defs::boardState[m.to.first][m.to.second]       = m.toCell;
+    boardState[m.from.first][m.from.second]   = m.fromCell;
+    boardState[m.to.first][m.to.second]       = m.toCell;
     Defs::setBit( m.from.first, m.from.second, Defs::WhiteBlackState._board, true );
     Defs::setBit( m.to.first, m.to.second, Defs::WhiteBlackState._board, false );
     Defs::setFigurePosition( m.figure, m.from.first, m.from.second );
@@ -377,7 +379,7 @@ bool Board::cellPressed( int x, int y )
     }
     else
     {
-        Defs::Cell cell = Defs::boardState[x][y];
+        Defs::Cell cell = boardState[x][y];
         if ( _selectedCell.first == -1 && _selectedCell.second == -1 )
         {
             //select
@@ -399,7 +401,7 @@ bool Board::cellPressed( int x, int y )
             //m.additionalMove = 0;
             m.from = _selectedCell;
             m.to = std::pair<int, int>(x , y);
-            m.figure = Defs::boardState[_selectedCell.first][_selectedCell.second].figure;
+            m.figure = boardState[_selectedCell.first][_selectedCell.second].figure;
             if ( setMove( m ) )
             {
                 _selectedCell.first = -1;
@@ -483,9 +485,9 @@ void Board::resetBoard()
     {
         for ( int j = 0; j < VERTICAL_SIZE; ++j )
         {
-            Defs::boardState[i][j].cellColor = (color?Defs::Black:Defs::White);
+            boardState[i][j].cellColor = (color?Defs::Black:Defs::White);
             color = !color;
-            Defs::boardState[i][j].figure = 0;
+            boardState[i][j].figure = 0;
         }
         color = !color;
     }
