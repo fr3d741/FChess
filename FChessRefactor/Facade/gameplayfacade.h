@@ -7,6 +7,7 @@ class Board;
 #include <memory>
 #include <QObject>
 #include <QList>
+#include <QVariant>
 
 #include "../Defines.h"
 #include "../Interfaces/singleton.h"
@@ -28,14 +29,16 @@ public:
 
     void addHumanPlayer(Defs::EColors playerColor);
 
-    Board* GetBoard() const;
+    std::shared_ptr<Board> GetBoard() const;
 
     bool start();
 signals:
     void signalBoardChanged(std::shared_ptr<Board>);
 
-public slots:
+    void signalNextPlayer();
 
+public slots:
+    void slotMove(QVariant variant);
 };
 
 #endif // GAMEPLAYFACADE_H

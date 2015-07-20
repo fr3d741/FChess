@@ -9,9 +9,9 @@ namespace puppets
 class King : public FigureInterface
 {
 public:
-    King( QString path, Defs::EColors color, Defs::EFigures figure );
+    King( std::shared_ptr<Board> board, Defs::EColors color );
 
-    virtual bool isValidMove( Defs::Move step );
+    virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& , QPair<int,int>&  );
 

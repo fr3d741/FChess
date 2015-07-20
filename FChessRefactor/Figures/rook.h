@@ -9,9 +9,9 @@ namespace puppets
 class Rook : public FigureInterface
 {
 public:
-    Rook( QString path, Defs::EColors color, Defs::EFigures figure );
+    Rook(std::shared_ptr<Board> board, Defs::EColors color);
 
-    virtual bool isValidMove( Defs::Move step );
+    virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
 protected:

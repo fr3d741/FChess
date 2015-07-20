@@ -4,13 +4,14 @@
 namespace puppets
 {
 
-Bishop::Bishop( QString path, Defs::EColors color, Defs::EFigures figure )
-    :FigureInterface( path, color, figure )
+Bishop::Bishop(std::shared_ptr<Board> board, Defs::EColors color)
+    :FigureInterface( board, color, Defs::Bishop )
 {
 }
 
-bool Bishop::isValidMove( Defs::Move step )
+bool Bishop::isValidMove( Defs::MovePrimitive step )
 {
+    Defs::Cell** boardState = _board->BoardState();
     int diff1 = step.to.first - step.from.first;
     int diff2 = step.to.second - step.from.second;
     int step1 = 0;
@@ -33,7 +34,7 @@ bool Bishop::isValidMove( Defs::Move step )
 
     for ( int i = step.from.first + step1, j = step.from.second + step2; i != step.to.first || j != step.to.second; i += step1, j += step2 )
     {
-        if ( Board::boardState[i][j].figure )
+        if ( boardState[i][j].figure )
         {
             return false;
         }
@@ -44,6 +45,7 @@ return true;
 
 void Bishop::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState )
 {
+    Defs::Cell** boardState = _board->BoardState();
     if ( xFrom < 0 || yFrom < 0 || xTo < 0 || yTo < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom || HORIZONTAL_SIZE <= xTo || VERTICAL_SIZE <= yTo )
     {
         return;
@@ -66,7 +68,7 @@ void Bishop::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& re
     {
         for ( int i = xFrom, j = yFrom; i <= xTo && j <= yTo && !finish; i += diff_x, j += diff_y )
         {
-            occupied = Defs::testBit( i, j, Defs::WhiteBlackState._board );
+            occupied = Defs::testBit( i, j, _board->WhiteBlackState()._board );
 
             if ( !occupied )
             {
@@ -76,7 +78,7 @@ void Bishop::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& re
             {
                 // same color
                 finish = true;
-                if ( !(_color & Board::boardState[i][j].figure ) )
+                if ( !(_color & boardState[i][j].figure ) )
                 {
                     Defs::setBit( i, j, resultState );
                 }

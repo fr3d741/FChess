@@ -4,6 +4,7 @@
 #include "boardrendererimpl.h"
 #include "../Facade/gameplayfacade.h"
 #include "../Observers/gameplayobserver.h"
+#include "../Factories/figurefactory.h"
 #include "../Interfaces/figure.h"
 
 BoardRendererImpl::BoardRendererImpl() :
@@ -14,10 +15,10 @@ BoardRendererImpl::BoardRendererImpl() :
 
 void BoardRendererImpl::slotBoardChanged(std::shared_ptr<Board> board)
 {
-    Render(board.get());
+    Render(board);
 }
 
-QImage BoardRendererImpl::Render(Board* board)
+QImage BoardRendererImpl::Render(std::shared_ptr<Board> board)
 {
     int h = board->sizeVerical();
     int w = board->sizeHorizontal();
@@ -26,7 +27,7 @@ QImage BoardRendererImpl::Render(Board* board)
     _layerImg = QImage(s.width() * w, s.height() * h, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&_layerImg);
     //Defs::Cell ** cells = board->BoardState();
-    Defs::Cell ** cells = Board::boardState;
+    Defs::Cell ** cells = board->BoardState();
 
     for ( int i = 0; i < w; ++i )
     {
@@ -45,11 +46,8 @@ QImage BoardRendererImpl::Render(Board* board)
             }
 
             //! Draw puppets
-            if ( puppets::PuppetContainer::Instance()->contains( cells[i][j].figure ) )
-            {
-                QRect r(i * s.width(), j * s.height(), s.width(), s.height());
-                painter.drawImage(r, puppets::PuppetContainer::Instance()->value(cells[i][j].figure)->iconImage() );
-            }
+            QRect r(i * s.width(), j * s.height(), s.width(), s.height());
+            painter.drawImage(r, puppets::FigureFactory::IconImage(cells[i][j].figure));
         }
     }
 

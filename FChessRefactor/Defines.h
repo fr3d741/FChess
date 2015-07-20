@@ -36,11 +36,11 @@ struct ColorState
 
 void setBit( int i, int j, state& st, bool value = true );
 bool testBit( int i, int j, state& st );
-void setFigurePosition( int figure, int i, int j );
-QPair<int,int> getFigurePosition( int figure, int color );
+void setFigurePosition( int figure, int i, int j, ColorState& state );
+QPair<int,int> getFigurePosition(int figure, int color , ColorState &state);
 QPair<int, int> getPosition( int i );
 int getPosition( int i, int j );
-int getFigureID( int i );
+//int getFigureID( int i );
 
 QString convertFigureToString( int );
 
@@ -81,6 +81,9 @@ struct Cell
 
 struct MovePrimitive
 {
+    MovePrimitive():from(-1,-1),to(-1,-1){}
+    MovePrimitive(const std::pair<int,int>& f, const std::pair<int,int>& t):from(f),to(t){}
+
     std::pair<int,int> from;
     std::pair<int,int> to;
 };
@@ -97,7 +100,7 @@ struct Move : public MovePrimitive
     std::shared_ptr< Move > additionalMove;
 };
 
-extern ColorState WhiteBlackState;
+//extern ColorState WhiteBlackState;
 //extern ColorState& WhiteState;
 //extern ColorState& BlackState;
 

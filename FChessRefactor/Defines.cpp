@@ -7,10 +7,10 @@
 namespace Defs
 {
 
-Cell** boardState = 0;
-ColorState WhiteBlackState;
-ColorState& WhiteState = WhiteBlackState;
-ColorState& BlackState = WhiteBlackState;
+//Cell** boardState = 0;
+//ColorState WhiteBlackState;
+//ColorState& WhiteState = WhiteBlackState;
+//ColorState& BlackState = WhiteBlackState;
 
 Move::Move()
     :figure(0)
@@ -36,20 +36,20 @@ int getPosition( int i, int j )
     return i * HORIZONTAL_SIZE + j;
 }
 
-int getFigureID( int i )
-{
-    div_t dt = div( i, HORIZONTAL_SIZE );
-    try
-    {
-        return boardState[dt.quot][dt.rem].figure;
-     //   qDebug("Access: %d, %d", dt.quot, dt.rem);
-    }
-    catch (...)
-    {
-        qDebug("Exception: %d, %d", dt.quot, dt.rem);
-    }
-return -1;
-}
+//int getFigureID( int i )
+//{
+//    div_t dt = div( i, HORIZONTAL_SIZE );
+//    try
+//    {
+//        return boardState[dt.quot][dt.rem].figure;
+//     //   qDebug("Access: %d, %d", dt.quot, dt.rem);
+//    }
+//    catch (...)
+//    {
+//        qDebug("Exception: %d, %d", dt.quot, dt.rem);
+//    }
+//return -1;
+//}
 
 void setBit( int i, int j, state& st, bool value )
 {
@@ -76,31 +76,23 @@ bool testBit( int i, int j, state& st )
     }
 }
 
-QPair<int,int> getFigurePosition( int figure, int color )
+QPair<int,int> getFigurePosition( int figure, int color, ColorState& state )
 {
-    if ( color == White )
-    {
-        return WhiteState._figures[figure];
-    }
-    else if ( color == Black )
-    {
-        return BlackState._figures[figure];
-    }
+//    if ( color == White )
+//    {
+//        return WhiteState._figures[figure];
+//    }
+//    else if ( color == Black )
+//    {
+        return state._figures[figure];
+//    }
 
 return QPair<int,int>( -1, -1 );
 }
 
-void setFigurePosition( int figure, int i, int j )
+void setFigurePosition(int figure, int i, int j , ColorState &state)
 {
-    WhiteBlackState._figures[figure] = QPair<int,int>(i,j);
-//    if ( color == White )
-//    {
-//        WhiteState._figures[figure] = QPair<int,int>(i,j);
-//    }
-//    else if ( color == Black )
-//    {
-//        BlackState._figures[figure] = QPair<int,int>(i,j);
-//    }
+    state._figures[figure] = QPair<int,int>(i,j);
 }
 
 

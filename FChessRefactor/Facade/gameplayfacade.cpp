@@ -1,8 +1,11 @@
+#include <QDebug>
 #include "gameplayfacade.h"
 #include "../Interfaces/player.h"
 #include "../Factories/playerfactory.h"
 #include "../board.h"
 #include "../Observers/gameplayobserver.h"
+#include "../Utils/validator.h"
+#include "../evaluator.h"
 
 GameplayFacade::GameplayFacade()
     :QObject()
@@ -11,6 +14,8 @@ GameplayFacade::GameplayFacade()
 {
     _board = std::shared_ptr<Board>(new Board);
     connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)) );
+    connect(this, SIGNAL(signalNextPlayer()), GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged()));
+    connect( GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)),  SLOT(slotMove(QVariant)) );
 }
 
 std::shared_ptr<Player> GameplayFacade::currentPlayer()
@@ -22,6 +27,7 @@ void GameplayFacade::nextPlayer()
 {
     std::shared_ptr<Player> player = _playerStack.takeFirst();
     _playerStack.push_back(player);
+    emit signalNextPlayer();
 }
 
 void GameplayFacade::addHumanPlayer(Defs::EColors playerColor)
@@ -29,9 +35,9 @@ void GameplayFacade::addHumanPlayer(Defs::EColors playerColor)
     _playerStack.push_back(PlayerFactory::createPlayer(playerColor, Defs::Human));
 }
 
-Board *GameplayFacade::GetBoard() const
+std::shared_ptr<Board> GameplayFacade::GetBoard() const
 {
-    return _board.get();
+    return _board;
 }
 
 bool GameplayFacade::start()
@@ -46,6 +52,23 @@ bool GameplayFacade::start()
     _board->init();
 
     emit signalBoardChanged(_board);
+    emit signalNextPlayer();
 
-return true;
+    return true;
+}
+
+void GameplayFacade::slotMove(QVariant variant)
+{
+    std::shared_ptr<Player> player = currentPlayer();
+
+    Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
+    if (!Validator::isValidMove(m, player->color()) || Evaluator::isCheckFor(player->color(), m))
+    {
+        return;
+    }
+
+    _board->applyMove(m);
+
+    emit signalBoardChanged(_board);
+    nextPlayer();
 }

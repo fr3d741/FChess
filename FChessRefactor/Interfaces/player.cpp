@@ -14,4 +14,3 @@ Defs::EColors Player::color()
 {
     return _playerColor;
 }
-

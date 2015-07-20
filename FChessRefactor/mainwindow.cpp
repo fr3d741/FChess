@@ -9,6 +9,7 @@
 #include "exceptions.h"
 #include "Factories/playerfactory.h"
 #include "Facade/gameplayfacade.h"
+#include "Observers/gameplayobserver.h"
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
@@ -66,6 +67,7 @@ void MainWindow::makeConnections()
     connect( ui->undoLastButton,SIGNAL( pressed() ),    this, SLOT( slotUndoLastMove() ) );
 
     connect( _display, SIGNAL( signalMessage( QString ) ),     SLOT( slotReceivedMessage( QString ) ) );
+    connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged()), SLOT(slotActualizeGUI()) );
 
 //    connect( _chessBoard, SIGNAL( signalBoardChanged() ),           SLOT( slotRefresh() ) );
 //    connect( _chessBoard, SIGNAL( signalBoardChanged() ),  _display,SLOT( boardChanged() ) );

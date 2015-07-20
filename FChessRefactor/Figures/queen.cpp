@@ -4,13 +4,14 @@
 namespace puppets
 {
 
-Queen::Queen( QString path, Defs::EColors color, Defs::EFigures figure )
-    :FigureInterface( path, color, figure )
+Queen::Queen(std::shared_ptr<Board> board, Defs::EColors color )
+    :FigureInterface( board, color, Defs::Queen )
 {
 }
 
-bool Queen::isValidMove( Defs::Move step )
+bool Queen::isValidMove(Defs::MovePrimitive step )
 {
+    Defs::Cell** boardState = _board->BoardState();
     int diff1 = step.to.first - step.from.first;
     int diff2 = step.to.second - step.from.second;
     int step1 = 0;
@@ -30,7 +31,7 @@ bool Queen::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.first + step1, j = step.from.second + step2; i != step.to.first || j != step.to.second; i += step1, j += step2 )
         {
-            if ( Board::boardState[i][j].figure )
+            if ( boardState[i][j].figure )
             {
                 return false;
             }
@@ -42,7 +43,7 @@ bool Queen::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.second + step2; i != step.to.second; i += step2 )
         {
-            if ( Board::boardState[step.from.first][i].figure )
+            if ( boardState[step.from.first][i].figure )
             {
                 return false;
             }
@@ -54,7 +55,7 @@ bool Queen::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.first + step1; i != step.to.first; i += step1 )
         {
-            if ( Board::boardState[i][step.from.second].figure )
+            if ( boardState[i][step.from.second].figure )
             {
                 return false;
             }
@@ -87,6 +88,7 @@ void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 
 void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState )
 {
+    Defs::Cell** boardState = _board->BoardState();
     int diff_x = xDiff;
     int diff_y = yDiff;
 
@@ -100,7 +102,7 @@ void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state&
                 break;
             }
 
-            occupied = Defs::testBit( i, j, Defs::WhiteBlackState._board );
+            occupied = Defs::testBit( i, j, _board->WhiteBlackState()._board );
 
 			if ( !occupied )
             {
@@ -110,7 +112,7 @@ void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state&
             {
                 // same color
                 finish = true;
-                if ( !(_color & Board::boardState[i][j].figure ) )
+                if ( !(_color & boardState[i][j].figure ) )
                 {
                     Defs::setBit( i, j, resultState );
                 }

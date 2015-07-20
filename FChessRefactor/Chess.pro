@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     Visual/playerlayer.cpp \
     Observers/gameplayobserver.cpp \
     Observers/visualobserver.cpp \
-    Interfaces/singleton.cpp
+    Interfaces/singleton.cpp \
+    Utils/utility.cpp \
+    Utils/validator.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -68,7 +70,9 @@ HEADERS  += mainwindow.h \
     Observers/gameplayobserver.h \
     Observers/visualobserver.h \
     Interfaces/singleton.h \
-    Interfaces/LayerInterface.h
+    Interfaces/LayerInterface.h \
+    Utils/utility.h \
+    Utils/validator.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui

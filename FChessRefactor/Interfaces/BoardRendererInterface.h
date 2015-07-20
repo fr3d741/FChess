@@ -1,6 +1,7 @@
 #ifndef BOARDRENDERERINTERFACE_H
 #define BOARDRENDERERINTERFACE_H
 
+#include <memory>
 #include <QImage>
 #include "../board.h"
 
@@ -11,7 +12,7 @@ class BoardRendererInterface
 {
     public:
         //TODO: change pointer to smart pointer
-        virtual QImage Render(Board* board) = 0;
+        virtual QImage Render(std::shared_ptr<Board> board) = 0;
 };
 
 #endif // BOARDRENDERERINTERFACE_H

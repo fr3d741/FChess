@@ -4,12 +4,12 @@
 namespace puppets
 {
 
-Knight::Knight( QString path, Defs::EColors color, Defs::EFigures figure )
-    :FigureInterface( path, color, figure )
+Knight::Knight(std::shared_ptr<Board> board, Defs::EColors color )
+    :FigureInterface( board, color, Defs::Knight )
 {
 }
 
-bool Knight::isValidMove( Defs::Move step )
+bool Knight::isValidMove(Defs::MovePrimitive step )
 {
     int diff1 = step.to.first - step.from.first;
     int diff2 = step.to.second - step.from.second;
@@ -28,6 +28,7 @@ void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
 {
     bool occupied = false;
     bool sameColor = false;
+    Defs::Cell** boardState = _board->BoardState();
 
     if ( xFrom < 0 || yFrom < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom )
     {
@@ -35,8 +36,8 @@ void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
     }
 
 
-    occupied = Defs::testBit( xFrom, yFrom, Defs::WhiteBlackState._board );
-    sameColor = Board::boardState[xFrom][yFrom].figure & _color;
+    occupied = Defs::testBit( xFrom, yFrom, _board->WhiteBlackState()._board );
+    sameColor = boardState[xFrom][yFrom].figure & _color;
     if ( !occupied || !sameColor )
     {
         Defs::setBit( xFrom, yFrom, resultState );

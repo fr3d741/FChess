@@ -23,7 +23,7 @@ public slots:
 
     // BoardRendererInterface interface
 public:
-    QImage Render(Board* board);
+    QImage Render(std::shared_ptr<Board> board);
 
     // LayerInterface interface
     const QImage &LayerImage();

@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QPainter>
 
 #include "playerlayer.h"
@@ -18,7 +19,7 @@ PlayerLayer::PlayerLayer(QObject *parent) :
 
 void PlayerLayer::slotMouseOver(int x, int y)
 {
-    Board* board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     int h = board->sizeVerical();
     int w = board->sizeHorizontal();
     QSize s = puppets::FigureInterface::IconSize();
@@ -33,7 +34,7 @@ void PlayerLayer::slotMouseOver(int x, int y)
 
 void PlayerLayer::slotCellSelected(int x, int y)
 {
-    Board* board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     int h = board->sizeVerical();
     int w = board->sizeHorizontal();
     QSize s = puppets::FigureInterface::IconSize();
@@ -50,7 +51,7 @@ void PlayerLayer::slotCellSelected(int x, int y)
 void PlayerLayer::slotMouseOverCell(QVariant variant)
 {
     Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
-    Board* board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     int h = board->sizeVerical();
     int w = board->sizeHorizontal();
     QSize s = puppets::FigureInterface::IconSize();

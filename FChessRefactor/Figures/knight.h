@@ -9,9 +9,9 @@ namespace puppets
 class Knight : public FigureInterface
 {
 public:
-    Knight( QString path, Defs::EColors color, Defs::EFigures figure );
+    Knight(std::shared_ptr<Board> board, Defs::EColors color);
 
-    virtual bool isValidMove( Defs::Move step );
+    virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
 

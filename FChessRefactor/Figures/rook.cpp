@@ -5,13 +5,14 @@
 namespace puppets
 {
 
-Rook::Rook( QString path, Defs::EColors color, Defs::EFigures figure )
-    :FigureInterface( path, color, figure )
+Rook::Rook(std::shared_ptr<Board> board, Defs::EColors color )
+    :FigureInterface( board, color, Defs::Rook )
 {
 }
 
-bool Rook::isValidMove( Defs::Move step )
+bool Rook::isValidMove(Defs::MovePrimitive step )
 {
+    Defs::Cell** boardState = _board->BoardState();
     int diff1 = step.to.first - step.from.first;
     int diff2 = step.to.second - step.from.second;
     int step1 = 0;
@@ -31,7 +32,7 @@ bool Rook::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.second + step2; i != step.to.second; i += step2 )
         {
-            if ( Board::boardState[step.from.first][i].figure )
+            if ( boardState[step.from.first][i].figure )
             {
                 return false;
             }
@@ -43,7 +44,7 @@ bool Rook::isValidMove( Defs::Move step )
     {
         for ( int i = step.from.first + step1; i != step.to.first; i += step1 )
         {
-            if ( Board::boardState[i][step.from.second].figure )
+            if ( boardState[i][step.from.second].figure )
             {
                 return false;
             }
@@ -65,6 +66,7 @@ void Rook::reachableCells( Defs::state& result, QPair<int,int>& position )
 
 void Rook::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState )
 {
+    Defs::Cell** boardState = _board->BoardState();
     if ( xFrom < 0 || yFrom < 0 || xTo < 0 || yTo < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom || HORIZONTAL_SIZE <= xTo || VERTICAL_SIZE <= yTo )
     {
         return;
@@ -92,7 +94,7 @@ void Rook::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resu
     {
         for ( int i = xFrom, j = yFrom; i <= xTo && j <= yTo && !finish; i += diff_x, j += diff_y )
         {
-            occupied = Defs::testBit( i, j, Defs::WhiteBlackState._board );
+            occupied = Defs::testBit( i, j, _board->WhiteBlackState()._board );
 
             if ( !occupied )
             {
@@ -102,7 +104,7 @@ void Rook::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resu
             {
                 // same color
                 finish = true;
-                if ( !(_color & Board::boardState[i][j].figure ) )
+                if ( !(_color & boardState[i][j].figure ) )
                 {
                     Defs::setBit( i, j, resultState );
                 }

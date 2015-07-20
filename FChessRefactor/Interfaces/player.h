@@ -54,6 +54,9 @@ signals:
     void signalEventFiltered();
 public slots:
 
+private:
+    bool isValidMove(Defs::MovePrimitive move);
+
 protected:
     Defs::EColors _playerColor;
 };

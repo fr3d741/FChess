@@ -5,6 +5,7 @@ class Board;
 
 #include <memory>
 #include <QObject>
+#include <QVariant>
 
 #include "../Interfaces/singleton.h"
 
@@ -23,6 +24,10 @@ signals:
     void signalMouseOver(int cellX, int cellY);
 
     void signalCellSelected(int cellX, int cellY);
+
+    void signalMove(QVariant);
+
+    void signalPlayerChanged();
 
 public slots:
 
