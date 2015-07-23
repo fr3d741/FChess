@@ -12,33 +12,42 @@ Bishop::Bishop(std::shared_ptr<Board> board, Defs::EColors color)
 bool Bishop::isValidMove( Defs::MovePrimitive step )
 {
     Defs::Cell** boardState = _board->BoardState();
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
-    int step1 = 0;
-    int step2 = 0;
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
 
-    if ( !diff1 || !diff2 || abs( diff1 ) != abs( diff2 ) )
+    if ( !diff.x || !diff.y || abs(diff.x) != abs(diff.y) )
     {
         return false;
     }
 
-    if ( diff1 )
+    if (diff.y != 0)
     {
-        step1 = diff1 / abs(diff1);
+        stepY = diff.y / abs(diff.y);
     }
 
-    if (diff2)
+    if (diff.x != 0)
     {
-        step2 = diff2 / abs(diff2);
+        stepX = diff.x / abs(diff.x);
     }
 
-    for ( int i = step.from.first + step1, j = step.from.second + step2; i != step.to.first || j != step.to.second; i += step1, j += step2 )
+    int count = std::max(abs(diff.x), abs(diff.y));
+
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        if ( boardState[i][j].figure )
+        if ( boardState[x][y].figure )
         {
             return false;
         }
     }
+
+//    for ( int i = step.from.y + stepY, j = step.from.x + stepX; i != step.to.y || j != step.to.x; i += stepY, j += stepX )
+//    {
+//        if ( boardState[i][j].figure )
+//        {
+//            return false;
+//        }
+//    }
 
 return true;
 }
@@ -94,6 +103,16 @@ void Bishop::reachableCells( Defs::state& result, QPair<int,int>& position )
 
     checkRange( position.first - 1  , position.second + 1   , 0                 , VERTICAL_SIZE - 1, result );
     checkRange( position.first + 1  , position.second - 1   , HORIZONTAL_SIZE   , 0                , result );
+}
+
+QString Bishop::name()
+{
+    return QString("Bishop");
+}
+
+QString Bishop::notation()
+{
+    return QString("B");
 }
 
 } //end namespace

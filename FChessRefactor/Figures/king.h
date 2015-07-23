@@ -15,8 +15,9 @@ public:
 
     virtual void reachableCells( Defs::state& , QPair<int,int>&  );
 
-protected:
+    virtual QString name();
 
+    virtual QString notation();
 };
 
 } //end namespace

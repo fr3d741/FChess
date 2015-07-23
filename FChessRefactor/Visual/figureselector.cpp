@@ -21,8 +21,6 @@ FigureSelector::FigureSelector(QWidget *parent)
     bbox->addButton( "Select", QDialogButtonBox::AcceptRole );
     connect( bbox, SIGNAL(accepted()), this, SLOT(accept()));
 
-    QLabel* label = 0;
-
     QHBoxLayout* whites = new QHBoxLayout();
     QHBoxLayout* blacks = new QHBoxLayout();
 

@@ -39,6 +39,9 @@ signals:
 
 public slots:
     void slotMove(QVariant variant);
+
+protected:
+
 };
 
 #endif // GAMEPLAYFACADE_H

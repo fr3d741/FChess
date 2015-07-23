@@ -59,6 +59,8 @@ protected:
 
     void addPlayerAction( QString& action, QMenu* menu, QActionGroup* agroup );
 
+    QString stringify(Defs::Move& move);
+
 private:
     Ui::MainWindow *ui;
 

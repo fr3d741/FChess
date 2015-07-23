@@ -44,11 +44,27 @@ int getPosition( int i, int j );
 
 QString convertFigureToString( int );
 
+struct Position{
+    int x; //second
+    int y; //first
+};
+
+extern bool             operator==(const Position& A, const Position& B);
+extern Defs::Position   operator-(const Position& A, const Position& B);
+
 enum
 {
     ACCEPTED,
     INVALID_CONDITION,
     NOT_HANDLED
+};
+
+enum ESpecials
+{
+    Castling,
+    Promotion,
+    EnPassant,
+    None
 };
 
 enum EColors
@@ -79,13 +95,16 @@ struct Cell
     EColors cellColor;
 };
 
+extern bool             operator==(const Cell& A, const Cell& B);
+
 struct MovePrimitive
 {
-    MovePrimitive():from(-1,-1),to(-1,-1){}
-    MovePrimitive(const std::pair<int,int>& f, const std::pair<int,int>& t):from(f),to(t){}
+    MovePrimitive():from({-1,-1}),to({-1,-1}), special(None){}
+    MovePrimitive(const Position& f, const Position& t):from(f),to(t), special(None){}
 
-    std::pair<int,int> from;
-    std::pair<int,int> to;
+    Position from;
+    Position to;
+    ESpecials special;
 };
 
 Q_DECLARE_METATYPE(MovePrimitive)
@@ -99,6 +118,8 @@ struct Move : public MovePrimitive
     Cell toCell;
     std::shared_ptr< Move > additionalMove;
 };
+
+extern bool             operator==(const Move& A, const Move& B);
 
 //extern ColorState WhiteBlackState;
 //extern ColorState& WhiteState;

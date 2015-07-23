@@ -136,7 +136,32 @@ QString convertFigureToString( int fig )
             break;
     }
 
-return ret;
+    return ret;
+}
+
+bool operator==(const Position &A, const Position &B)
+{
+    return A.x == B.x && A.y == B.y;
+}
+
+Defs::Position operator-(const Position &A, const Position &B)
+{
+    return {A.x - B.x, A.y - B.y};
+}
+
+bool operator==(const Move &A, const Move &B)
+{
+    return  A.from == B.from &&
+            A.to == B.to &&
+            A.figure == B.figure &&
+            A.fromCell == B.fromCell &&
+            A.toCell == B.toCell &&
+            A.special == B.special;
+}
+
+bool operator==(const Cell &A, const Cell &B)
+{
+    return A.cellColor == B.cellColor && A.figure == B.figure;
 }
 
 } // end namespace

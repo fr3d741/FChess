@@ -14,7 +14,7 @@ namespace puppets
 
 std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<Board> board, Defs::EColors color, int figure )
 {
-    return createFigure(board, color, (Defs::EFigures)(figure & 0xF8));
+    return createFigure(board, color, (Defs::EFigures)(figure & 0xFC));
 }
 
 std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<Board> board, Defs::EColors color, Defs::EFigures figure)

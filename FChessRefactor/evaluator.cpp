@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "evaluator.h"
 #include "Facade/gameplayfacade.h"
 #include "Interfaces/figure.h"
@@ -6,13 +8,15 @@
 
 Defs::EColors playerColorGlobal;
 
-Evaluator::Evaluator()
-{
-}
-
 bool filterOutPlayerCells(Defs::Cell& c)
 {
-    return c.figure && !(c.figure & playerColorGlobal);
+    bool b = c.figure && !(c.figure & playerColorGlobal);
+    //qDebug() << c.figure << ": " << (b?"true":"false");
+    return b;
+}
+
+Evaluator::Evaluator()
+{
 }
 
 bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::MovePrimitive move)
@@ -20,16 +24,20 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::MovePrimitive move)
     std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     std::shared_ptr<Board> replica = board->replicate(move);
 
-    std::pair<int, int> king_pos = replica->getFigurePosition(playerColor | Defs::King);
+    Defs::Position king_pos = replica->getFigurePosition(playerColor | Defs::King);
     playerColorGlobal = playerColor;
-    QList<std::pair<int, int> > figurePositions = replica->filterCells(&filterOutPlayerCells);
+    //qDebug() << "******************************";
+    QList<Defs::Position> figurePositions = replica->filterCells(&filterOutPlayerCells);
     while(!figurePositions.isEmpty())
     {
-        std::pair<int, int> pos = figurePositions.takeFirst();
+        Defs::Position pos = figurePositions.takeFirst();
         Defs::Cell c = replica->at(pos);
         Defs::MovePrimitive m{pos, king_pos};
-        if ( puppets::FigureFactory::createFigure(board, playerColor, c.figure)->isValidMove(m) )
+        if ( puppets::FigureFactory::createFigure(replica, (Defs::EColors)(c.figure & 0x03), c.figure)->isValidMove(m) )
+        {
+            //qDebug() << c.figure << " attacks King";
             return true;
+        }
     }
 return false;
 }
@@ -88,5 +96,15 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
             }
         }
     }
-return false;
+    return false;
+}
+
+Defs::ESpecials Evaluator::defineSpecial(Defs::MovePrimitive &move)
+{
+    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
+    Defs::Cell& piece = board->cell(move.from);
+    Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
+    auto instance = puppets::FigureFactory::createFigure(board, color, piece.figure );
+
+    return instance->isSpecial(move);
 }

@@ -60,6 +60,12 @@ public:
     */
     virtual void reachableCells(Defs::state&, QPair<int,int>&);
 
+    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& m);
+
+    virtual QString name();
+
+    virtual QString notation();
+
 public:
     static QSize IconSize();
 

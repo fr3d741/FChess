@@ -63,6 +63,21 @@ namespace puppets
     {
     }
 
+    Defs::ESpecials FigureInterface::isSpecial(const Defs::MovePrimitive &m)
+    {
+        return Defs::None;
+    }
+
+    QString FigureInterface::name()
+    {
+        return QString("Invalid");
+    }
+
+    QString FigureInterface::notation()
+    {
+        return QString("Invalid");
+    }
+
     QSize FigureInterface::IconSize()
     {
         return QSize(TEXTURE_W, TEXTURE_H);

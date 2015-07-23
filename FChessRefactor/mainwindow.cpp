@@ -8,6 +8,8 @@
 #include "Players/human.h"
 #include "exceptions.h"
 #include "Factories/playerfactory.h"
+#include "Factories/figurefactory.h"
+#include "Interfaces/figure.h"
 #include "Facade/gameplayfacade.h"
 #include "Observers/gameplayobserver.h"
 
@@ -84,6 +86,17 @@ void MainWindow::addPlayerAction( QString& action, QMenu* menu, QActionGroup* ag
         agroup->addAction( act );
     }
     connect( act, SIGNAL(triggered()), SLOT(slotSetupPlayer()) );
+}
+
+QString MainWindow::stringify(Defs::Move &move)
+{
+    auto instance = puppets::FigureFactory::createFigure(nullptr, Defs::White, move.figure);
+    QString txt = instance->notation();
+    static std::vector<QString> letters{"a","b","c","d","e","f","g","h"};
+
+
+
+return txt;
 }
 
 void MainWindow::slotRefresh()

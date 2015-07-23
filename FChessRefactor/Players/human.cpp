@@ -7,7 +7,7 @@
 
 Human::Human( Defs::EColors color, QObject *parent )
     :Player(color, parent)
-    ,_cellSelected(-1,-1)
+    ,_cellSelected({-1,-1})
 {
     connect(this, SIGNAL(signalMouseOver(int,int)), VisualObserver::Instance().get(), SIGNAL(signalMouseOver(int,int)));
     connect(this, SIGNAL(signalCellSelected(int,int)), VisualObserver::Instance().get(), SIGNAL(signalCellSelected(int,int)));
@@ -42,7 +42,7 @@ bool Human::eventFilter( QObject * , QEvent * event )
             {
                 Defs::MovePrimitive m;
                 m.from = _cellSelected;
-                m.to = std::pair<int,int>(p.x(), p.y());
+                m.to = {p.x(), p.y()};
                 if (_cellSelected == m.to)
                 {
                     invalidate(_cellSelected);
@@ -57,11 +57,11 @@ bool Human::eventFilter( QObject * , QEvent * event )
                 if (!Validator::isValidCell(p.x(), p.y(), _playerColor))
                     return false;
 
-                _cellSelected.first = p.x();
-                _cellSelected.second = p.y();
+                _cellSelected.x = p.x();
+                _cellSelected.y = p.y();
                 Defs::MovePrimitive m;
                 m.from = _cellSelected;
-                m.to = std::pair<int,int>(p.x(), p.y());
+                m.to = {p.x(), p.y()};
                 emit signalMouseOverCell(QVariant::fromValue(m));
             }
             return true;
@@ -73,7 +73,7 @@ bool Human::eventFilter( QObject * , QEvent * event )
             {
                 Defs::MovePrimitive m;
                 m.from = _cellSelected;
-                m.to = std::pair<int,int>(p.x(), p.y());
+                m.to = {p.x(), p.y()};
                 emit signalMouseOverCell(QVariant::fromValue(m));
             }
             else
@@ -105,12 +105,12 @@ QPoint Human::getCellIndices(QPoint position)
 return p;
 }
 
-bool Human::isValid(const std::pair<int, int> &coord)
+bool Human::isValid(const Defs::Position &coord)
 {
-    return  0 <= coord.first && coord.first < HORIZONTAL_SIZE && 0 <= coord.second && coord.second < VERTICAL_SIZE;
+    return  0 <= coord.y && coord.y < VERTICAL_SIZE && 0 <= coord.x && coord.x < HORIZONTAL_SIZE;
 }
 
-void Human::invalidate(std::pair<int, int> &position)
+void Human::invalidate(Defs::Position &position)
 {
-    position.first = position.second = -1;
+    position.y = position.x = -1;
 }

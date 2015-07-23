@@ -11,10 +11,9 @@ Knight::Knight(std::shared_ptr<Board> board, Defs::EColors color )
 
 bool Knight::isValidMove(Defs::MovePrimitive step )
 {
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
-    int adiff1 = abs( diff1 );
-    int adiff2 = abs( diff2 );
+    Defs::Position diff = step.to - step.from;
+    int adiff1 = abs( diff.y );
+    int adiff2 = abs( diff.x );
 
     if ( ( adiff1 == 2 && adiff2 == 1 ) || ( adiff1 == 1 && adiff2 == 2 ) )
     {
@@ -56,6 +55,16 @@ void Knight::reachableCells( Defs::state& result, QPair<int,int>& position )
     checkRange( position.first - 1, position.second - 2, result );
     checkRange( position.first - 1, position.second + 2, result );
 
+}
+
+QString Knight::name()
+{
+    return QString("Knight");
+}
+
+QString Knight::notation()
+{
+    return QString("N");
 }
 
 } //end namespace

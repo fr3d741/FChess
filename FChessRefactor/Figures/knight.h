@@ -15,6 +15,10 @@ public:
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
 
+    virtual QString name();
+
+    virtual QString notation();
+
 protected:
     virtual void checkRange( int xFrom, int yFrom, Defs::state& resultState );
 

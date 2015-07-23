@@ -10,15 +10,15 @@ King::King(std::shared_ptr<Board> board, Defs::EColors color )
 
 bool King::isValidMove(Defs::MovePrimitive step )
 {
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
+    Defs::Position diff = step.to - step.from;
 
-    if ( abs( diff1 ) < 2 && abs( diff2 ) < 2 )
+    if ( abs( diff.y ) < 2 && abs( diff.x ) < 2 )
     {
         return true;
     }
 
-    if ( abs( diff2 ) == 2 )
+    //Castling
+    if ( abs( diff.y ) == 2 )
     {
         return true;
     }
@@ -31,3 +31,14 @@ void King::reachableCells( Defs::state& , QPair<int,int>& )
 }
 
 } //end namespace
+
+
+QString puppets::King::name()
+{
+    return QString("King");
+}
+
+QString puppets::King::notation()
+{
+    return QString("K");
+}

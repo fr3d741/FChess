@@ -13,46 +13,33 @@ Rook::Rook(std::shared_ptr<Board> board, Defs::EColors color )
 bool Rook::isValidMove(Defs::MovePrimitive step )
 {
     Defs::Cell** boardState = _board->BoardState();
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
-    int step1 = 0;
-    int step2 = 0;
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
 
-    if ( diff1 )
+    if ( diff.y != 0 )
     {
-        step1 = diff1 / abs(diff1);
+        stepY = diff.y / abs(diff.y);
+    }
+    else if (diff.x != 0)
+    {
+        stepX = diff.x / abs(diff.x);
     }
 
-    if (diff2)
-    {
-        step2 = diff2 / abs(diff2);
-    }
+    if (diff.x != 0 && diff.y != 0)
+        return false;
 
-    if ( !diff1 && diff2 )
+    int count = std::max(abs(diff.x), abs(diff.y));
+
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        for ( int i = step.from.second + step2; i != step.to.second; i += step2 )
+        if ( boardState[x][y].figure )
         {
-            if ( boardState[step.from.first][i].figure )
-            {
-                return false;
-            }
+            return false;
         }
-
-        return true;
-    }
-    else if ( diff1 && !diff2 )
-    {
-        for ( int i = step.from.first + step1; i != step.to.first; i += step1 )
-        {
-            if ( boardState[i][step.from.second].figure )
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
-return false;
+return true;
 }
 
 void Rook::reachableCells( Defs::state& result, QPair<int,int>& position )
@@ -62,6 +49,16 @@ void Rook::reachableCells( Defs::state& result, QPair<int,int>& position )
 
     checkRange( position.first      , position.second + 1   , position.first    , VERTICAL_SIZE - 1 , result );
     checkRange( position.first      , position.second - 1   , position.first    , 0                 , result );
+}
+
+QString Rook::name()
+{
+    return QString("Rook");
+}
+
+QString Rook::notation()
+{
+    return QString("R");
 }
 
 void Rook::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState )

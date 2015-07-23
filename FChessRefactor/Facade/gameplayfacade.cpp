@@ -62,6 +62,7 @@ void GameplayFacade::slotMove(QVariant variant)
     std::shared_ptr<Player> player = currentPlayer();
 
     Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
+    m.special = Evaluator::defineSpecial(m);
     if (!Validator::isValidMove(m, player->color()) || Evaluator::isCheckFor(player->color(), m))
     {
         return;

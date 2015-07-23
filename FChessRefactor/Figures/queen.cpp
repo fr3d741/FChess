@@ -12,60 +12,33 @@ Queen::Queen(std::shared_ptr<Board> board, Defs::EColors color )
 bool Queen::isValidMove(Defs::MovePrimitive step )
 {
     Defs::Cell** boardState = _board->BoardState();
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
-    int step1 = 0;
-    int step2 = 0;
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
 
-    if ( diff1 )
+    if ( diff.y != 0 )
     {
-        step1 = diff1 / abs(diff1);
+        stepY = diff.y / abs(diff.y);
     }
 
-    if (diff2)
+    if (diff.x != 0)
     {
-        step2 = diff2 / abs(diff2);
+        stepX = diff.x / abs(diff.x);
     }
 
-    if ( abs( diff1 ) == abs( diff2 ) )
+    if (abs( diff.x ) != abs( diff.y ) && diff.x && diff.y)
+        return false;
+
+    int count = std::max(abs(diff.x), abs(diff.y));
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        for ( int i = step.from.first + step1, j = step.from.second + step2; i != step.to.first || j != step.to.second; i += step1, j += step2 )
+        if ( boardState[x][y].figure )
         {
-            if ( boardState[i][j].figure )
-            {
-                return false;
-            }
+            return false;
         }
-
-        return true;
-    }
-    else if ( !diff1 && diff2 )
-    {
-        for ( int i = step.from.second + step2; i != step.to.second; i += step2 )
-        {
-            if ( boardState[step.from.first][i].figure )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    else if ( diff1 && !diff2 )
-    {
-        for ( int i = step.from.first + step1; i != step.to.first; i += step1 )
-        {
-            if ( boardState[i][step.from.second].figure )
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 
-
-return false;
+return true;
 }
 
 void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
@@ -84,6 +57,16 @@ void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
     checkRange( position.first      , position.second - 1   , 0, -1, result );
 
     //qDebug("Queen::reachableCells - ");
+}
+
+QString Queen::name()
+{
+    return QString("Queen");
+}
+
+QString Queen::notation()
+{
+    return QString("Q");
 }
 
 void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState )

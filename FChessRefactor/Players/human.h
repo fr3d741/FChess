@@ -30,11 +30,11 @@ signals:
     void signalMove(QVariant);
 protected:
     QPoint getCellIndices(QPoint position);
-    inline bool isValid(const std::pair< int, int >& coord);
-    inline void invalidate(std::pair< int, int >& position);
+    inline bool isValid(const Defs::Position& coord);
+    inline void invalidate(Defs::Position &position);
 
 protected:
-    std::pair< int, int >   _cellSelected;
+    Defs::Position   _cellSelected;
     std::pair< int, int >   _cellOverCursor;
 
 };

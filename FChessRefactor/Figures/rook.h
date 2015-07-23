@@ -14,6 +14,10 @@ public:
     virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
+
+    virtual QString name();
+
+    virtual QString notation();
 protected:
     /*!
     * \brief checks the given range for which cell is empty, uses a step value of +/- 1 depending on range

@@ -15,7 +15,14 @@ public:
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
 
+    virtual QString name();
+
+    virtual QString notation();
+
+    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& step);
+
 protected:
+    bool filterPawns(const Defs::Move& m);
 
 };
 

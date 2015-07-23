@@ -1,7 +1,11 @@
 #include <math.h>
+#include <QDebug>
+
 #include "pawn.h"
+#include "../Facade/gameplayfacade.h"
 #include "../board.h"
 
+Defs::EColors globalColor;
 
 namespace puppets
 {
@@ -15,64 +19,34 @@ bool Pawn::isValidMove( Defs::MovePrimitive step )
 {
     Defs::Cell** boardState = _board->BoardState();
     //step
-    int dist = step.to.first - step.from.first;
-    int distSecond = step.to.second - step.from.second;
+    Defs::Position diff = step.to - step.from;
+    int inc = _color==Defs::White?1:-1;
+    int line = _color==Defs::White?1:6;
 
-    //TODO: check for En passant
-    if ( _color == Defs::White )
+    Defs::ESpecials specType = isSpecial(step);
+
+    //move forward
+    if ( ( diff.x == inc || ( diff.x == (2*inc) && step.from.x == line ) ) && diff.y == 0 )
     {
-        //step in forward 0 -> 7
-        if ( ( dist == 1 || ( dist == 2 && step.from.first == 1 ) ) && step.to.second == step.from.second )
+        for( int i = step.from.x + inc; i != step.to.x; i += inc )
         {
-            for( int i = step.from.first + 1; i <= step.to.first; ++i  )
-            {
-                if ( boardState[i][step.to.second].figure )
-                {
-                    qDebug("False1: %d, %d", step.from.first, step.from.second );
-                    qDebug("False2: %d, %d", step.to.first, step.to.second );
-                    qDebug("False3: %d, %d, %d", i, step.to.second, boardState[i][step.to.second].figure );
-                    return false;
-                }
-            }
-            return true;
-        }
-        else if ( dist == 1 && abs( distSecond ) == 1 )
-        {
-            if ( boardState[step.to.first][step.to.second].figure )
-            {
-                return true;
-            }
-            else
+            if (i == step.to.x)
+                break;
+
+            if ( boardState[i][step.to.y].figure )
             {
                 return false;
             }
         }
+        return true;
     }
-    else if ( _color == Defs::Black )
+    else if ( diff.x == inc && abs( diff.y ) == 1 )
     {
-        // step back 7 -> 0
-        if ( ( dist == -1 || ( dist == -2 && step.from.first == 6 ) ) && step.to.second == step.from.second )
-        {
-            for( int i = step.from.first - 1; i < step.to.first; --i  )
-            {
-                if ( boardState[i][step.to.second].figure )
-                {
-                    return false;
-                }
-            }
+        if (specType == Defs::EnPassant)
             return true;
-        }
-        else if ( dist == -1 && abs( distSecond ) == 1 )
-        {
-            if ( boardState[step.to.first][step.to.second].figure )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
+        //take a sidestep
+        return _board->at(step.to).figure != 0;
     }
 
 return false;
@@ -142,6 +116,59 @@ void Pawn::reachableCells( Defs::state& result, QPair<int,int>& position )
             }
         }
     }
+}
+
+QString Pawn::name()
+{
+    return QString("Pawn");
+}
+
+QString Pawn::notation()
+{
+    return QString("");
+}
+
+Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
+{
+    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
+    Defs::Cell& piece = board->cell(step.from);
+    Defs::Position diff = step.to - step.from;
+    Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
+    int inc = color==Defs::White?1:-1;
+    int line = color==Defs::White?7:0;
+
+    if ( diff.x == inc && abs( diff.y ) == 1 )
+    {
+        //check En passant
+        Defs::Position pos{step.from.x,step.to.y};
+        Defs::Cell& cell = _board->cell(pos);
+        if (cell.figure & Defs::Pawn && !(cell.figure & _color))
+        {
+            std::function<bool(const Defs::Move&)> fn = [pos,this](const Defs::Move &m)->bool{return (m.figure & Defs::Pawn)
+                                                                                            && !((m.figure & 0x03) & this->color())
+                                                                                            && m.to == pos;};
+            auto filteredHistory = board->filterHistory(fn);
+            auto lastMove = board->lastMove();
+            auto lastDiff = lastMove.to - lastMove.from;
+            if (filteredHistory.size() == 1 && filteredHistory.takeFirst() == lastMove && abs(lastDiff.x) == 2)
+            {
+                return Defs::Castling;
+            }
+        }
+    }
+    else if (step.to.x == line)
+    {
+        //Check promotion
+        return Defs::Promotion;
+    }
+
+return Defs::None;
+}
+
+bool Pawn::filterPawns(const Defs::Move &m)
+{
+    int color = m.figure & 0x03;
+return (m.figure & Defs::Pawn) && !(color & _color);
 }
 
 } //end namespace

@@ -66,8 +66,8 @@ void PlayerLayer::slotMouseOverCell(QVariant variant)
     _layerImg.fill(0);
     QPainter painter(&_layerImg);
 
-    drawRect(painter, Qt::green, m.from.first, m.from.second);
-    drawRect(painter, Qt::red, m.to.first, m.to.second);
+    drawRect(painter, Qt::green, m.from.x, m.from.y);
+    drawRect(painter, Qt::red, m.to.x, m.to.y);
 
     emit signalUpdateView();
 }

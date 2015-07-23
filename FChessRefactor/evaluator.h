@@ -14,6 +14,8 @@ public:
     static bool check( Defs::EColors );
 
     static bool checkPositions( Defs::EColors, QList< QPair<int,int> >& pointList );
+
+    static Defs::ESpecials defineSpecial(Defs::MovePrimitive& move);
 };
 
 #endif // EVALUATOR_H

@@ -1,8 +1,10 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <functional>
 #include <QObject>
 #include <QVector>
+
 
 #include "Defines.h"
 #include "messageinterface.h"
@@ -36,19 +38,21 @@ public:
 
     void resetBoard();
 
-    //bool setMove( Defs::Move& move );
-
     bool applyMove(Defs::MovePrimitive move);
 
     std::shared_ptr<Board> replicate(Defs::MovePrimitive move);
 
-    std::pair<int, int>& selectedCell();
+    Defs::Position getFigurePosition(int value);
 
-    std::pair<int, int> getFigurePosition(int value);
+    Defs::Cell at(Defs::Position &indexPair);
 
-    Defs::Cell at(std::pair<int, int>& indexPair);
+    Defs::Cell& cell(const Defs::Position &indexPair);
 
-    QList< std::pair<int, int> > filterCells(FncPtr filterFunction);
+    QList<Defs::Position> filterCells(FncPtr filterFunction);
+
+    QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc);
+
+    Defs::Move lastMove();
 
     /*!
     * \returns list of moves so far
@@ -65,12 +69,12 @@ public:
     Defs::ColorState&        WhiteBlackState();
 
     ///*** operators ***
-    Defs::Cell operator()(std::pair<int, int>& indexPair);
+    Defs::Cell operator()(Defs::Position& indexPair);
 
     Defs::Cell* operator[](int index);
 
-    //TODO: move to a more convenient location
-    //static Defs::Cell** boardState;
+    //******************
+    void dumpState();
 signals:
     //void signalSendMessage( QString );
     virtual void signalMessage( QString );
@@ -98,9 +102,6 @@ protected:
     Defs::ColorState        _WhiteBlackState;
 
     bool                    _isCheck;
-
-    //!
-    std::pair< int, int >   _selectedCell;
 
     QList< Defs::Move >     _stack;
 
