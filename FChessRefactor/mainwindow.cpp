@@ -12,12 +12,14 @@
 #include "Interfaces/figure.h"
 #include "Facade/gameplayfacade.h"
 #include "Observers/gameplayobserver.h"
+#include "Proxy/visualproxy.h"
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
     ,_display(0)
 {
+    VisualProxy::CreateInstance(this);
     ui->setupUi(this);
     setWindowTitle( QString( "FChess %1").arg(RELEASE_VERSION) );
 

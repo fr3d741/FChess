@@ -7,6 +7,7 @@
 #include "evaluator.h"
 #include "Visual/figureselector.h"
 #include "Factories/figurefactory.h"
+#include "Proxy/visualproxy.h"
 
 Board::Board(QObject *parent)
     :QObject(parent)
@@ -274,11 +275,18 @@ bool Board::applyMove(Defs::MovePrimitive move)
     Defs::Cell& c1 = cell(move.from);
     Defs::Cell& c2 = cell(move.to);
 
+    Defs::EColors color = (Defs::EColors)(c1.figure & 0x03);
+
     switch(move.special)
     {
         case Defs::Castling:
         case Defs::Promotion:
             {
+//                Defs::EFigures f = VisualProxy::Instance()->FigurePicker(color);
+//                if (f != Defs::King && f != Defs::Pawn)
+//                {
+//                    c1.figure = f | color;
+//                }
             }
             break;
         case Defs::EnPassant:

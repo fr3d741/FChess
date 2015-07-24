@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     Observers/visualobserver.cpp \
     Interfaces/singleton.cpp \
     Utils/utility.cpp \
-    Utils/validator.cpp
+    Utils/validator.cpp \
+    Proxy/visualproxy.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -72,7 +73,8 @@ HEADERS  += mainwindow.h \
     Interfaces/singleton.h \
     Interfaces/LayerInterface.h \
     Utils/utility.h \
-    Utils/validator.h
+    Utils/validator.h \
+    Proxy/visualproxy.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui
