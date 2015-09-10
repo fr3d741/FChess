@@ -9,7 +9,7 @@ class Evaluator
 {
     Evaluator();
 public:
-    static bool isCheckFor(Defs::EColors playerColor, Defs::MovePrimitive move = Defs::MovePrimitive() );
+    static bool isCheckFor(Defs::EColors playerColor, Defs::Move move = Defs::Move() );
 
     static bool check( Defs::EColors );
 

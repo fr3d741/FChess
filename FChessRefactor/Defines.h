@@ -111,8 +111,7 @@ Q_DECLARE_METATYPE(MovePrimitive)
 
 struct Move : public MovePrimitive
 {
-    Move();
-    ~Move();
+    Move& operator=(const MovePrimitive& rightSide);
     int figure;
     Cell fromCell;
     Cell toCell;

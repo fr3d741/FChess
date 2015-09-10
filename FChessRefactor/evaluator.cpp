@@ -19,11 +19,12 @@ Evaluator::Evaluator()
 {
 }
 
-bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::MovePrimitive move)
+bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
 {
     std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     std::shared_ptr<Board> replica = board->replicate(move);
 
+    replica->applyMove(move);
     Defs::Position king_pos = replica->getFigurePosition(playerColor | Defs::King);
     playerColorGlobal = playerColor;
     //qDebug() << "******************************";

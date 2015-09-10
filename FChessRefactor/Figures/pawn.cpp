@@ -137,7 +137,12 @@ Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
     int inc = color==Defs::White?1:-1;
     int line = color==Defs::White?7:0;
 
-    if ( diff.x == inc && abs( diff.y ) == 1 )
+    if (step.to.x == line)
+    {
+        //Check promotion
+        return Defs::Promotion;
+    }
+    else if ( diff.x == inc && abs( diff.y ) == 1 )
     {
         //check En passant
         Defs::Position pos{step.from.x,step.to.y};
@@ -156,11 +161,7 @@ Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
             }
         }
     }
-    else if (step.to.x == line)
-    {
-        //Check promotion
-        return Defs::Promotion;
-    }
+
 
 return Defs::None;
 }

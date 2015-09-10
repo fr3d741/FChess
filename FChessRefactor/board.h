@@ -40,7 +40,7 @@ public:
 
     bool applyMove(Defs::MovePrimitive move);
 
-    std::shared_ptr<Board> replicate(Defs::MovePrimitive move);
+    std::shared_ptr<Board> replicate(Defs::Move move);
 
     Defs::Position getFigurePosition(int value);
 

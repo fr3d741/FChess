@@ -41,6 +41,7 @@ public slots:
     void slotMove(QVariant variant);
 
 protected:
+    Defs::Move construct(Defs::MovePrimitive& m);
 
 };
 

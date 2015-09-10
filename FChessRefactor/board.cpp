@@ -7,7 +7,6 @@
 #include "evaluator.h"
 #include "Visual/figureselector.h"
 #include "Factories/figurefactory.h"
-#include "Proxy/visualproxy.h"
 
 Board::Board(QObject *parent)
     :QObject(parent)
@@ -282,11 +281,6 @@ bool Board::applyMove(Defs::MovePrimitive move)
         case Defs::Castling:
         case Defs::Promotion:
             {
-//                Defs::EFigures f = VisualProxy::Instance()->FigurePicker(color);
-//                if (f != Defs::King && f != Defs::Pawn)
-//                {
-//                    c1.figure = f | color;
-//                }
             }
             break;
         case Defs::EnPassant:
@@ -307,7 +301,7 @@ bool Board::applyMove(Defs::MovePrimitive move)
     return true;
 }
 
-std::shared_ptr<Board> Board::replicate(Defs::MovePrimitive move)
+std::shared_ptr<Board> Board::replicate(Defs::Move move)
 {
     std::shared_ptr<Board> replica(new Board);
     Defs::Cell** board = replica->BoardState();

@@ -7,24 +7,6 @@
 namespace Defs
 {
 
-//Cell** boardState = 0;
-//ColorState WhiteBlackState;
-//ColorState& WhiteState = WhiteBlackState;
-//ColorState& BlackState = WhiteBlackState;
-
-Move::Move()
-    :figure(0)
-    ,fromCell()
-    ,toCell()
-    ,additionalMove()
-{
-}
-
-Move::~Move()
-{
-    //delete additionalMove;
-}
-
 QPair<int, int> getPosition( int i )
 {
     div_t dt = div( i, HORIZONTAL_SIZE );
@@ -35,21 +17,6 @@ int getPosition( int i, int j )
 {
     return i * HORIZONTAL_SIZE + j;
 }
-
-//int getFigureID( int i )
-//{
-//    div_t dt = div( i, HORIZONTAL_SIZE );
-//    try
-//    {
-//        return boardState[dt.quot][dt.rem].figure;
-//     //   qDebug("Access: %d, %d", dt.quot, dt.rem);
-//    }
-//    catch (...)
-//    {
-//        qDebug("Exception: %d, %d", dt.quot, dt.rem);
-//    }
-//return -1;
-//}
 
 void setBit( int i, int j, state& st, bool value )
 {
@@ -162,6 +129,14 @@ bool operator==(const Move &A, const Move &B)
 bool operator==(const Cell &A, const Cell &B)
 {
     return A.cellColor == B.cellColor && A.figure == B.figure;
+}
+
+Move &Move::operator=(const MovePrimitive &rightSide)
+{
+    this->from = rightSide.from;
+    this->to = rightSide.to;
+    this->special = rightSide.special;
+return *this;
 }
 
 } // end namespace

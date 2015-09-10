@@ -6,6 +6,7 @@
 #include "../Observers/gameplayobserver.h"
 #include "../Utils/validator.h"
 #include "../evaluator.h"
+#include "../Proxy/visualproxy.h"
 
 GameplayFacade::GameplayFacade()
     :QObject()
@@ -60,16 +61,40 @@ bool GameplayFacade::start()
 void GameplayFacade::slotMove(QVariant variant)
 {
     std::shared_ptr<Player> player = currentPlayer();
-
     Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
+    Defs::Move move = construct(m);
+
     m.special = Evaluator::defineSpecial(m);
-    if (!Validator::isValidMove(m, player->color()) || Evaluator::isCheckFor(player->color(), m))
+    if (m.special == Defs::Promotion)
+        move.figure = VisualProxy::Instance()->FigurePicker(player->color()) | player->color();
+
+    if (!Validator::isValidMove(m, player->color()) || Evaluator::isCheckFor(player->color(), move))
     {
         return;
+    }
+
+    if (m.special == Defs::Promotion)
+    {
+        Defs::EFigures f = VisualProxy::Instance()->FigurePicker(player->color());
+        if (f != Defs::King && f != Defs::Pawn)
+        {
+            //c1.figure = f | color;
+        }
     }
 
     _board->applyMove(m);
 
     emit signalBoardChanged(_board);
     nextPlayer();
+}
+
+Defs::Move GameplayFacade::construct(Defs::MovePrimitive &m)
+{
+    Defs::Move move;
+    move = m;
+    move.fromCell = _board->cell(m.from);
+    move.toCell = _board->cell(m.to);
+    move.figure = move.fromCell.figure;
+
+    return move;
 }
