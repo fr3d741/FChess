@@ -97,10 +97,13 @@ struct Cell
 
 extern bool             operator==(const Cell& A, const Cell& B);
 
-struct MovePrimitive
+class MovePrimitive
 {
+public:
     MovePrimitive():from({-1,-1}),to({-1,-1}), special(None){}
     MovePrimitive(const Position& f, const Position& t):from(f),to(t), special(None){}
+
+    bool isValid(){return from.x != -1 && from.y != -1 && to.x != -1 && to.y != -1;}
 
     Position from;
     Position to;
@@ -109,8 +112,9 @@ struct MovePrimitive
 
 Q_DECLARE_METATYPE(MovePrimitive)
 
-struct Move : public MovePrimitive
+class Move : public MovePrimitive
 {
+public:
     Move& operator=(const MovePrimitive& rightSide);
     int figure;
     Cell fromCell;

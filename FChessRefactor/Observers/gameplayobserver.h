@@ -8,6 +8,7 @@ class Board;
 #include <QVariant>
 
 #include "../Interfaces/singleton.h"
+#include "../Defines.h"
 
 class GameplayObserver : public QObject, public Singleton<GameplayObserver>
 {
@@ -19,6 +20,8 @@ class GameplayObserver : public QObject, public Singleton<GameplayObserver>
 public:
 
 signals:
+    void signalCheckForPlayer(Defs::EColors player);
+
     void signalBoardChanged(std::shared_ptr<Board>);
 
     void signalMouseOver(int cellX, int cellY);

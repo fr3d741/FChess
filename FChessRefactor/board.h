@@ -38,7 +38,7 @@ public:
 
     void resetBoard();
 
-    bool applyMove(Defs::MovePrimitive move);
+    bool applyMove(Defs::MovePrimitive &move);
 
     std::shared_ptr<Board> replicate(Defs::Move move);
 

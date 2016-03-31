@@ -33,6 +33,8 @@ public:
 
     bool start();
 signals:
+    void signalCheckForPlayer(Defs::EColors player);
+
     void signalBoardChanged(std::shared_ptr<Board>);
 
     void signalNextPlayer();

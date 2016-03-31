@@ -72,6 +72,7 @@ void MainWindow::makeConnections()
 
     connect( _display, SIGNAL( signalMessage( QString ) ),     SLOT( slotReceivedMessage( QString ) ) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged()), SLOT(slotActualizeGUI()) );
+    connect( GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)), SLOT(slotCheck(Defs::EColors)));
 
 //    connect( _chessBoard, SIGNAL( signalBoardChanged() ),           SLOT( slotRefresh() ) );
 //    connect( _chessBoard, SIGNAL( signalBoardChanged() ),  _display,SLOT( boardChanged() ) );
@@ -113,6 +114,11 @@ void MainWindow::slotRefresh()
 //    }
 
     ui->undoLastButton->setEnabled( false );
+}
+
+void MainWindow::slotCheck(Defs::EColors player)
+{
+    ui->logWindow->addItem(QString("%1 player in Check!").arg(player==Defs::White?"White":"Black"));
 }
 
 void MainWindow::slotUndoLastMove()

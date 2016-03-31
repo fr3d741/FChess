@@ -269,35 +269,41 @@ int Board::handleSpecificCases( Defs::Move& move )
 return Defs::NOT_HANDLED;
 }
 
-bool Board::applyMove(Defs::MovePrimitive move)
+bool Board::applyMove(Defs::MovePrimitive& move)
 {
+    if (!move.isValid())
+        return false;
+
     Defs::Cell& c1 = cell(move.from);
     Defs::Cell& c2 = cell(move.to);
 
     Defs::EColors color = (Defs::EColors)(c1.figure & 0x03);
 
+    Defs::Move m;
     switch(move.special)
     {
-        case Defs::Castling:
         case Defs::Promotion:
-            {
-            }
+            m = reinterpret_cast<Defs::Move&>(move);
+            c2.figure = m.figure;
+            c1.figure = 0;
             break;
         case Defs::EnPassant:
+        case Defs::Castling:
+        case Defs::None:
         default:
+            m.from = move.from;
+            m.to = move.to;
+            m.fromCell = c1;
+            m.toCell = c2;
+            m.figure = c1.figure;
+
+            c2.figure = c1.figure;
+            c1.figure = 0;
             break;
     }
 
-    Defs::Move m;
-    m.from = move.from;
-    m.to = move.to;
-    m.fromCell = c1;
-    m.toCell = c2;
-    m.figure = c1.figure;
     _stack.push_back( m );
 
-    c2.figure = c1.figure;
-    c1.figure = 0;
     return true;
 }
 

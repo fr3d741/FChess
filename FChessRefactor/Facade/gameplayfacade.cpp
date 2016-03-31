@@ -17,6 +17,7 @@ GameplayFacade::GameplayFacade()
     connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)) );
     connect(this, SIGNAL(signalNextPlayer()), GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged()));
     connect( GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)),  SLOT(slotMove(QVariant)) );
+    connect(this, SIGNAL(signalCheckForPlayer(Defs::EColors)), GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)));
 }
 
 std::shared_ptr<Player> GameplayFacade::currentPlayer()
@@ -28,6 +29,11 @@ void GameplayFacade::nextPlayer()
 {
     std::shared_ptr<Player> player = _playerStack.takeFirst();
     _playerStack.push_back(player);
+    Defs::EColors nextPlayer = _playerStack.front()->color();
+    if (Evaluator::isCheckFor(nextPlayer))
+    {
+        emit signalCheckForPlayer(nextPlayer);
+    }
     emit signalNextPlayer();
 }
 
@@ -64,7 +70,7 @@ void GameplayFacade::slotMove(QVariant variant)
     Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
     Defs::Move move = construct(m);
 
-    m.special = Evaluator::defineSpecial(m);
+    move.special = m.special = Evaluator::defineSpecial(m);
     if (m.special == Defs::Promotion)
         move.figure = VisualProxy::Instance()->FigurePicker(player->color()) | player->color();
 
@@ -73,16 +79,7 @@ void GameplayFacade::slotMove(QVariant variant)
         return;
     }
 
-    if (m.special == Defs::Promotion)
-    {
-        Defs::EFigures f = VisualProxy::Instance()->FigurePicker(player->color());
-        if (f != Defs::King && f != Defs::Pawn)
-        {
-            //c1.figure = f | color;
-        }
-    }
-
-    _board->applyMove(m);
+    _board->applyMove(move);
 
     emit signalBoardChanged(_board);
     nextPlayer();
