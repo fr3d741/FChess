@@ -13,15 +13,15 @@ class Player : public QObject, public MessageInterface
 {
     Q_OBJECT
 public:
-    explicit Player( Defs::EColors color = Defs::Invalid, QObject *parent = 0);
+    explicit Player(Defs::EColors color = Defs::Invalid, QObject *parent = 0);
 
     virtual ~Player();
 
     virtual Defs::EColors color();
 
-    virtual bool isValidCell( Defs::Cell& cell ) = 0;
+    virtual bool isValidCell( Defs::Cell& cell );
 
-    virtual bool isValidCellForTarget( Defs::Cell* cell ) = 0;
+    virtual bool isValidCellForTarget( Defs::Cell* cell );
 
     virtual std::pair< int, int >& cellOverCursor() = 0;
 

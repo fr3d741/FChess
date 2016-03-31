@@ -71,13 +71,8 @@ void MainWindow::makeConnections()
     connect( ui->undoLastButton,SIGNAL( pressed() ),    this, SLOT( slotUndoLastMove() ) );
 
     connect( _display, SIGNAL( signalMessage( QString ) ),     SLOT( slotReceivedMessage( QString ) ) );
-    connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged()), SLOT(slotActualizeGUI()) );
+    connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotActualizeGUI(std::shared_ptr<Player>)) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)), SLOT(slotCheck(Defs::EColors)));
-
-//    connect( _chessBoard, SIGNAL( signalBoardChanged() ),           SLOT( slotRefresh() ) );
-//    connect( _chessBoard, SIGNAL( signalBoardChanged() ),  _display,SLOT( boardChanged() ) );
-//    connect( _chessBoard, SIGNAL( signalMessage( QString ) ),       SLOT( slotReceivedMessage( QString ) ) );
-//    connect( _chessBoard, SIGNAL( signalPlayerChanged() ),          SLOT( slotActualizeGUI() ) );
 }
 
 void MainWindow::addPlayerAction( QString& action, QMenu* menu, QActionGroup* agroup )
@@ -207,9 +202,9 @@ void MainWindow::init()
 {
 }
 
-void MainWindow::slotActualizeGUI()
+void MainWindow::slotActualizeGUI(std::shared_ptr<Player> player)
 {
-    std::shared_ptr<Player> p = GameplayFacade::Instance()->currentPlayer();
+    std::shared_ptr<Player> p = player;
     QString str;
     if ( p.get() )
     {

@@ -37,7 +37,7 @@ signals:
 
     void signalBoardChanged(std::shared_ptr<Board>);
 
-    void signalNextPlayer();
+    void signalNextPlayer(std::shared_ptr<Player>);
 
 public slots:
     void slotMove(QVariant variant);

@@ -277,8 +277,6 @@ bool Board::applyMove(Defs::MovePrimitive& move)
     Defs::Cell& c1 = cell(move.from);
     Defs::Cell& c2 = cell(move.to);
 
-    Defs::EColors color = (Defs::EColors)(c1.figure & 0x03);
-
     Defs::Move m;
     switch(move.special)
     {

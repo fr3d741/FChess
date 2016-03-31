@@ -33,7 +33,7 @@ public slots:
     /*!
     * \brief refreshes GUI elements
     */
-    void slotActualizeGUI();
+    void slotActualizeGUI(std::shared_ptr<Player> player);
 
     void init();
 

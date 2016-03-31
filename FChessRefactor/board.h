@@ -76,12 +76,11 @@ public:
     //******************
     void dumpState();
 signals:
-    //void signalSendMessage( QString );
     virtual void signalMessage( QString );
 
     virtual void signalError( QString );
 
-    void signalPlayerChanged();
+    void signalPlayerChanged(std::shared_ptr<Player>);
 
     /*!
     * \brief signals general changes in the state of board

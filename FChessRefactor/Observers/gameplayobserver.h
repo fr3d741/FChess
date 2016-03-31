@@ -2,6 +2,7 @@
 #define GAMEPLAYOBSERVER_H
 
 class Board;
+class Player;
 
 #include <memory>
 #include <QObject>
@@ -30,7 +31,7 @@ signals:
 
     void signalMove(QVariant);
 
-    void signalPlayerChanged();
+    void signalPlayerChanged(std::shared_ptr<Player>);
 
 public slots:
 

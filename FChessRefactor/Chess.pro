@@ -40,7 +40,9 @@ SOURCES += main.cpp\
     Interfaces/singleton.cpp \
     Utils/utility.cpp \
     Utils/validator.cpp \
-    Proxy/visualproxy.cpp
+    Proxy/visualproxy.cpp \
+    Players/computer.cpp \
+    AI/data.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -74,7 +76,9 @@ HEADERS  += mainwindow.h \
     Interfaces/LayerInterface.h \
     Utils/utility.h \
     Utils/validator.h \
-    Proxy/visualproxy.h
+    Proxy/visualproxy.h \
+    Players/computer.h \
+    AI/data.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui

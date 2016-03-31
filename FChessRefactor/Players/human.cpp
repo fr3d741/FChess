@@ -15,21 +15,6 @@ Human::Human( Defs::EColors color, QObject *parent )
     connect(this, SIGNAL(signalMove(QVariant)), GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)));
 }
 
-bool Human::isValidCell( Defs::Cell& sourceCell )
-{
-    return sourceCell.figure && ( sourceCell.figure & _playerColor );
-}
-
-bool Human::isValidCellForTarget( Defs::Cell* targetCell )
-{
-    if ( targetCell->figure && ( targetCell->figure & _playerColor ) )
-    {
-        return true;
-    }
-
-return false;
-}
-
 bool Human::eventFilter( QObject * , QEvent * event )
 {
     QMouseEvent* mouseEvent = dynamic_cast< QMouseEvent* >( event );

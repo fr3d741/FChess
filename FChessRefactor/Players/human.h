@@ -12,10 +12,6 @@ class Human : public Player
 public:
     Human( Defs::EColors color = Defs::Invalid, QObject *parent = 0 );
 
-    virtual bool isValidCell( Defs::Cell& cell );
-
-    virtual bool isValidCellForTarget( Defs::Cell* cell );
-
     virtual bool eventFilter(QObject *, QEvent * event );
 
     virtual std::pair< int, int >& cellOverCursor();
