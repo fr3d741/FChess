@@ -55,16 +55,13 @@ return false;
 void Pawn::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
     int sign = 1;
-    bool occupied = false;
-    bool sameColor = false;
     Defs::Cell** boardState = _board->BoardState();
 
     if ( _color == Defs::White )
     {
         if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE )
         {
-            occupied = Defs::testBit( position.first + 2, position.second, _board->WhiteBlackState()._board );
-            if ( !occupied )
+            if ( !IsPositionOccupied(position, 2, 0) )
             {
                 Defs::setBit( position.first + 2, position.second, result );
             }
@@ -75,8 +72,7 @@ void Pawn::reachableCells( Defs::state& result, QPair<int,int>& position )
     {
         if ( position.first == 6 && 0 <= position.first - 2 )
         {
-            occupied = Defs::testBit( position.first - 2, position.second, _board->WhiteBlackState()._board );
-            if ( !occupied )
+            if ( !IsPositionOccupied(position, -2, 0) )
             {
                 Defs::setBit( position.first - 2, position.second, result );
             }
@@ -85,35 +81,57 @@ void Pawn::reachableCells( Defs::state& result, QPair<int,int>& position )
         sign = -1;
     }
 
-    if ( 0 <= position.first + sign && position.first + sign < HORIZONTAL_SIZE )
+    if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
+        return;
+
+    CheckAndSetFrontDown(sign, position, boardState, result);
+
+    CheckAndSetFront(result, sign, position);
+
+    CheckAndSetFrontUp(position, result, boardState, sign);
+}
+
+bool Pawn::IsSameColor(QPair<int,int>& position, Defs::Cell** boardState, int sign, int offset)
+{
+    return boardState[position.first + sign][position.second + offset].figure & _color;
+}
+
+bool Pawn::IsPositionOccupied(QPair<int,int>& position, int sign, int offset)
+{
+    return Defs::testBit( position.first + sign, position.second + offset, _board->WhiteBlackState()._board );
+}
+
+void Pawn::CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& position)
+{
+    if ( 0 <= position.second && position.second < VERTICAL_SIZE )
     {
-        if ( 0 <= position.second - 1 && position.second - 1 < VERTICAL_SIZE )
+        if ( !IsPositionOccupied(position, sign, 0) )
         {
-            occupied = Defs::testBit( position.first + sign, position.second - 1, _board->WhiteBlackState()._board );
-            sameColor = boardState[position.first + sign][position.second - 1].figure & _color;
-            if ( occupied && !sameColor )
-            {
-                Defs::setBit( position.first + sign, position.second - 1, result );
-            }
+            Defs::setBit( position.first + sign, position.second, result );
         }
+    }
+}
 
-        if ( 0 <= position.second && position.second < VERTICAL_SIZE )
+void Pawn::CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::Cell** boardState, Defs::state& result)
+{
+    if ( 0 <= position.second - 1 && position.second - 1 < VERTICAL_SIZE )
+    {
+        if ( IsPositionOccupied(position, sign, -1) &&
+             !IsSameColor(position, boardState, sign, -1) )
         {
-            occupied = Defs::testBit( position.first + sign, position.second, _board->WhiteBlackState()._board );
-            if ( !occupied )
-            {
-                Defs::setBit( position.first + sign, position.second, result );
-            }
+            Defs::setBit( position.first + sign, position.second - 1, result );
         }
+    }
+}
 
-        if ( 0 <= position.second + 1 && position.second + 1 < VERTICAL_SIZE )
+void Pawn::CheckAndSetFrontUp(QPair<int,int>& position, Defs::state& result, Defs::Cell** boardState, int sign)
+{
+    if ( 0 <= position.second + 1 && position.second + 1 < VERTICAL_SIZE )
+    {
+        if (IsPositionOccupied(position, sign, 1) &&
+            !IsSameColor(position, boardState, sign, 1))
         {
-            occupied = Defs::testBit( position.first + sign, position.second + 1, _board->WhiteBlackState()._board );
-            sameColor = boardState[position.first + sign][position.second + 1].figure & _color;
-            if ( occupied && !sameColor )
-            {
-                Defs::setBit( position.first + sign, position.second + 1, result );
-            }
+            Defs::setBit( position.first + sign, position.second + 1, result );
         }
     }
 }
