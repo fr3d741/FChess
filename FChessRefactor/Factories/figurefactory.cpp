@@ -3,11 +3,14 @@
 #include "../Figures/bishop.h"
 #include "../Figures/king.h"
 #include "../Figures/knight.h"
-#include "../Figures/pawn.h"
 #include "../Figures/queen.h"
 #include "../Figures/rook.h"
+#include "../Figures/whitepawn.h"
+#include "../Figures/blackpawn.h"
 
 #include "../Interfaces/figure.h"
+
+#include "../exceptions.h"
 
 namespace puppets
 {
@@ -22,7 +25,16 @@ std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<Boa
     switch (figure)
     {
         case Defs::Pawn:
-            return std::shared_ptr<FigureInterface>(new Pawn( board, color ));
+            switch(color)
+            {
+                case Defs::White:
+                    return std::shared_ptr<FigureInterface>(new WhitePawn(board));
+                case Defs::Black:
+                    return std::shared_ptr<FigureInterface>(new BlackPawn(board));
+                default:
+                    throw new InvalidArgumentException();
+            }
+            break;
         case Defs::Knight:
             return std::shared_ptr<FigureInterface>(new Knight( board, color ));
         case Defs::Rook:
@@ -34,7 +46,7 @@ std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<Boa
         case Defs::Queen:
             return std::shared_ptr<FigureInterface>(new Queen( board, color ));
         default:
-            return std::shared_ptr<FigureInterface>(new FigureInterface(board, color, figure));
+            throw new InvalidArgumentException();
     }
 }
 

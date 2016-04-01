@@ -41,7 +41,9 @@ SOURCES += main.cpp\
     Utils/validator.cpp \
     Proxy/visualproxy.cpp \
     Players/computer.cpp \
-    AI/data.cpp
+    AI/data.cpp \
+    Figures/whitepawn.cpp \
+    Figures/blackpawn.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -77,7 +79,9 @@ HEADERS  += mainwindow.h \
     Utils/validator.h \
     Proxy/visualproxy.h \
     Players/computer.h \
-    AI/data.h
+    AI/data.h \
+    Figures/whitepawn.h \
+    Figures/blackpawn.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui

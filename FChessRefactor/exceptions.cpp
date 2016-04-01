@@ -3,3 +3,9 @@
 NetworkException::NetworkException()
 {
 }
+
+
+InvalidArgumentException::InvalidArgumentException()
+{
+
+}

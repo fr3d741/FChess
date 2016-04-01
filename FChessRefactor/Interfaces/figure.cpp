@@ -54,15 +54,6 @@ namespace puppets
         return _figure;
     }
 
-    bool FigureInterface::isValidMove(Defs::MovePrimitive)
-    {
-        return false;
-    }
-
-    void FigureInterface::reachableCells(Defs::state&, QPair<int, int>&)
-    {
-    }
-
     Defs::ESpecials FigureInterface::isSpecial(const Defs::MovePrimitive&)
     {
         return Defs::None;

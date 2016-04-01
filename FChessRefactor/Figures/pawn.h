@@ -11,10 +11,6 @@ class Pawn : public FigureInterface
 public:
     Pawn(std::shared_ptr<Board> board, Defs::EColors color);
 
-    virtual bool isValidMove( Defs::MovePrimitive step );
-
-    virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
-
     virtual QString name();
 
     virtual QString notation();
@@ -24,7 +20,6 @@ public:
 protected:
     bool filterPawns(const Defs::Move& m);
 
-private:
     void CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& position);
 
     void CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::Cell** boardState, Defs::state& result);

@@ -43,7 +43,6 @@ return true;
 
 void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
-    //qDebug("Queen::reachableCells + ");
     checkRange( position.first + 1  , position.second + 1   , +1, +1, result );
     checkRange( position.first - 1  , position.second - 1   , -1, -1, result );
 
@@ -55,8 +54,6 @@ void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 
     checkRange( position.first      , position.second + 1   , 0, +1, result );
     checkRange( position.first      , position.second - 1   , 0, -1, result );
-
-    //qDebug("Queen::reachableCells - ");
 }
 
 QString Queen::name()

@@ -53,12 +53,12 @@ public:
     /*!
     * \brief checks whether if from to is a valid move according to the rules, implemented in a subclass
     */
-    virtual bool isValidMove(Defs::MovePrimitive);
+    virtual bool isValidMove(Defs::MovePrimitive) = 0;
 
     /*!
     * \brief gives back reachable cells in a 8x8 bitfield, also it's represents which cells are under attack
     */
-    virtual void reachableCells(Defs::state&, QPair<int,int>&);
+    virtual void reachableCells(Defs::state&, QPair<int,int>&) = 0;
 
     virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive&);
 
