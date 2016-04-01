@@ -22,7 +22,7 @@ bool Pawn::IsSameColor(QPair<int,int>& position, int sign, int offset)
 
 bool Pawn::IsPositionOccupied(QPair<int,int>& position, int sign, int offset)
 {
-    return Defs::testBit( position.first + sign, position.second + offset, _board->WhiteBlackState()._board );
+    return Defs::testBit( position.first + sign, position.second + offset, _board->State()._board );
 }
 
 void Pawn::CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& position)

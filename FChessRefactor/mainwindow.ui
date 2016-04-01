@@ -96,6 +96,7 @@
      <string>Game</string>
     </property>
     <addaction name="actionStart"/>
+    <addaction name="actionRestart"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuPlayers">
@@ -123,6 +124,14 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionRestart">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Restart</string>
    </property>
   </action>
  </widget>

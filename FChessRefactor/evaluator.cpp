@@ -45,9 +45,9 @@ bool Evaluator::check( Defs::EColors color )
 {
     std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell** boardState = board->BoardState();
-    QPair<int, int> pos = Defs::getFigurePosition( color | Defs::King, color, board->WhiteBlackState() );
+    QPair<int, int> pos = Defs::getFigurePosition( color | Defs::King, color, board->State() );
     Defs::state result;
-    Defs::state& reference = board->WhiteBlackState()._board;
+    Defs::state& reference = board->State()._board;
 
     for( int i = 0; i < (int)reference.size(); ++i )
     {
@@ -72,7 +72,7 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
     std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell** boardState = board->BoardState();
     Defs::state result;
-    Defs::state& reference = board->WhiteBlackState()._board;
+    Defs::state& reference = board->State()._board;
 
     for( int i = 0; i < (int)reference.size(); ++i )
     {

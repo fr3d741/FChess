@@ -22,11 +22,6 @@ public:
     
 public slots:
     /*!
-    * \brief sets new player to the board
-    */
-    void slotSetupPlayer();
-
-    /*!
     * \brief handles message coming from classes
     */
     void slotReceivedMessage( QString );
@@ -60,9 +55,10 @@ protected:
 
     void makeConnections();
 
-    void addPlayerAction( QString& action, QMenu* menu, QActionGroup* agroup );
-
     QString stringify(Defs::Move& move);
+
+private slots:
+    void on_actionRestart_triggered();
 
 private:
     void SetupDialogUI();

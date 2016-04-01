@@ -77,7 +77,7 @@ namespace puppets
 
     bool FigureInterface::IsPositionOccupied(int j, int i)
     {
-        return Defs::testBit( i, j, _board->WhiteBlackState()._board );
+        return Defs::testBit( i, j, _board->State()._board );
     }
 
     bool FigureInterface::IsSameColorFigureOnPosition(int i, int j)

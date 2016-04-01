@@ -92,7 +92,7 @@ void Board::init()
     }
 }
 
-Defs::ColorState &Board::WhiteBlackState()
+Defs::ColorState &Board::State()
 {
     return _WhiteBlackState;
 }
@@ -307,8 +307,8 @@ std::shared_ptr<Board> Board::replicate(Defs::Move move)
 {
     std::shared_ptr<Board> replica(new Board);
     Defs::Cell** board = replica->BoardState();
-    replica->WhiteBlackState()._board = _WhiteBlackState._board;
-    replica->WhiteBlackState()._figures = _WhiteBlackState._figures;
+    replica->State()._board = _WhiteBlackState._board;
+    replica->State()._figures = _WhiteBlackState._figures;
 
     for ( int i = 0; i < sizeVerical(); ++i )
     {

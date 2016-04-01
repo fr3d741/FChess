@@ -15,7 +15,8 @@ bool Knight::isValidMove(Defs::MovePrimitive step )
     int adiff1 = abs( diff.y );
     int adiff2 = abs( diff.x );
 
-    if ( ( adiff1 == 2 && adiff2 == 1 ) || ( adiff1 == 1 && adiff2 == 2 ) )
+    if ( ( adiff1 == 2 && adiff2 == 1 ) ||
+         ( adiff1 == 1 && adiff2 == 2 ) )
     {
         return true;
     }
@@ -25,22 +26,11 @@ return false;
 
 void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
 {
-    bool occupied = false;
-    bool sameColor = false;
-    Defs::Cell** boardState = _board->BoardState();
-
     if ( xFrom < 0 || yFrom < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom )
-    {
         return;
-    }
 
-
-    occupied = Defs::testBit( xFrom, yFrom, _board->WhiteBlackState()._board );
-    sameColor = boardState[xFrom][yFrom].figure & _color;
-    if ( !occupied || !sameColor )
-    {
+    if ( !IsPositionOccupied(xFrom, yFrom) || !IsSameColorFigureOnPosition(xFrom, yFrom) )
         Defs::setBit( xFrom, yFrom, resultState );
-    }
 }
 
 void Knight::reachableCells( Defs::state& result, QPair<int,int>& position )

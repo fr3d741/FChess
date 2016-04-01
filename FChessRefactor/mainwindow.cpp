@@ -31,18 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle( QString( "FChess %1").arg(RELEASE_VERSION) );
 
     //***********************************
-//    QMenu* whiteplayers = new QMenu( "White", ui->menuPlayers );
-//    QActionGroup* agroup = new QActionGroup( whiteplayers );
-//    ui->menuPlayers->addMenu( whiteplayers );
-//    addPlayerAction( QString( "Human" ), whiteplayers, agroup );
-//    addPlayerAction( QString( "Remote Human" ), whiteplayers, agroup );
-
-
-//    QMenu* blackplayers = new QMenu( "Black", ui->menuPlayers );
-//    QActionGroup* agroup2 = new QActionGroup( blackplayers );
-//    ui->menuPlayers->addMenu( blackplayers );
-//    addPlayerAction( QString( "Human" ), blackplayers, agroup2 );
-//    addPlayerAction( QString( "Remote Human" ), blackplayers, agroup2 );
 
     ui->boardPlaceholder->setMinimumSize( CELL_TEXTURE_W * HORIZONTAL_SIZE, CELL_TEXTURE_H * VERTICAL_SIZE);
     ui->boardPlaceholder->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
@@ -74,17 +62,6 @@ void MainWindow::makeConnections()
     connect( _display, SIGNAL( signalMessage( QString ) ),     SLOT( slotReceivedMessage( QString ) ) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotActualizeGUI(std::shared_ptr<Player>)) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)), SLOT(slotCheck(Defs::EColors)));
-}
-
-void MainWindow::addPlayerAction( QString& action, QMenu* menu, QActionGroup* agroup )
-{
-    QAction* act = menu->addAction(action);
-    act->setCheckable(true);
-    if ( agroup )
-    {
-        agroup->addAction( act );
-    }
-    connect( act, SIGNAL(triggered()), SLOT(slotSetupPlayer()) );
 }
 
 QString MainWindow::stringify(Defs::Move &move)
@@ -127,48 +104,6 @@ void MainWindow::slotUndoLastMove()
 //    }
 }
 
-void MainWindow::slotSetupPlayer()
-{
-    int colorIndex = -1;
-    try
-    {
-        QAction* sndr = dynamic_cast< QAction* >( sender() );
-        if ( sndr )
-        {
-            QMenu* menu = dynamic_cast< QMenu* >( sndr->parent() );
-            if ( menu )
-            {
-                if ( menu->title() == "White" )
-                {
-                    colorIndex = 0;
-                    GameplayFacade::Instance()->addHumanPlayer(Defs::White);
-                }
-                else if ( menu->title() == "Black" )
-                {
-                    GameplayFacade::Instance()->addHumanPlayer(Defs::Black);
-                }
-            }
-        }
-    }
-    catch ( NetworkException& nex )
-    {
-        std::cout << nex.what() << std::endl;
-        //_chessBoard->deletePlayer( colorIndex );
-    }
-    catch ( std::bad_alloc& allex )
-    {
-        //problem with memory allocation => quit
-        std::cout << allex.what() << std::endl;
-        QApplication::quit();
-    }
-    catch ( std::exception& ex )
-    {
-        //unidentified problem => quit
-        std::cout << ex.what() << std::endl;
-        QApplication::quit();
-    }
-}
-
 void MainWindow::start( QAction* )
 {
     QAction* sndrAction = dynamic_cast< QAction* >( sender() );
@@ -186,7 +121,7 @@ void MainWindow::start( QAction* )
 
     if ( instance->start() && sndrAction )
     {
-        sndrAction->setText("Restart");
+        ui->actionRestart->setEnabled(true);
         _display->installEventFilter( GameplayFacade::Instance()->currentPlayer().get() );
 		_display->update();
     }
@@ -241,4 +176,11 @@ void MainWindow::SetupDialogUI()
     _dialogUi->whitePlayerBox->addItem(_humanString);
     _dialogUi->whitePlayerBox->addItem(_networkString);
     _dialogUi->whitePlayerBox->addItem(_computerString);
+}
+
+void MainWindow::on_actionRestart_triggered()
+{
+    auto instance = GameplayFacade::Instance();
+    instance->start();
+    _display->update();
 }

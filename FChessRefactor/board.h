@@ -62,7 +62,7 @@ public:
 
     void init();
 
-    Defs::ColorState&        WhiteBlackState();
+    Defs::ColorState& State();
 
     Defs::Cell operator()(Defs::Position& indexPair);
 
