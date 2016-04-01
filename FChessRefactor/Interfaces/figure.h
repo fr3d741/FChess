@@ -70,6 +70,9 @@ public:
     static QSize IconSize();
 
 protected:
+    bool IsPositionOccupied(int j, int i);
+
+    bool IsSameColorFigureOnPosition(int i, int j);
 
 private:
     FigureInterface();

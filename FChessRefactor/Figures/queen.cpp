@@ -11,20 +11,15 @@ Queen::Queen(std::shared_ptr<Board> board, Defs::EColors color )
 
 bool Queen::isValidMove(Defs::MovePrimitive step )
 {
-    Defs::Cell** boardState = _board->BoardState();
     Defs::Position diff = step.to - step.from;
     int stepY = 0;
     int stepX = 0;
 
-    if ( diff.y != 0 )
-    {
+    if ( diff.y )
         stepY = diff.y / abs(diff.y);
-    }
 
-    if (diff.x != 0)
-    {
+    if (diff.x )
         stepX = diff.x / abs(diff.x);
-    }
 
     if (abs( diff.x ) != abs( diff.y ) && diff.x && diff.y)
         return false;
@@ -32,10 +27,8 @@ bool Queen::isValidMove(Defs::MovePrimitive step )
     int count = std::max(abs(diff.x), abs(diff.y));
     for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        if ( boardState[x][y].figure )
-        {
+        if ( _board->GetFigureInPosition(x, y) )
             return false;
-        }
     }
 
 return true;
@@ -68,37 +61,24 @@ QString Queen::notation()
 
 void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState )
 {
-    Defs::Cell** boardState = _board->BoardState();
-    int diff_x = xDiff;
-    int diff_y = yDiff;
-
-    bool occupied = false;
-    bool finish = false;
+    for ( int i = xFrom, j = yFrom; IsPositionCoordinatesValid(i,j); i += xDiff, j += yDiff )
     {
-        for ( int i = xFrom, j = yFrom; !finish; i += diff_x, j += diff_y )
+        if ( !IsPositionOccupied(i, j) )
         {
-            if ( i < 0 || HORIZONTAL_SIZE <= i || j < 0 || VERTICAL_SIZE <= j )
-            {
-                break;
-            }
-
-            occupied = Defs::testBit( i, j, _board->WhiteBlackState()._board );
-
-			if ( !occupied )
-            {
+            if ( !IsSameColorFigureOnPosition(i, j) )
                 Defs::setBit( i, j, resultState );
-            }
-            else if ( occupied )
-            {
-                // same color
-                finish = true;
-                if ( !(_color & boardState[i][j].figure ) )
-                {
-                    Defs::setBit( i, j, resultState );
-                }
-            }
+
+            break;
         }
+
+        Defs::setBit( i, j, resultState );
     }
+}
+
+bool Queen::IsPositionCoordinatesValid(int i, int j)
+{
+    return 0 <= i || i < HORIZONTAL_SIZE ||
+            0 <= j || j < VERTICAL_SIZE;
 }
 
 } //end namespace

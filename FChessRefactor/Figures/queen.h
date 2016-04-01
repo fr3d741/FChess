@@ -21,6 +21,7 @@ public:
 protected:
     virtual void checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState );
 
+    bool IsPositionCoordinatesValid(int i, int j);
 };
 
 } //end namespace

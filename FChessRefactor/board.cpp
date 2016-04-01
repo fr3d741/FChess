@@ -319,6 +319,11 @@ std::shared_ptr<Board> Board::replicate(Defs::Move move)
     return replica;
 }
 
+int Board::GetFigureInPosition(int x, int y)
+{
+    return _boardState[x][y].figure;
+}
+
 void Board::revertStep( Defs::Move* move )
 {
     Defs::Move m;

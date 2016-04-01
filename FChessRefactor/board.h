@@ -36,6 +36,8 @@ public:
 
     std::shared_ptr<Board> replicate(Defs::Move move);
 
+    int GetFigureInPosition(int x, int y);
+
     Defs::Position getFigurePosition(int value);
 
     Defs::Cell at(Defs::Position &indexPair);

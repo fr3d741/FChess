@@ -12,7 +12,6 @@ BlackPawn::BlackPawn(std::shared_ptr<Board> board)
 void BlackPawn::reachableCells(Defs::state &result, QPair<int, int> &position)
 {
     int sign = -1;
-    Defs::Cell** boardState = _board->BoardState();
 
     if ( position.first == 6 && 0 <= position.first - 2 )
     {
@@ -25,16 +24,15 @@ void BlackPawn::reachableCells(Defs::state &result, QPair<int, int> &position)
     if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
         return;
 
-    CheckAndSetFrontDown(sign, position, boardState, result);
+    CheckAndSetFrontDown(sign, position, result);
 
     CheckAndSetFront(result, sign, position);
 
-    CheckAndSetFrontUp(position, result, boardState, sign);
+    CheckAndSetFrontUp(position, result, sign);
 }
 
 bool BlackPawn::isValidMove(Defs::MovePrimitive step)
 {
-    Defs::Cell** boardState = _board->BoardState();
     Defs::Position diff = step.to - step.from;
     int stepDiff = -1;
     int line = 6;
@@ -49,7 +47,7 @@ bool BlackPawn::isValidMove(Defs::MovePrimitive step)
             if (i == step.to.x)
                 break;
 
-            if ( boardState[i][step.to.y].figure )
+            if ( _board->GetFigureInPosition(i, step.to.y) )
             {
                 return false;
             }

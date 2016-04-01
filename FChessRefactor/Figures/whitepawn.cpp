@@ -12,7 +12,6 @@ WhitePawn::WhitePawn(std::shared_ptr<Board> board)
 void WhitePawn::reachableCells(Defs::state &result, QPair<int, int> &position)
 {
     int sign = 1;
-    Defs::Cell** boardState = _board->BoardState();
 
     if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE )
     {
@@ -25,11 +24,11 @@ void WhitePawn::reachableCells(Defs::state &result, QPair<int, int> &position)
     if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
         return;
 
-    CheckAndSetFrontDown(sign, position, boardState, result);
+    CheckAndSetFrontDown(sign, position, result);
 
     CheckAndSetFront(result, sign, position);
 
-    CheckAndSetFrontUp(position, result, boardState, sign);
+    CheckAndSetFrontUp(position, result, sign);
 }
 
 bool WhitePawn::isValidMove(Defs::MovePrimitive step)

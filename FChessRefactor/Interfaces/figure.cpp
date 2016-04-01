@@ -5,6 +5,7 @@
 
 #include "figure.h"
 #include "../Factories/figurefactory.h"
+#include "../board.h"
 
 namespace puppets
 {
@@ -74,4 +75,13 @@ namespace puppets
         return QSize(TEXTURE_W, TEXTURE_H);
     }
 
+    bool FigureInterface::IsPositionOccupied(int j, int i)
+    {
+        return Defs::testBit( i, j, _board->WhiteBlackState()._board );
+    }
+
+    bool FigureInterface::IsSameColorFigureOnPosition(int i, int j)
+    {
+        return _color & _board->GetFigureInPosition(i, j);
+    }
 }

@@ -15,9 +15,9 @@ Pawn::Pawn(std::shared_ptr<Board> board, Defs::EColors color )
 {
 }
 
-bool Pawn::IsSameColor(QPair<int,int>& position, Defs::Cell** boardState, int sign, int offset)
+bool Pawn::IsSameColor(QPair<int,int>& position, int sign, int offset)
 {
-    return boardState[position.first + sign][position.second + offset].figure & _color;
+    return _board->GetFigureInPosition(position.first + sign, position.second + offset) & _color;
 }
 
 bool Pawn::IsPositionOccupied(QPair<int,int>& position, int sign, int offset)
@@ -27,37 +27,35 @@ bool Pawn::IsPositionOccupied(QPair<int,int>& position, int sign, int offset)
 
 void Pawn::CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& position)
 {
-    if ( 0 <= position.second && position.second < VERTICAL_SIZE )
-    {
-        if ( !IsPositionOccupied(position, sign, 0) )
-        {
-            Defs::setBit( position.first + sign, position.second, result );
-        }
-    }
+    if ( position.second < 0 || VERTICAL_SIZE <= position.second)
+        return;
+
+    if ( IsPositionOccupied(position, sign, 0) )
+        return;
+
+    Defs::setBit( position.first + sign, position.second, result );
 }
 
-void Pawn::CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::Cell** boardState, Defs::state& result)
+void Pawn::CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::state& result)
 {
-    if ( 0 <= position.second - 1 && position.second - 1 < VERTICAL_SIZE )
-    {
-        if ( IsPositionOccupied(position, sign, -1) &&
-             !IsSameColor(position, boardState, sign, -1) )
-        {
-            Defs::setBit( position.first + sign, position.second - 1, result );
-        }
-    }
+    if ( position.second - 1 < 0 || VERTICAL_SIZE <= position.second - 1)
+        return;
+
+    if ( !IsPositionOccupied(position, sign, -1) || IsSameColor(position, sign, -1) )
+        return;
+
+    Defs::setBit( position.first + sign, position.second - 1, result );
 }
 
-void Pawn::CheckAndSetFrontUp(QPair<int,int>& position, Defs::state& result, Defs::Cell** boardState, int sign)
+void Pawn::CheckAndSetFrontUp(QPair<int,int>& position, Defs::state& result, int sign)
 {
-    if ( 0 <= position.second + 1 && position.second + 1 < VERTICAL_SIZE )
-    {
-        if (IsPositionOccupied(position, sign, 1) &&
-            !IsSameColor(position, boardState, sign, 1))
-        {
-            Defs::setBit( position.first + sign, position.second + 1, result );
-        }
-    }
+    if ( position.second + 1 < 0 || VERTICAL_SIZE < position.second + 1)
+        return;
+
+    if (!IsPositionOccupied(position, sign, 1) || IsSameColor(position, sign, 1))
+        return;
+
+    Defs::setBit( position.first + sign, position.second + 1, result );
 }
 
 QString Pawn::name()
@@ -110,8 +108,7 @@ return Defs::None;
 
 bool Pawn::filterPawns(const Defs::Move &m)
 {
-    int color = m.figure & 0x03;
-return (m.figure & Defs::Pawn) && !(color & _color);
+    return (m.figure & Defs::Pawn) && !((m.figure & 0x03) & _color);
 }
 
 } //end namespace
