@@ -5,6 +5,8 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ui_newGameDialog.h"
+
 #include "Players/human.h"
 #include "exceptions.h"
 #include "Factories/playerfactory.h"
@@ -17,30 +19,30 @@
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
+    ,_dialogUi(new Ui::NewGameDialog)
     ,_display(0)
+    ,_humanString("Human")
+    ,_networkString("Network")
+    ,_computerString("Computer")
 {
     VisualProxy::CreateInstance(this);
     ui->setupUi(this);
+
     setWindowTitle( QString( "FChess %1").arg(RELEASE_VERSION) );
 
     //***********************************
-    QMenu* whiteplayers = new QMenu( "White", ui->menuPlayers );
-    QActionGroup* agroup = new QActionGroup( whiteplayers );
-    ui->menuPlayers->addMenu( whiteplayers );
-    addPlayerAction( QString( "Human" ), whiteplayers, agroup );
-    addPlayerAction( QString( "Remote Human" ), whiteplayers, agroup );
+//    QMenu* whiteplayers = new QMenu( "White", ui->menuPlayers );
+//    QActionGroup* agroup = new QActionGroup( whiteplayers );
+//    ui->menuPlayers->addMenu( whiteplayers );
+//    addPlayerAction( QString( "Human" ), whiteplayers, agroup );
+//    addPlayerAction( QString( "Remote Human" ), whiteplayers, agroup );
 
 
-    QMenu* blackplayers = new QMenu( "Black", ui->menuPlayers );
-    QActionGroup* agroup2 = new QActionGroup( blackplayers );
-    ui->menuPlayers->addMenu( blackplayers );
-    addPlayerAction( QString( "Human" ), blackplayers, agroup2 );
-    addPlayerAction( QString( "Remote Human" ), blackplayers, agroup2 );
-
-    //***********************************
-
-//    _chessBoard = new Board();
-//    _chessBoard->setNumberOfPlayers( 2 );
+//    QMenu* blackplayers = new QMenu( "Black", ui->menuPlayers );
+//    QActionGroup* agroup2 = new QActionGroup( blackplayers );
+//    ui->menuPlayers->addMenu( blackplayers );
+//    addPlayerAction( QString( "Human" ), blackplayers, agroup2 );
+//    addPlayerAction( QString( "Remote Human" ), blackplayers, agroup2 );
 
     ui->boardPlaceholder->setMinimumSize( CELL_TEXTURE_W * HORIZONTAL_SIZE, CELL_TEXTURE_H * VERTICAL_SIZE);
     ui->boardPlaceholder->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
@@ -49,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->boardPlaceholder->setLayout( layout );
 
     _display = new chessVisialization::Display( ui->boardPlaceholder );
-    //_display->setBoard( GameplayFacade::Instance()->GetBoard() );
     _display->setMinimumSize( 10, 10 );
     _display->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
@@ -171,12 +172,25 @@ void MainWindow::slotSetupPlayer()
 void MainWindow::start( QAction* )
 {
     QAction* sndrAction = dynamic_cast< QAction* >( sender() );
-    if ( GameplayFacade::Instance()->start() && sndrAction )
+    QDialog* startingDialog = new QDialog(this);
+    _dialogUi->setupUi(startingDialog);
+    SetupDialogUI();
+
+    if (startingDialog->exec() != QDialog::Accepted)
+        return;
+
+    auto instance = GameplayFacade::Instance();
+    instance->Reset();
+    instance->addPlayer((Defs::EPlayers)_dialogUi->whitePlayerBox->currentIndex(), Defs::White);
+    instance->addPlayer((Defs::EPlayers)_dialogUi->blackPlayerBox->currentIndex(), Defs::Black);
+
+    if ( instance->start() && sndrAction )
     {
         sndrAction->setText("Restart");
         _display->installEventFilter( GameplayFacade::Instance()->currentPlayer().get() );
 		_display->update();
     }
+    startingDialog->deleteLater();
 }
 
 void MainWindow::slotReceivedMessage( QString str )
@@ -218,3 +232,13 @@ void MainWindow::closeEvent( QCloseEvent * )
     QApplication::quit();
 }
 
+void MainWindow::SetupDialogUI()
+{
+    _dialogUi->blackPlayerBox->addItem(_humanString);
+    _dialogUi->blackPlayerBox->addItem(_networkString);
+    _dialogUi->blackPlayerBox->addItem(_computerString);
+
+    _dialogUi->whitePlayerBox->addItem(_humanString);
+    _dialogUi->whitePlayerBox->addItem(_networkString);
+    _dialogUi->whitePlayerBox->addItem(_computerString);
+}

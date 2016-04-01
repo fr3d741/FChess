@@ -42,9 +42,20 @@ void GameplayFacade::addHumanPlayer(Defs::EColors playerColor)
     _playerStack.push_back(PlayerFactory::createPlayer(playerColor, Defs::Human));
 }
 
+void GameplayFacade::addPlayer(Defs::EPlayers playerType, Defs::EColors playerColor)
+{
+    _playerStack.push_back(PlayerFactory::createPlayer(playerColor, playerType));
+}
+
 std::shared_ptr<Board> GameplayFacade::GetBoard() const
 {
     return _board;
+}
+
+void GameplayFacade::Reset()
+{
+    _playerStack.clear();
+    _board->init();
 }
 
 bool GameplayFacade::start()

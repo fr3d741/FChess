@@ -29,7 +29,11 @@ public:
 
     void addHumanPlayer(Defs::EColors playerColor);
 
+    void addPlayer( Defs::EPlayers playerType, Defs::EColors playerColor);
+
     std::shared_ptr<Board> GetBoard() const;
+
+    void Reset();
 
     bool start();
 signals:

@@ -127,6 +127,38 @@ void Board::dumpState()
     }
 }
 
+void Board::ApplyCastling(int rookX, int rookY, Defs::Move& move, Defs::Cell& c1, int diff, Defs::Cell& c2)
+{
+    Defs::Move* addMove = new Defs::Move;
+    addMove->from.y = rookX;
+    addMove->from.x = rookY;
+    addMove->to.y = move.to.y;
+    addMove->to.x = move.from.x + diff;
+    addMove->fromCell = _boardState[addMove->from.y][addMove->from.x];
+    addMove->toCell = _boardState[addMove->to.y][addMove->to.x];
+    addMove->figure = addMove->fromCell.figure;
+    move.additionalMove = std::shared_ptr< Defs::Move >( addMove );
+    c2.figure = c1.figure;
+    c1.figure = 0;
+
+    Defs::Cell& c3 = _boardState[addMove->from.y][addMove->from.x];
+    Defs::Cell& c4 = _boardState[addMove->to.y][addMove->to.x];
+    c4.figure = c3.figure;
+    c3.figure = 0;
+
+    Defs::setBit( move.from.y, move.from.x, _WhiteBlackState._board, false );
+    Defs::setBit( addMove->from.y, addMove->from.x, _WhiteBlackState._board, false );
+
+    Defs::setBit( move.to.y, move.to.x, _WhiteBlackState._board, true );
+    Defs::setBit( addMove->to.y, addMove->to.x, _WhiteBlackState._board, true );
+
+    Defs::setFigurePosition( move.figure, move.to.y, move.to.x, _WhiteBlackState );
+    Defs::setFigurePosition( addMove->figure, addMove->to.y, addMove->to.x, _WhiteBlackState );
+
+    _movedCells[ Defs::getPosition( move.from.y, move.from.x )]++;
+    _movedCells[ Defs::getPosition( addMove->from.y, addMove->from.x )]++;
+}
+
 int Board::handleSpecificCases( Defs::Move& move )
 {
     Defs::Cell& c1 = _boardState[move.from.x][move.from.y];
@@ -188,37 +220,7 @@ int Board::handleSpecificCases( Defs::Move& move )
         }
 
         //All ok, apply castling
-        {
-            Defs::Move* addMove = new Defs::Move;
-            addMove->from.y = rookX;
-            addMove->from.x = rookY;
-            addMove->to.y = move.to.y;
-            addMove->to.x = move.from.x + diff;
-            addMove->fromCell = _boardState[addMove->from.y][addMove->from.x];
-            addMove->toCell = _boardState[addMove->to.y][addMove->to.x];
-            //addMove->additionalMove = 0;
-            addMove->figure = addMove->fromCell.figure;
-            move.additionalMove = std::shared_ptr< Defs::Move >( addMove );
-            c2.figure = c1.figure;
-            c1.figure = 0;
-
-            Defs::Cell& c3 = _boardState[addMove->from.y][addMove->from.x];
-            Defs::Cell& c4 = _boardState[addMove->to.y][addMove->to.x];
-            c4.figure = c3.figure;
-            c3.figure = 0;
-
-            Defs::setBit( move.from.y, move.from.x, _WhiteBlackState._board, false );
-            Defs::setBit( addMove->from.y, addMove->from.x, _WhiteBlackState._board, false );
-
-            Defs::setBit( move.to.y, move.to.x, _WhiteBlackState._board, true );
-            Defs::setBit( addMove->to.y, addMove->to.x, _WhiteBlackState._board, true );
-
-            Defs::setFigurePosition( move.figure, move.to.y, move.to.x, _WhiteBlackState );
-            Defs::setFigurePosition( addMove->figure, addMove->to.y, addMove->to.x, _WhiteBlackState );
-
-            _movedCells[ Defs::getPosition( move.from.y, move.from.x )]++;
-            _movedCells[ Defs::getPosition( addMove->from.y, addMove->from.x )]++;
-        }
+        ApplyCastling(rookX, rookY, move, c1, diff, c2);
         return Defs::ACCEPTED;
     }
     else if ( c1.figure & Defs::Pawn )

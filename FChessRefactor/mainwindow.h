@@ -8,6 +8,7 @@
 
 namespace Ui {
 class MainWindow;
+class NewGameDialog;
 }
 
 class MainWindow : public QMainWindow
@@ -64,9 +65,16 @@ protected:
     QString stringify(Defs::Move& move);
 
 private:
-    Ui::MainWindow *ui;
+    void SetupDialogUI();
 
+private:
+    Ui::MainWindow *ui;
+    Ui::NewGameDialog* _dialogUi;
     chessVisialization::Display* _display;
+
+    QString _humanString;
+    QString _networkString;
+    QString _computerString;
 };
 
 #endif // MAINWINDOW_H

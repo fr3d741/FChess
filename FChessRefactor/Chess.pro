@@ -84,7 +84,8 @@ HEADERS  += mainwindow.h \
     Figures/blackpawn.h
 
 FORMS    += mainwindow.ui \
-    networkSettings.ui
+    networkSettings.ui \
+    newGameDialog.ui
 
 RESOURCES += \
     icons.qrc

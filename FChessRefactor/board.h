@@ -69,6 +69,7 @@ public:
     Defs::Cell* operator[](int index);
 
     void dumpState();
+    void ApplyCastling(int rookX, int rookY, Defs::Move& move, Defs::Cell& c1, int diff, Defs::Cell& c2);
 signals:
     virtual void signalMessage( QString );
 
