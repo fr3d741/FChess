@@ -13,12 +13,9 @@ void WhitePawn::reachableCells(Defs::state &result, QPair<int, int> &position)
 {
     int sign = 1;
 
-    if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE )
+    if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE && !IsPositionOccupied(position, 2, 0))
     {
-        if ( !IsPositionOccupied(position, 2, 0) )
-        {
-            Defs::setBit( position.first + 2, position.second, result );
-        }
+        Defs::setBit( position.first + 2, position.second, result );
     }
 
     if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )

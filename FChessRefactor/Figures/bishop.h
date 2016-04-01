@@ -22,6 +22,7 @@ public:
 protected:
     virtual void checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState );
 
+    bool IsInputRangeInvalid(int xFrom, int yFrom, int xTo, int yTo);
 };
 
 } // end namespace
