@@ -43,18 +43,9 @@ bool testBit( int i, int j, state& st )
     }
 }
 
-QPair<int,int> getFigurePosition( int figure, int color, ColorState& state )
+QPair<int,int> getFigurePosition( int figure, int, ColorState& state )
 {
-//    if ( color == White )
-//    {
-//        return WhiteState._figures[figure];
-//    }
-//    else if ( color == Black )
-//    {
-        return state._figures[figure];
-//    }
-
-return QPair<int,int>( -1, -1 );
+    return state._figures[figure];
 }
 
 void setFigurePosition(int figure, int i, int j , ColorState &state)

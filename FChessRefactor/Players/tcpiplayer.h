@@ -32,7 +32,7 @@ public:
 
     virtual bool isValidCellForTarget( Defs::Cell* cell );
 
-    virtual bool eventFilter( QObject * watched, QEvent * event );
+    virtual bool eventFilter(QObject *, QEvent *);
 
     virtual std::pair< int, int >& cellOverCursor();
 signals:

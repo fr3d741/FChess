@@ -37,10 +37,9 @@ struct ColorState
 void setBit( int i, int j, state& st, bool value = true );
 bool testBit( int i, int j, state& st );
 void setFigurePosition( int figure, int i, int j, ColorState& state );
-QPair<int,int> getFigurePosition(int figure, int color , ColorState &state);
+QPair<int,int> getFigurePosition(int figure, int, ColorState &state);
 QPair<int, int> getPosition( int i );
 int getPosition( int i, int j );
-//int getFigureID( int i );
 
 QString convertFigureToString( int );
 
@@ -124,11 +123,7 @@ public:
 
 extern bool             operator==(const Move& A, const Move& B);
 
-//extern ColorState WhiteBlackState;
-//extern ColorState& WhiteState;
-//extern ColorState& BlackState;
-
-} //end namespace
+}
 
 
 #endif // DEFINES_H

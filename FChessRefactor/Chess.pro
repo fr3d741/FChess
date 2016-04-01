@@ -37,7 +37,6 @@ SOURCES += main.cpp\
     Visual/playerlayer.cpp \
     Observers/gameplayobserver.cpp \
     Observers/visualobserver.cpp \
-    Interfaces/singleton.cpp \
     Utils/utility.cpp \
     Utils/validator.cpp \
     Proxy/visualproxy.cpp \

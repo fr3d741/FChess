@@ -21,7 +21,6 @@ Board::Board(QObject *parent)
 
     _movedCells.fill( 0 );
     resetBoard();
-    //init();
 }
 
 Board::~Board()
@@ -81,8 +80,6 @@ void Board::init()
         for ( int j = 0; j < 8; ++j )
             _boardState[i][j].figure = 0;
 
-//    Defs::WhiteState._board.reset();
-//    Defs::BlackState._board.reset();
     _WhiteBlackState._board.reset();
 
     for ( int i = 0; i < 2; ++i )
@@ -140,7 +137,6 @@ int Board::handleSpecificCases( Defs::Move& move )
     {
         //Check Castling
         QList< QPair<int,int> > pointList;
-        //int diff = move.to.y - move.from.y;
         
         diff = diff / abs( diff );
 
@@ -414,7 +410,6 @@ QList<Defs::Position> Board::filterCells(FncPtr filterFunction)
             if ((*filterFunction)(_boardState[x][y]))
             {
                 result.push_back( {x,y} );
-                //qDebug() << x << ", " << y;
             }
 
     return result;
@@ -425,7 +420,6 @@ QList<Defs::Move> Board::filterHistory(std::function<bool(const Defs::Move&)>& f
     QList<Defs::Move> result;
 
     for( QList<Defs::Move>::iterator it = _stack.begin(); it != _stack.end(); ++it )
-        //if ((*filterFunction)(*it))
         if (filterFunc(*it))
         {
             result.push_back( *it );

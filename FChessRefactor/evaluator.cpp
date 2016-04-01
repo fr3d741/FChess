@@ -11,7 +11,6 @@ Defs::EColors playerColorGlobal;
 bool filterOutPlayerCells(Defs::Cell& c)
 {
     bool b = c.figure && !(c.figure & playerColorGlobal);
-    //qDebug() << c.figure << ": " << (b?"true":"false");
     return b;
 }
 
@@ -27,7 +26,7 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
     //replica->applyMove(move);
     Defs::Position king_pos = replica->getFigurePosition(playerColor | Defs::King);
     playerColorGlobal = playerColor;
-    //qDebug() << "******************************";
+
     QList<Defs::Position> figurePositions = replica->filterCells(&filterOutPlayerCells);
     while(!figurePositions.isEmpty())
     {
@@ -36,7 +35,6 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
         Defs::MovePrimitive m{pos, king_pos};
         if ( puppets::FigureFactory::createFigure(replica, (Defs::EColors)(c.figure & 0x03), c.figure)->isValidMove(m) )
         {
-            //qDebug() << c.figure << " attacks King";
             return true;
         }
     }
@@ -51,7 +49,6 @@ bool Evaluator::check( Defs::EColors color )
     Defs::state result;
     Defs::state& reference = board->WhiteBlackState()._board;
 
-    //for ( QMap< int, puppets::Figure* >::iterator it = puppets::ChessFigures.begin(); it != puppets::ChessFigures.end(); ++it )
     for( int i = 0; i < (int)reference.size(); ++i )
     {
         result.reset();

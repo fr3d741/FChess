@@ -60,7 +60,7 @@ public:
     */
     virtual void reachableCells(Defs::state&, QPair<int,int>&);
 
-    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& m);
+    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive&);
 
     virtual QString name();
 

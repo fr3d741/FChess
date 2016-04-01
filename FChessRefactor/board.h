@@ -10,9 +10,6 @@
 #include "messageinterface.h"
 #include "Interfaces/player.h"
 
-//extern Defs::Cell** Defs::boardState;
-//extern Defs::ColorState Defs::WhiteBlackState;
-
 typedef bool (*FncPtr)(Defs::Cell& c);
 
 /*!
@@ -23,9 +20,6 @@ class Board : public QObject, public MessageInterface
     Q_OBJECT
 public:
 
-    /*!
-    * \brief Construktor
-    */
     explicit Board(QObject *parent = 0);
 
     ~Board();
@@ -68,12 +62,10 @@ public:
 
     Defs::ColorState&        WhiteBlackState();
 
-    ///*** operators ***
     Defs::Cell operator()(Defs::Position& indexPair);
 
     Defs::Cell* operator[](int index);
 
-    //******************
     void dumpState();
 signals:
     virtual void signalMessage( QString );

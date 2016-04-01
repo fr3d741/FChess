@@ -67,8 +67,6 @@ private:
     Ui::MainWindow *ui;
 
     chessVisialization::Display* _display;
-
-    //Board*          _chessBoard;
 };
 
 #endif // MAINWINDOW_H

@@ -63,7 +63,7 @@ namespace puppets
     {
     }
 
-    Defs::ESpecials FigureInterface::isSpecial(const Defs::MovePrimitive &m)
+    Defs::ESpecials FigureInterface::isSpecial(const Defs::MovePrimitive&)
     {
         return Defs::None;
     }
@@ -84,27 +84,3 @@ namespace puppets
     }
 
 }
-
-namespace puppets
-{
-//    PuppetContainer::PuppetContainer()
-//    {
-//        (*this)[ Defs::White | Defs::Pawn ]     = FigureFactory::createFigure( Defs::White, Defs::Pawn );
-//        (*this)[ Defs::Black | Defs::Pawn ]     = FigureFactory::createFigure( Defs::Black, Defs::Pawn );
-
-//        (*this)[ Defs::White | Defs::Rook ]     = FigureFactory::createFigure( Defs::White, Defs::Rook );
-//        (*this)[ Defs::Black | Defs::Rook ]     = FigureFactory::createFigure( Defs::Black, Defs::Rook );
-
-//        (*this)[ Defs::White | Defs::Knight ]   = FigureFactory::createFigure( Defs::White, Defs::Knight );
-//        (*this)[ Defs::Black | Defs::Knight ]   = FigureFactory::createFigure( Defs::Black, Defs::Knight );
-
-//        (*this)[ Defs::White | Defs::Bishop ]   = FigureFactory::createFigure( Defs::White, Defs::Bishop );
-//        (*this)[ Defs::Black | Defs::Bishop ]   = FigureFactory::createFigure( Defs::Black, Defs::Bishop );
-
-//        (*this)[ Defs::White | Defs::King ]     = FigureFactory::createFigure( Defs::White, Defs::King );
-//        (*this)[ Defs::Black | Defs::King ]     = FigureFactory::createFigure( Defs::Black, Defs::King );
-
-//        (*this)[ Defs::White | Defs::Queen ]    = FigureFactory::createFigure( Defs::White, Defs::Queen );
-//        (*this)[ Defs::Black | Defs::Queen ]    = FigureFactory::createFigure( Defs::Black, Defs::Queen );
-//    }
-}//end namespace

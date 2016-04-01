@@ -128,7 +128,6 @@ void MainWindow::slotUndoLastMove()
 
 void MainWindow::slotSetupPlayer()
 {
-    //TODO: rewrite to handle by a Facade
     int colorIndex = -1;
     try
     {
@@ -142,23 +141,10 @@ void MainWindow::slotSetupPlayer()
                 {
                     colorIndex = 0;
                     GameplayFacade::Instance()->addHumanPlayer(Defs::White);
-//                    Player* player = PlayerFactory::createPlayer( Defs::White, sndr->text() );
-//                    _chessBoard->setPlayer( 0, player );
-//                    connect( player, SIGNAL( signalMessage( QString ) ),                  SLOT( slotReceivedMessage( QString ) ) );
-//                    connect( player, SIGNAL( signalCellPressed( int, int ) ), _chessBoard,SLOT( cellPressed(int,int) ) );
-//                    connect( player, SIGNAL( signalCellChanged( int, int) ),  _display,   SLOT( slotCellChanged( int, int ) ) );
-//                    connect( player, SIGNAL( signalEventFiltered() ),         _display,   SLOT( boardChanged() ) );
                 }
                 else if ( menu->title() == "Black" )
                 {
                     GameplayFacade::Instance()->addHumanPlayer(Defs::Black);
-//                    Player* player = PlayerFactory::createPlayer( Defs::Black, sndr->text() );
-//                    colorIndex = 1;
-//                    _chessBoard->setPlayer( 1, player );
-//                    connect( player, SIGNAL( signalMessage( QString ) ),                  SLOT( slotReceivedMessage( QString ) ) );
-//                    connect( player, SIGNAL( signalCellPressed( int, int ) ), _chessBoard,SLOT( cellPressed(int,int) ) );
-//                    connect( player, SIGNAL( signalCellChanged( int, int) ),  _display,   SLOT( slotCellChanged( int, int ) ) );
-//                    connect( player, SIGNAL( signalEventFiltered() ),         _display,   SLOT( boardChanged() ) );
                 }
             }
         }

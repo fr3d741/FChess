@@ -26,7 +26,6 @@ QImage BoardRendererImpl::Render(std::shared_ptr<Board> board)
 
     _layerImg = QImage(s.width() * w, s.height() * h, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&_layerImg);
-    //Defs::Cell ** cells = board->BoardState();
     Defs::Cell ** cells = board->BoardState();
 
     for ( int i = 0; i < w; ++i )
