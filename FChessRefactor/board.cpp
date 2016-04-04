@@ -378,33 +378,6 @@ QList<Defs::Move> Board::GetHistory()
     return _stack;
 }
 
-//QList<Defs::Position> Board::filterCells(FncPtr filterFunction)
-//{
-//    QList<Defs::Position> result;
-
-//    for( int y = 0; y < sizeVerical(); ++y )
-//        for( int x = 0; x < sizeHorizontal(); ++x )
-//            if ((*filterFunction)(_boardState[x][y]))
-//            {
-//                result.push_back( {x,y} );
-//            }
-
-//    return result;
-//}
-
-//QList<Defs::Move> Board::filterHistory(std::function<bool(const Defs::Move&)>& filterFunc)
-//{
-//    QList<Defs::Move> result;
-
-//    for( QList<Defs::Move>::iterator it = _stack.begin(); it != _stack.end(); ++it )
-//        if (filterFunc(*it))
-//        {
-//            result.push_back( *it );
-//        }
-
-//    return result;
-//}
-
 Defs::Move Board::lastMove()
 {
     return _stack.back();

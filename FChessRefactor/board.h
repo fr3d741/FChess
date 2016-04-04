@@ -44,10 +44,6 @@ public:
 
     Defs::Cell& cell(const Defs::Position &indexPair);
 
-//    QList<Defs::Position> filterCells(FncPtr filterFunction);
-
-//    QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc);
-
     QList<Defs::Move> GetHistory();
 
     Defs::Move lastMove();
