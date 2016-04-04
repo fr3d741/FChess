@@ -4,7 +4,7 @@
 #include "Facade/gameplayfacade.h"
 #include "Interfaces/figure.h"
 #include "Factories/figurefactory.h"
-#include "board.h"
+#include "Utils/boardfilter.h"
 
 Defs::EColors playerColorGlobal;
 
@@ -22,12 +22,13 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     std::shared_ptr<IBoard> replica = board->replicate(move);
+    BoardFilter filter = BoardFilter(replica);
 
     //replica->applyMove(move);
     Defs::Position king_pos = replica->getFigurePosition(playerColor | Defs::King);
     playerColorGlobal = playerColor;
 
-    QList<Defs::Position> figurePositions = replica->filterCells(&filterOutPlayerCells);
+    QList<Defs::Position> figurePositions = filter.filterCells(&filterOutPlayerCells);
     while(!figurePositions.isEmpty())
     {
         Defs::Position pos = figurePositions.takeFirst();

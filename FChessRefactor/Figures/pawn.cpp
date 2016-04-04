@@ -4,6 +4,7 @@
 #include "pawn.h"
 #include "../Facade/gameplayfacade.h"
 #include "../board.h"
+#include "../Utils/boardfilter.h"
 
 Defs::EColors globalColor;
 
@@ -86,6 +87,7 @@ Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell& piece = board->cell(step.from);
+    BoardFilter filter = BoardFilter(board);
     Defs::Position diff = step.to - step.from;
     Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
     int inc = color==Defs::White?1:-1;
@@ -106,7 +108,7 @@ Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
             std::function<bool(const Defs::Move&)> fn = [pos,this](const Defs::Move &m)->bool{return (m.figure & Defs::Pawn)
                                                                                             && !((m.figure & 0x03) & this->color())
                                                                                             && m.to == pos;};
-            auto filteredHistory = board->filterHistory(fn);
+            auto filteredHistory = filter.filterHistory(fn);
             auto lastMove = board->lastMove();
             auto lastDiff = lastMove.to - lastMove.from;
             if (filteredHistory.size() == 1 && filteredHistory.takeFirst() == lastMove && abs(lastDiff.x) == 2)

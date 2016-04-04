@@ -6,8 +6,6 @@
 
 #include "../Defines.h"
 
-typedef bool (*FncPtr)(Defs::Cell& c);
-
 class IBoard
 {
 public:
@@ -21,9 +19,11 @@ public:
 
     virtual Defs::Cell& cell(const Defs::Position &indexPair) = 0;
 
-    virtual QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc) = 0;
+//    virtual QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc) = 0;
 
-    virtual QList<Defs::Position> filterCells(FncPtr filterFunction) = 0;
+//    virtual QList<Defs::Position> filterCells(FncPtr filterFunction) = 0;
+
+    virtual QList<Defs::Move> GetHistory() = 0;
 
     virtual Defs::Move lastMove() = 0;
 

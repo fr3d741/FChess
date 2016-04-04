@@ -74,33 +74,9 @@ void Computer::slotPlayerChanged(std::shared_ptr<Player> player)
             int figure = replica->GetFigureInPosition(i, j);
             aiState[i][j] = (AInt8)figure;
         }
+
     BuildStateTree(root, aiState, replica, color());
-    qDebug() << root.childrenNodes.size();
 
-//    for(int i = 0, c = 0; i < 8; ++i)
-//        for(int j = 0; j < 8; ++j, ++c)
-//        {
-//            int figure = replica->GetFigureInPosition(i, j);
-//            AiData::StateNode::rootState[i][j] = (AInt8)figure;
-//            if (!figure)
-//                continue;
-
-//            std::shared_ptr<puppets::FigureInterface> figureIns = puppets::FigureFactory::createFigure(replica, figure);
-//            Defs::state reachableCells;
-//            figureIns->reachableCells(reachableCells, QPair<int,int>(i, j));
-//            AiData::Position from;
-//            from.x = (AInt8)i;
-//            from.y = (AInt8)j;
-//            QList<AiData::Position> converted = AiData::ConvertToPositions(reachableCells);
-//            while(converted.isEmpty())
-//            {
-//                AiData::Position p = converted.takeFirst();
-//                AiData::StateNode node;
-//                node.move.from = from;
-//                node.move.to = p;
-//                root.childrenNodes.push_back(node);
-//            }
-//        }
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
     int index = qrand() % ((root.childrenNodes.size() + 1) - 0) + 0;

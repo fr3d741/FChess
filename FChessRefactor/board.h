@@ -44,9 +44,11 @@ public:
 
     Defs::Cell& cell(const Defs::Position &indexPair);
 
-    QList<Defs::Position> filterCells(FncPtr filterFunction);
+//    QList<Defs::Position> filterCells(FncPtr filterFunction);
 
-    QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc);
+//    QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc);
+
+    QList<Defs::Move> GetHistory();
 
     Defs::Move lastMove();
 
@@ -67,6 +69,7 @@ public:
     Defs::Cell* operator[](int index);
 
     void dumpState();
+
     void ApplyCastling(int rookX, int rookY, Defs::Move& move, Defs::Cell& c1, int diff, Defs::Cell& c2);
 signals:
     void signalMessage( QString );
@@ -95,7 +98,7 @@ protected:
 
     QList< Defs::Move >     _stack;
 
-    QVector< int >             _movedCells;
+    QVector< int >          _movedCells;
 };
 
 #endif // BOARD_H

@@ -10,7 +10,6 @@ namespace Ai {
 class AiBoard : public IBoard
 {
     AInt8 cells[8][8];
-    Defs::ColorState _colorState;
 public:
     AiBoard();
 
@@ -22,13 +21,9 @@ public:
 
     virtual bool TestPosition(int x, int y);
 
-    virtual Defs::ColorState& State();
-
     virtual Defs::Cell& cell(const Defs::Position &indexPair);
 
-    virtual QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc);
-
-    virtual QList<Defs::Position> filterCells(FncPtr filterFunction);
+    virtual QList<Defs::Move> GetHistory();
 
     virtual Defs::Move lastMove();
 

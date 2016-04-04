@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     AI/data.cpp \
     Figures/whitepawn.cpp \
     Figures/blackpawn.cpp \
-    AI/aiboard.cpp
+    AI/aiboard.cpp \
+    Utils/boardfilter.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -84,7 +85,8 @@ HEADERS  += mainwindow.h \
     Figures/whitepawn.h \
     Figures/blackpawn.h \
     Interfaces/IBoard.h \
-    AI/aiboard.h
+    AI/aiboard.h \
+    Utils/boardfilter.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui \

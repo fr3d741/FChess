@@ -1,51 +1,56 @@
 #include "aiboard.h"
 
+namespace Ai
+{
+
 AiBoard::AiBoard()
 {
 }
 
 
-int Ai::AiBoard::sizeVerical()
+int AiBoard::sizeVerical()
 {
     return 8;
 }
 
-int Ai::AiBoard::sizeHorizontal()
+int AiBoard::sizeHorizontal()
 {
     return 8;
 }
 
-int Ai::AiBoard::GetFigureInPosition(int x, int y)
+int AiBoard::GetFigureInPosition(int x, int y)
 {
-    return state[x][y];
+    return cells[x][y];
 }
 
-bool Ai::AiBoard::TestPosition(int x, int y)
+bool AiBoard::TestPosition(int x, int y)
 {
     return GetFigureInPosition(x, y) != 0;
 }
 
-Defs::ColorState &Ai::AiBoard::State()
+Defs::Cell &AiBoard::cell(const Defs::Position &indexPair)
 {
-    return _colorState;
+    return Defs::Cell();
 }
 
-Defs::Cell &Ai::AiBoard::cell(const Defs::Position &indexPair)
-{
-
-}
-
-QList<Defs::Move> Ai::AiBoard::filterHistory(std::function<bool (const Defs::Move &)> &filterFunc)
+QList<Defs::Move> AiBoard::GetHistory()
 {
     return QList<Defs::Move>();
 }
 
-QList<Defs::Position> Ai::AiBoard::filterCells(FncPtr filterFunction)
+Defs::Move AiBoard::lastMove()
 {
-    return QList<Defs::Position>();
+    return Defs::Move();
 }
 
-Defs::Move Ai::AiBoard::lastMove()
+std::shared_ptr<IBoard> AiBoard::replicate(Defs::Move move)
 {
-    return Defs::Move;
+    return std::shared_ptr<IBoard>(nullptr);
+}
+
+Defs::Position AiBoard::getFigurePosition(int value)
+{
+    return Defs::Position();
+}
+
 }
