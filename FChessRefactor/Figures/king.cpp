@@ -18,7 +18,7 @@ bool King::isValidMove(Defs::MovePrimitive step )
     }
 
     //Castling
-    if ( abs( diff.y ) == 2 )
+    if ( abs( diff.y ) == 2 && diff.x == 0)
     {
         return true;
     }

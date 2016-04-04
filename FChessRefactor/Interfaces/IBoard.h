@@ -19,8 +19,6 @@ public:
 
     virtual bool TestPosition(int, int) = 0;
 
-    virtual Defs::ColorState& State() = 0;
-
     virtual Defs::Cell& cell(const Defs::Position &indexPair) = 0;
 
     virtual QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc) = 0;

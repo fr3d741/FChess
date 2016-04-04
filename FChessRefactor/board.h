@@ -62,8 +62,6 @@ public:
 
     void init();
 
-    Defs::ColorState& State();
-
     Defs::Cell operator()(Defs::Position& indexPair);
 
     Defs::Cell* operator[](int index);
@@ -92,8 +90,6 @@ protected:
 
 protected:
     Defs::Cell**            _boardState;
-
-    Defs::ColorState        _WhiteBlackState;
 
     bool                    _isCheck;
 

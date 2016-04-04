@@ -79,22 +79,6 @@ void Board::init()
     for ( int i = 2; i < 6; ++i )
         for ( int j = 0; j < 8; ++j )
             _boardState[i][j].figure = 0;
-
-    _WhiteBlackState._board.reset();
-
-    for ( int i = 0; i < 2; ++i )
-    {
-        for ( int j = 0; j < 8; ++j )
-        {
-            Defs::setBit( i, j, _WhiteBlackState._board );
-            Defs::setBit( (i + 6), j, _WhiteBlackState._board );
-        }
-    }
-}
-
-Defs::ColorState &Board::State()
-{
-    return _WhiteBlackState;
 }
 
 Defs::Cell Board::operator()(Defs::Position &indexPair)
@@ -146,15 +130,6 @@ void Board::ApplyCastling(int rookX, int rookY, Defs::Move& move, Defs::Cell& c1
     c4.figure = c3.figure;
     c3.figure = 0;
 
-    Defs::setBit( move.from.y, move.from.x, _WhiteBlackState._board, false );
-    Defs::setBit( addMove->from.y, addMove->from.x, _WhiteBlackState._board, false );
-
-    Defs::setBit( move.to.y, move.to.x, _WhiteBlackState._board, true );
-    Defs::setBit( addMove->to.y, addMove->to.x, _WhiteBlackState._board, true );
-
-    Defs::setFigurePosition( move.figure, move.to.y, move.to.x, _WhiteBlackState );
-    Defs::setFigurePosition( addMove->figure, addMove->to.y, addMove->to.x, _WhiteBlackState );
-
     _movedCells[ Defs::getPosition( move.from.y, move.from.x )]++;
     _movedCells[ Defs::getPosition( addMove->from.y, addMove->from.x )]++;
 }
@@ -176,7 +151,7 @@ int Board::handleSpecificCases( Defs::Move& move )
         for ( int i = move.from.x + diff; i != move.to.x + diff; i += diff )
         {
             QPair<int,int> pos(move.to.y, i );
-            if ( Defs::testBit( pos.first, pos.second, _WhiteBlackState._board ) )
+            if ( TestPosition(pos.first, pos.second) )
             {
                 return Defs::INVALID_CONDITION;
             }
@@ -249,11 +224,6 @@ int Board::handleSpecificCases( Defs::Move& move )
             }
             c1.figure = 0;
             c2.figure = f;
-            Defs::setBit( move.from.y, move.from.x, _WhiteBlackState._board, false );
-
-            Defs::setBit( move.to.y, move.to.x, _WhiteBlackState._board, true );
-
-            Defs::setFigurePosition( move.figure, move.to.y, move.to.x, _WhiteBlackState );
 
             _movedCells[ Defs::getPosition( move.from.y, move.from.x )]++;
             return Defs::ACCEPTED;
@@ -307,8 +277,6 @@ std::shared_ptr<IBoard> Board::replicate(Defs::Move move)
 {
     Board* replica = new Board;
     Defs::Cell** board = replica->BoardState();
-    replica->State()._board = _WhiteBlackState._board;
-    replica->State()._figures = _WhiteBlackState._figures;
 
     for ( int i = 0; i < sizeVerical(); ++i )
     {
@@ -345,9 +313,6 @@ void Board::revertStep( Defs::Move* move )
 
     _boardState[m.from.y][m.from.x]   = m.fromCell;
     _boardState[m.to.y][m.to.x]       = m.toCell;
-    Defs::setBit( m.from.y, m.from.x, _WhiteBlackState._board, true );
-    Defs::setBit( m.to.y, m.to.x, _WhiteBlackState._board, false );
-    Defs::setFigurePosition( m.figure, m.from.y, m.from.x, _WhiteBlackState );
     _movedCells[ Defs::getPosition( m.from.y, m.from.x ) ]--;
     if ( m.additionalMove )
     {

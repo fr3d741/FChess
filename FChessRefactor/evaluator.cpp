@@ -44,25 +44,23 @@ return false;
 bool Evaluator::check( Defs::EColors color )
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
-    QPair<int, int> pos = Defs::getFigurePosition( color | Defs::King, color, board->State() );
+    Defs::Position pos = board->getFigurePosition(color | Defs::King);
     Defs::state result;
-    Defs::state& reference = board->State()._board;
 
-    for( int i = 0; i < (int)reference.size(); ++i )
-    {
-        result.reset();
-        QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = board->GetFigureInPosition(fpos.first, fpos.second);
-        if ( !figure )
+    for( int i = 0; i < (int)board->sizeHorizontal(); ++i )
+        for( int j = 0; j < (int)board->sizeVerical(); ++j )
         {
-            continue;
+            result.reset();
+            QPair<int,int> fpos = QPair<int,int>( i, j );
+            int figure = board->GetFigureInPosition(i, j);
+            if ( !figure )
+                continue;
+
+            puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
+            if ( Defs::testBit( pos.x, pos.y, result ) )
+                return true;
+
         }
-        puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
-        if ( Defs::testBit( pos.first, pos.second, result ) )
-        {
-            return true;
-        }
-    }
 return false;
 }
 
@@ -70,28 +68,27 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::state result;
-    Defs::state& reference = board->State()._board;
 
-    for( int i = 0; i < (int)reference.size(); ++i )
-    {
-        result.reset();
-        QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = board->GetFigureInPosition(fpos.first, fpos.second);
-        if ( !figure || (figure & color) )
+    for( int i = 0; i < (int)board->sizeHorizontal(); ++i )
+        for( int j = 0; j < (int)board->sizeVerical(); ++j )
         {
-            continue;
-        }
+            result.reset();
+            QPair<int,int> fpos = QPair<int,int>(i, j);
+            int figure = board->GetFigureInPosition(fpos.first, fpos.second);
+            if ( !figure || (figure & color) )
+                continue;
 
-        puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
-        for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
-        {
-            QPair<int, int>& pos = (*it);
-            if ( Defs::testBit( pos.first, pos.second, result ) )
+            puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
+            for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
             {
-                return true;
+                QPair<int, int>& pos = (*it);
+                if ( Defs::testBit( pos.first, pos.second, result ) )
+                {
+                    return true;
+                }
             }
         }
-    }
+
     return false;
 }
 
