@@ -4,8 +4,6 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include "../messageinterface.h"
-#include "../Defines.h"
-#include "../board.h"
 #include "../Interfaces/LayerInterface.h"
 
 namespace chessVisialization

@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+class Player;
+
 #include <functional>
 #include <QObject>
 #include <QVector>
@@ -9,9 +11,6 @@
 #include "Defines.h"
 #include "messageinterface.h"
 #include "Interfaces/IBoard.h"
-#include "Interfaces/player.h"
-
-//typedef bool (*FncPtr)(Defs::Cell& c);
 
 /*!
 * \brief Main class, handling players, figures, turn order, containg board data

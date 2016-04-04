@@ -21,7 +21,7 @@
 #include <bitset>
 #include <memory>
 
-#define RELEASE_VERSION "0.3 Beta"
+#define RELEASE_VERSION "0.3"
 
 namespace Defs
 {
