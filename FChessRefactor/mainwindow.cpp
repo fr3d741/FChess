@@ -170,12 +170,12 @@ void MainWindow::closeEvent( QCloseEvent * )
 void MainWindow::SetupDialogUI()
 {
     _dialogUi->blackPlayerBox->addItem(_humanString);
-    _dialogUi->blackPlayerBox->addItem(_networkString);
     _dialogUi->blackPlayerBox->addItem(_computerString);
+    _dialogUi->blackPlayerBox->addItem(_networkString);
 
     _dialogUi->whitePlayerBox->addItem(_humanString);
-    _dialogUi->whitePlayerBox->addItem(_networkString);
     _dialogUi->whitePlayerBox->addItem(_computerString);
+    _dialogUi->whitePlayerBox->addItem(_networkString);
 }
 
 void MainWindow::on_actionRestart_triggered()

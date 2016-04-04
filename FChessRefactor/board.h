@@ -42,8 +42,6 @@ public:
 
     Defs::Position getFigurePosition(int value);
 
-    Defs::Cell at(Defs::Position &indexPair);
-
     Defs::Cell& cell(const Defs::Position &indexPair);
 
     QList<Defs::Position> filterCells(FncPtr filterFunction);

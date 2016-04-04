@@ -1,3 +1,4 @@
+#include <iostream>
 #include "exceptions.h"
 
 NetworkException::NetworkException()
@@ -5,7 +6,7 @@ NetworkException::NetworkException()
 }
 
 
-InvalidArgumentException::InvalidArgumentException()
+InvalidArgumentException::InvalidArgumentException(const char *msg)
 {
-
+    std::cerr << msg << std::endl;
 }

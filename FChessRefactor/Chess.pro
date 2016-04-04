@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     Players/computer.cpp \
     AI/data.cpp \
     Figures/whitepawn.cpp \
-    Figures/blackpawn.cpp
+    Figures/blackpawn.cpp \
+    AI/aiboard.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -82,7 +83,8 @@ HEADERS  += mainwindow.h \
     AI/data.h \
     Figures/whitepawn.h \
     Figures/blackpawn.h \
-    Interfaces/IBoard.h
+    Interfaces/IBoard.h \
+    AI/aiboard.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui \

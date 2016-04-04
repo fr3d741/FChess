@@ -1,7 +1,9 @@
 #include "playerfactory.h"
 
+#include "../exceptions.h"
 #include "../Players/human.h"
 #include "../Players/tcpiplayer.h"
+#include "../Players/computer.h"
 
 Player* PlayerFactory::createPlayer( Defs::EColors color, QString player )
 {
@@ -45,7 +47,10 @@ std::shared_ptr<Player> PlayerFactory::createPlayer(Defs::EColors color, Defs::E
         case Defs::Human:
             return std::shared_ptr<Player>(new Human(color));
             break;
+        case Defs::Computer:
+            return std::shared_ptr<Player>(new Computer(color));
+            break;
         default:
-            return std::shared_ptr<Player>();
+            throw new InvalidArgumentException(__FILE__ + __LINE__);
     }
 }

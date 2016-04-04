@@ -75,7 +75,8 @@ enum EColors
 
 enum EPlayers
 {
-    Human
+    Human,
+    Computer
 };
 
 enum EFigures

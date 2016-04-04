@@ -77,8 +77,8 @@ void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state&
 
 bool Queen::IsPositionCoordinatesValid(int i, int j)
 {
-    return 0 <= i || i < HORIZONTAL_SIZE ||
-            0 <= j || j < VERTICAL_SIZE;
+    return 0 <= i && i < HORIZONTAL_SIZE &&
+            0 <= j && j < VERTICAL_SIZE;
 }
 
 } //end namespace

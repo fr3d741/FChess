@@ -20,6 +20,8 @@ namespace puppets
     class FigureFactory
     {
         public:
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, int figure );
+
             static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure );
 
             static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure );

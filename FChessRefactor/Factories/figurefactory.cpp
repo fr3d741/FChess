@@ -15,6 +15,11 @@
 namespace puppets
 {
 
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, int figure)
+{
+    return createFigure(board, (Defs::EColors)(figure & 0x3), (Defs::EFigures)(figure & 0xFC));
+}
+
 std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure )
 {
     return createFigure(board, color, (Defs::EFigures)(figure & 0xFC));
@@ -32,7 +37,7 @@ std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBo
                 case Defs::Black:
                     return std::shared_ptr<FigureInterface>(new BlackPawn(board));
                 default:
-                    throw new InvalidArgumentException();
+                    throw new InvalidArgumentException(__FILE__ + __LINE__);
             }
             break;
         case Defs::Knight:
@@ -46,7 +51,7 @@ std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBo
         case Defs::Queen:
             return std::shared_ptr<FigureInterface>(new Queen( board, color ));
         default:
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException(__FILE__ + __LINE__);
     }
 }
 

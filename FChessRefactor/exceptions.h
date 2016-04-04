@@ -17,7 +17,7 @@ public:
 class InvalidArgumentException : public std::exception
 {
 public:
-    InvalidArgumentException();
+    InvalidArgumentException(const char* msg);
 };
 
 #endif // EXCEPTIONS_H

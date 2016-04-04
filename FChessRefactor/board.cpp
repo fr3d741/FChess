@@ -328,7 +328,7 @@ int Board::GetFigureInPosition(int x, int y)
 
 bool Board::TestPosition(int x, int y)
 {
-    return Defs::testBit( x, y, State()._board );
+    return _boardState[x][y].figure != 0;
 }
 
 void Board::revertStep( Defs::Move* move )
@@ -401,11 +401,6 @@ Defs::Position Board::getFigurePosition(int value)
             }
 
     return {-1, -1};
-}
-
-Defs::Cell Board::at(Defs::Position &indexPair)
-{
-    return (*this)(indexPair);
 }
 
 Defs::Cell &Board::cell(const Defs::Position &indexPair)
