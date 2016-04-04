@@ -8,7 +8,7 @@ namespace puppets {
 class WhitePawn : public Pawn
 {
 public:
-    WhitePawn(std::shared_ptr<Board> board);
+    WhitePawn(std::shared_ptr<IBoard> board);
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
 

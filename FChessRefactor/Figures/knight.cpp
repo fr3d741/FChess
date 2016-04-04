@@ -4,7 +4,7 @@
 namespace puppets
 {
 
-Knight::Knight(std::shared_ptr<Board> board, Defs::EColors color )
+Knight::Knight(std::shared_ptr<IBoard> board, Defs::EColors color )
     :FigureInterface( board, color, Defs::Knight )
 {
 }

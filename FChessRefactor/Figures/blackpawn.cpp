@@ -4,7 +4,7 @@
 namespace puppets
 {
 
-BlackPawn::BlackPawn(std::shared_ptr<Board> board)
+BlackPawn::BlackPawn(std::shared_ptr<IBoard> board)
     :Pawn(board, Defs::Black)
 {
 }
@@ -42,17 +42,7 @@ bool BlackPawn::isValidMove(Defs::MovePrimitive step)
     //move forward
     if ( ( diff.x == stepDiff || ( diff.x == (2*stepDiff) && step.from.x == line ) ) && diff.y == 0 )
     {
-        for( int i = step.from.x + stepDiff; i != step.to.x; i += stepDiff )
-        {
-            if (i == step.to.x)
-                break;
-
-            if ( _board->GetFigureInPosition(i, step.to.y) )
-            {
-                return false;
-            }
-        }
-        return true;
+        return IsMoveValid(step.from, step.to, stepDiff);
     }
     else if ( diff.x == stepDiff && abs( diff.y ) == 1 )
     {
@@ -60,7 +50,7 @@ bool BlackPawn::isValidMove(Defs::MovePrimitive step)
             return true;
 
         //take a sidestep
-        return _board->at(step.to).figure != 0;
+        return _board->cell(step.to).figure != 0;
     }
 
 return false;

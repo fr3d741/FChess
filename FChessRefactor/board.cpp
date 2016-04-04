@@ -303,9 +303,9 @@ bool Board::applyMove(Defs::MovePrimitive& move)
     return true;
 }
 
-std::shared_ptr<Board> Board::replicate(Defs::Move move)
+std::shared_ptr<IBoard> Board::replicate(Defs::Move move)
 {
-    std::shared_ptr<Board> replica(new Board);
+    Board* replica = new Board;
     Defs::Cell** board = replica->BoardState();
     replica->State()._board = _WhiteBlackState._board;
     replica->State()._figures = _WhiteBlackState._figures;
@@ -318,12 +318,17 @@ std::shared_ptr<Board> Board::replicate(Defs::Move move)
 
     replica->applyMove(move);
 
-    return replica;
+    return std::shared_ptr<IBoard>(replica);
 }
 
 int Board::GetFigureInPosition(int x, int y)
 {
     return _boardState[x][y].figure;
+}
+
+bool Board::TestPosition(int x, int y)
+{
+    return Defs::testBit( x, y, State()._board );
 }
 
 void Board::revertStep( Defs::Move* move )

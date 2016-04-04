@@ -8,14 +8,15 @@
 
 #include "Defines.h"
 #include "messageinterface.h"
+#include "Interfaces/IBoard.h"
 #include "Interfaces/player.h"
 
-typedef bool (*FncPtr)(Defs::Cell& c);
+//typedef bool (*FncPtr)(Defs::Cell& c);
 
 /*!
 * \brief Main class, handling players, figures, turn order, containg board data
 */
-class Board : public QObject, public MessageInterface
+class Board : public QObject, public IBoard, public MessageInterface
 {
     Q_OBJECT
 public:
@@ -34,9 +35,11 @@ public:
 
     bool applyMove(Defs::MovePrimitive &move);
 
-    std::shared_ptr<Board> replicate(Defs::Move move);
+    std::shared_ptr<IBoard> replicate(Defs::Move move);
 
-    int GetFigureInPosition(int x, int y);
+    virtual int GetFigureInPosition(int x, int y);
+
+    virtual bool TestPosition(int x, int y);
 
     Defs::Position getFigurePosition(int value);
 
@@ -71,9 +74,9 @@ public:
     void dumpState();
     void ApplyCastling(int rookX, int rookY, Defs::Move& move, Defs::Cell& c1, int diff, Defs::Cell& c2);
 signals:
-    virtual void signalMessage( QString );
+    void signalMessage( QString );
 
-    virtual void signalError( QString );
+    void signalError( QString );
 
     void signalPlayerChanged(std::shared_ptr<Player>);
 

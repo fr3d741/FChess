@@ -10,7 +10,7 @@
 namespace puppets
 {
 
-    FigureInterface::FigureInterface(std::shared_ptr<Board> board, Defs::EColors color, int figure )
+    FigureInterface::FigureInterface(std::shared_ptr<IBoard> board, Defs::EColors color, int figure )
         :_icon(0)
         ,_iconPix(0)
         ,_color( color )
@@ -77,7 +77,7 @@ namespace puppets
 
     bool FigureInterface::IsPositionOccupied(int j, int i)
     {
-        return Defs::testBit( i, j, _board->State()._board );
+        return _board->TestPosition(i, j);
     }
 
     bool FigureInterface::IsSameColorFigureOnPosition(int i, int j)

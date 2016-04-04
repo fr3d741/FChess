@@ -18,9 +18,9 @@ public:
     explicit Display(QWidget *parent = 0, Qt::WindowFlags f = 0 );
 
 signals:
-    virtual void signalMessage( QString );
+    void signalMessage( QString );
 
-    virtual void signalError( QString );
+    void signalError( QString );
 
 public slots:
 

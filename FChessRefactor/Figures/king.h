@@ -9,7 +9,7 @@ namespace puppets
 class King : public FigureInterface
 {
 public:
-    King( std::shared_ptr<Board> board, Defs::EColors color );
+    King(std::shared_ptr<IBoard> board, Defs::EColors color );
 
     virtual bool isValidMove( Defs::MovePrimitive step );
 

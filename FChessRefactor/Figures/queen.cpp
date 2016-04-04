@@ -4,7 +4,7 @@
 namespace puppets
 {
 
-Queen::Queen(std::shared_ptr<Board> board, Defs::EColors color )
+Queen::Queen(std::shared_ptr<IBoard> board, Defs::EColors color )
     :FigureInterface( board, color, Defs::Queen )
 {
 }

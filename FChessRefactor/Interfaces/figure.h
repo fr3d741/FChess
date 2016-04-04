@@ -9,6 +9,7 @@ class Board;
 #include <memory>
 
 #include "../Defines.h"
+#include "../Interfaces/IBoard.h"
 #include "../Interfaces/singleton.h"
 
 namespace puppets
@@ -23,7 +24,7 @@ public:
     /*!
     * \brief
     */
-    explicit FigureInterface(std::shared_ptr<Board> board, Defs::EColors color, int figure );
+    explicit FigureInterface(std::shared_ptr<IBoard> board, Defs::EColors color, int figure );
 
     /*!
     * \brief
@@ -83,24 +84,8 @@ protected:
     Defs::EColors    _color;
     Defs::EFigures   _figure;
     QString          _path;
-    std::shared_ptr<Board> _board;
+    std::shared_ptr<IBoard> _board;
 };
-
-}
-
-namespace puppets
-{
-
-/*!
-* \brief contains instances of figures
-*/
-//class PuppetContainer : public QMap< int, puppets::FigureInterface* >, public Singleton<PuppetContainer>
-//{
-//    friend class Singleton<PuppetContainer>;
-//public:
-//    typedef QMap< int, puppets::FigureInterface* >::iterator iterator;
-//    PuppetContainer();
-//};
 
 }
 

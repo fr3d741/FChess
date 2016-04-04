@@ -10,7 +10,7 @@ Defs::EColors globalColor;
 namespace puppets
 {
 
-Pawn::Pawn(std::shared_ptr<Board> board, Defs::EColors color )
+Pawn::Pawn(std::shared_ptr<IBoard> board, Defs::EColors color )
     :FigureInterface( board, color, Defs::Pawn )
 {
 }
@@ -20,9 +20,23 @@ bool Pawn::IsSameColor(QPair<int,int>& position, int sign, int offset)
     return _board->GetFigureInPosition(position.first + sign, position.second + offset) & _color;
 }
 
+bool Pawn::IsMoveValid(Defs::Position from, Defs::Position to, int step)
+{
+    int i = from.x;
+    do
+    {
+        i += step;
+        if ( _board->GetFigureInPosition(i, to.y) )
+            return false;
+    }
+    while(i != to.x);
+
+return true;
+}
+
 bool Pawn::IsPositionOccupied(QPair<int,int>& position, int sign, int offset)
 {
-    return Defs::testBit( position.first + sign, position.second + offset, _board->State()._board );
+    return _board->TestPosition(position.first + sign, position.second + offset);
 }
 
 void Pawn::CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& position)
@@ -70,7 +84,7 @@ QString Pawn::notation()
 
 Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
 {
-    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell& piece = board->cell(step.from);
     Defs::Position diff = step.to - step.from;
     Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);

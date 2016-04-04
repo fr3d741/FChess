@@ -19,11 +19,11 @@ public:
 signals:
 
 public slots:
-    void slotBoardChanged(std::shared_ptr<Board> board);
+    void slotBoardChanged(std::shared_ptr<IBoard> board);
 
     // BoardRendererInterface interface
 public:
-    QImage Render(std::shared_ptr<Board> board);
+    QImage Render(std::shared_ptr<IBoard> board);
 
     // LayerInterface interface
     const QImage &LayerImage();

@@ -14,7 +14,7 @@ GameplayFacade::GameplayFacade()
     ,_board(0)
 {
     _board = std::shared_ptr<Board>(new Board);
-    connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<Board>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<Board>)) );
+    connect( this, SIGNAL(signalBoardChanged(std::shared_ptr<IBoard>)), GameplayObserver::Instance().get(), SIGNAL(signalBoardChanged(std::shared_ptr<IBoard>)) );
     connect(this, SIGNAL(signalNextPlayer(std::shared_ptr<Player>)), GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)));
     connect( GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)),  SLOT(slotMove(QVariant)) );
     connect(this, SIGNAL(signalCheckForPlayer(Defs::EColors)), GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)));
@@ -47,7 +47,7 @@ void GameplayFacade::addPlayer(Defs::EPlayers playerType, Defs::EColors playerCo
     _playerStack.push_back(PlayerFactory::createPlayer(playerColor, playerType));
 }
 
-std::shared_ptr<Board> GameplayFacade::GetBoard() const
+std::shared_ptr<IBoard> GameplayFacade::GetBoard() const
 {
     return _board;
 }

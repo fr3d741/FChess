@@ -9,7 +9,7 @@ namespace puppets
 class Bishop : public FigureInterface
 {
 public:
-    Bishop( std::shared_ptr<Board> board, Defs::EColors color );
+    Bishop(std::shared_ptr<IBoard> board, Defs::EColors color );
 
     virtual bool isValidMove( Defs::MovePrimitive step );
 

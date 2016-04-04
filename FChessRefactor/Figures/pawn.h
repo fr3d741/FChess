@@ -9,7 +9,7 @@ namespace puppets
 class Pawn : public FigureInterface
 {
 public:
-    Pawn(std::shared_ptr<Board> board, Defs::EColors color);
+    Pawn(std::shared_ptr<IBoard> board, Defs::EColors color);
 
     virtual QString name();
 
@@ -29,6 +29,8 @@ protected:
     bool IsPositionOccupied(QPair<int,int>& position, int sign, int offset);
 
     bool IsSameColor(QPair<int,int>& position, int sign, int offset);
+
+    bool IsMoveValid(Defs::Position from, Defs::Position to, int step);
 };
 
 } //end namespace

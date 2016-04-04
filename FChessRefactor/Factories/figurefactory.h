@@ -1,7 +1,7 @@
 #ifndef FIGUREFACTORY_H
 #define FIGUREFACTORY_H
 
-class Board;
+class IBoard;
 
 namespace puppets{
 class FigureInterface;
@@ -11,7 +11,6 @@ class FigureInterface;
 #include <QMap>
 
 #include "../Defines.h"
-#include "../Interfaces/singleton.h"
 
 namespace puppets
 {
@@ -21,9 +20,9 @@ namespace puppets
     class FigureFactory
     {
         public:
-            static std::shared_ptr<FigureInterface> createFigure( std::shared_ptr<Board> board, Defs::EColors color, int figure );
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure );
 
-            static std::shared_ptr<FigureInterface> createFigure( std::shared_ptr<Board> board, Defs::EColors color, Defs::EFigures figure );
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure );
 
             static QString IconPath(int id);
 

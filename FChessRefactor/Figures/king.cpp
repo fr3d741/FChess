@@ -3,7 +3,7 @@
 namespace puppets
 {
 
-King::King(std::shared_ptr<Board> board, Defs::EColors color )
+King::King(std::shared_ptr<IBoard> board, Defs::EColors color )
     :FigureInterface( board, color, Defs::King )
 {
 }

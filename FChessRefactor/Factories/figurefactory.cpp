@@ -15,12 +15,12 @@
 namespace puppets
 {
 
-std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<Board> board, Defs::EColors color, int figure )
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure )
 {
     return createFigure(board, color, (Defs::EFigures)(figure & 0xFC));
 }
 
-std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<Board> board, Defs::EColors color, Defs::EFigures figure)
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure)
 {
     switch (figure)
     {

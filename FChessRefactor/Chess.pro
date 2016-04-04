@@ -81,7 +81,8 @@ HEADERS  += mainwindow.h \
     Players/computer.h \
     AI/data.h \
     Figures/whitepawn.h \
-    Figures/blackpawn.h
+    Figures/blackpawn.h \
+    Interfaces/IBoard.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui \

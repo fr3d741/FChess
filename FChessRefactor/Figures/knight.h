@@ -9,7 +9,7 @@ namespace puppets
 class Knight : public FigureInterface
 {
 public:
-    Knight(std::shared_ptr<Board> board, Defs::EColors color);
+    Knight(std::shared_ptr<IBoard> board, Defs::EColors color);
 
     virtual bool isValidMove( Defs::MovePrimitive step );
 

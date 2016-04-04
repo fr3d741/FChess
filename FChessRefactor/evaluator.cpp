@@ -20,8 +20,8 @@ Evaluator::Evaluator()
 
 bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
 {
-    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
-    std::shared_ptr<Board> replica = board->replicate(move);
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<IBoard> replica = board->replicate(move);
 
     //replica->applyMove(move);
     Defs::Position king_pos = replica->getFigurePosition(playerColor | Defs::King);
@@ -31,7 +31,7 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
     while(!figurePositions.isEmpty())
     {
         Defs::Position pos = figurePositions.takeFirst();
-        Defs::Cell c = replica->at(pos);
+        Defs::Cell c = replica->cell(pos);
         Defs::MovePrimitive m{pos, king_pos};
         if ( puppets::FigureFactory::createFigure(replica, (Defs::EColors)(c.figure & 0x03), c.figure)->isValidMove(m) )
         {
@@ -43,8 +43,7 @@ return false;
 
 bool Evaluator::check( Defs::EColors color )
 {
-    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
-    Defs::Cell** boardState = board->BoardState();
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     QPair<int, int> pos = Defs::getFigurePosition( color | Defs::King, color, board->State() );
     Defs::state result;
     Defs::state& reference = board->State()._board;
@@ -53,7 +52,7 @@ bool Evaluator::check( Defs::EColors color )
     {
         result.reset();
         QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = boardState[fpos.first][fpos.second].figure;
+        int figure = board->GetFigureInPosition(fpos.first, fpos.second);
         if ( !figure )
         {
             continue;
@@ -69,8 +68,7 @@ return false;
 
 bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& pointList )
 {
-    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
-    Defs::Cell** boardState = board->BoardState();
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::state result;
     Defs::state& reference = board->State()._board;
 
@@ -78,7 +76,7 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
     {
         result.reset();
         QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = boardState[fpos.first][fpos.second].figure;
+        int figure = board->GetFigureInPosition(fpos.first, fpos.second);
         if ( !figure || (figure & color) )
         {
             continue;
@@ -99,7 +97,7 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
 
 Defs::ESpecials Evaluator::defineSpecial(Defs::MovePrimitive &move)
 {
-    std::shared_ptr<Board> board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell& piece = board->cell(move.from);
     Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
     auto instance = puppets::FigureFactory::createFigure(board, color, piece.figure );

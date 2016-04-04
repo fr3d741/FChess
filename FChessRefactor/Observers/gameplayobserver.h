@@ -1,7 +1,7 @@
 #ifndef GAMEPLAYOBSERVER_H
 #define GAMEPLAYOBSERVER_H
 
-class Board;
+class IBoard;
 class Player;
 
 #include <memory>
@@ -23,7 +23,7 @@ public:
 signals:
     void signalCheckForPlayer(Defs::EColors player);
 
-    void signalBoardChanged(std::shared_ptr<Board>);
+    void signalBoardChanged(std::shared_ptr<IBoard>);
 
     void signalMouseOver(int cellX, int cellY);
 

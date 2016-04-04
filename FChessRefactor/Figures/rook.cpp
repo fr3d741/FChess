@@ -5,7 +5,7 @@
 namespace puppets
 {
 
-Rook::Rook(std::shared_ptr<Board> board, Defs::EColors color )
+Rook::Rook(std::shared_ptr<IBoard> board, Defs::EColors color )
     :FigureInterface( board, color, Defs::Rook )
 {
 }

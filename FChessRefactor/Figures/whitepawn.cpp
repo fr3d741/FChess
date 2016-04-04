@@ -4,7 +4,7 @@
 namespace puppets
 {
 
-WhitePawn::WhitePawn(std::shared_ptr<Board> board)
+WhitePawn::WhitePawn(std::shared_ptr<IBoard> board)
     :Pawn(board, Defs::White)
 {
 }
@@ -30,7 +30,6 @@ void WhitePawn::reachableCells(Defs::state &result, QPair<int, int> &position)
 
 bool WhitePawn::isValidMove(Defs::MovePrimitive step)
 {
-    Defs::Cell** boardState = _board->BoardState();
     Defs::Position diff = step.to - step.from;
     int stepDiff = 1;
 
@@ -39,17 +38,7 @@ bool WhitePawn::isValidMove(Defs::MovePrimitive step)
     //move forward
     if ( ( diff.x == stepDiff || ( diff.x == (2*stepDiff) && step.from.x == 1 ) ) && diff.y == 0 )
     {
-        for( int i = step.from.x + stepDiff; i != step.to.x; i += stepDiff )
-        {
-            if (i == step.to.x)
-                break;
-
-            if ( boardState[i][step.to.y].figure )
-            {
-                return false;
-            }
-        }
-        return true;
+        return IsMoveValid(step.from, step.to, stepDiff);
     }
     else if ( diff.x == stepDiff && abs( diff.y ) == 1 )
     {
@@ -57,7 +46,7 @@ bool WhitePawn::isValidMove(Defs::MovePrimitive step)
             return true;
 
         //take a sidestep
-        return _board->at(step.to).figure != 0;
+        return _board->cell(step.to).figure != 0;
     }
 
 return false;

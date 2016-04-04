@@ -9,7 +9,7 @@ namespace puppets
 class Rook : public FigureInterface
 {
 public:
-    Rook(std::shared_ptr<Board> board, Defs::EColors color);
+    Rook(std::shared_ptr<IBoard> board, Defs::EColors color);
 
     virtual bool isValidMove( Defs::MovePrimitive step );
 

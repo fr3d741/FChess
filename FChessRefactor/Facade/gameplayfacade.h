@@ -3,6 +3,7 @@
 
 class Player;
 class Board;
+class IBoard;
 
 #include <memory>
 #include <QObject>
@@ -31,7 +32,7 @@ public:
 
     void addPlayer( Defs::EPlayers playerType, Defs::EColors playerColor);
 
-    std::shared_ptr<Board> GetBoard() const;
+    std::shared_ptr<IBoard> GetBoard() const;
 
     void Reset();
 
@@ -39,7 +40,7 @@ public:
 signals:
     void signalCheckForPlayer(Defs::EColors player);
 
-    void signalBoardChanged(std::shared_ptr<Board>);
+    void signalBoardChanged(std::shared_ptr<IBoard>);
 
     void signalNextPlayer(std::shared_ptr<Player>);
 

@@ -9,7 +9,7 @@ namespace puppets
 class Queen : public FigureInterface
 {
 public:
-    Queen(std::shared_ptr<Board> board, Defs::EColors color);
+    Queen(std::shared_ptr<IBoard> board, Defs::EColors color);
 
     virtual bool isValidMove( Defs::MovePrimitive step );
 
