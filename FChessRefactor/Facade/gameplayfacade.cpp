@@ -86,6 +86,7 @@ void GameplayFacade::slotMove(QVariant variant)
 
     if (!Validator::isValidMove(m, player->color()) || Evaluator::isCheckFor(player->color(), move))
     {
+        emit signalNextPlayer(currentPlayer());
         return;
     }
 
