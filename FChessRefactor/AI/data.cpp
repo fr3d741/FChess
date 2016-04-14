@@ -42,6 +42,15 @@ return sum;
 }
 
 
+Position ConvertToPosition(int i, int j)
+{
+    Position p;
+    p.y = (AInt8)j;
+    p.x = (AInt8)i;
+
+    return p;
+}
+
 QList<Position> ConvertToPositions(Defs::state &state)
 {
     QList<Position> list;
@@ -49,41 +58,69 @@ QList<Position> ConvertToPositions(Defs::state &state)
         for(int j = 0; j < 8; ++j, ++c)
             if (state.test(c))
             {
-                Position p;
-                p.y = (AInt8)j;
-                p.x = (AInt8)i;
+                Position p = ConvertToPosition(i, j);
                 list.push_back(p);
             }
 
     return list;
 }
 
-
-void BuildStateTree(StateNode &rootNode, State &state)
+int ValueOfState(State &state, Defs::EColors color)
 {
-//    for(int i = 0, c = 0; i < 8; ++i)
-//        for(int j = 0; j < 8; ++j, ++c)
-//        {
-//            AInt8 figure = state[i][j];
-//            if (!figure)
-//                continue;
+    int sum = 0;
+    for (int x = 0; x < 8; ++x)
+        for (int y = 0; y < 8; ++y)
+        {
+            int value = 0;
+            int figure = state[x][y];
+            switch(figure & 0xFFFC)
+            {
+                case Defs::King:
+                    value = 12;
+                    break;
+                case Defs::Queen:
+                    value = 9;
+                    break;
+                case Defs::Rook:
+                    value = 6;
+                    break;
+                case Defs::Knight:
+                    value = 3;
+                    break;
+                case Defs::Bishop:
+                    value = 2;
+                    break;
+                case Defs::Pawn:
+                    value = 1;
+                default:
+                    value = 0;
+            }
+            sum += value * (figure & color?1:-1);
+        }
 
-//            std::shared_ptr<puppets::FigureInterface> figureIns = puppets::FigureFactory::createFigure(replica, figure);
-//            Defs::state reachableCells;
-//            figureIns->reachableCells(reachableCells, QPair<int,int>(i, j));
-//            AiData::Position from;
-//            from.x = (AInt8)i;
-//            from.y = (AInt8)j;
-//            QList<AiData::Position> converted = AiData::ConvertToPositions(reachableCells);
-//            while(converted.isEmpty())
-//            {
-//                AiData::Position p = converted.takeFirst();
-//                AiData::StateNode node;
-//                node.move.from = from;
-//                node.move.to = p;
-//                rootNode.childrenNodes.push_back(node);
-//            }
-//        }
+    return sum;
+}
+
+State Apply(Movement &move, State &onState)
+{
+    State replica = onState;
+    replica[move.to.x][move.to.y] = replica[move.from.x][move.from.y];
+    replica[move.from.x][move.from.y] = 0;
+
+    return replica;
+}
+
+Position ConvertFrom(Defs::Position *pos)
+{
+    return Position();
+}
+
+bool operator==(const Movement &a, const Movement &b)
+{
+    return  a.from.x == b.from.x &&
+            a.from.y == b.from.y &&
+            a.to.x == b.to.x &&
+            a.to.y == b.to.y;
 }
 
 }

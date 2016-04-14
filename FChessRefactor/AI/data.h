@@ -46,16 +46,19 @@ namespace AiData
 
     struct StateNode
     {
-        //State rootState;
+        Defs::EColors playerColor;
         int value;
         Movement move;
-        QList<StateNode> childrenNodes;
+        QList<std::shared_ptr<StateNode>> childrenNodes;
     };
 
     int ValueOfState(Figure *state, int maxX, int maxY, Defs::EColors color);
+    int ValueOfState(State& state, Defs::EColors color);
+    Position ConvertFrom(Defs::Position* pos);
+    State Apply(Movement& move, State& onState);
+    bool operator==(const Movement& a, const Movement& b);
 
+    Position ConvertToPosition(int i, int j);
     QList<AiData::Position> ConvertToPositions(Defs::state& state);
-
-    void BuildStateTree(StateNode& rootNode, State& state);
 }
 #endif // DATA_H

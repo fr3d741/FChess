@@ -9,9 +9,9 @@ namespace Ai {
 
 class AiBoard : public IBoard
 {
-    AInt8 cells[8][8];
+    AiData::State&  _state;
 public:
-    AiBoard();
+    AiBoard(AiData::State& stateRepresentation);
 
     virtual int sizeVerical();
 

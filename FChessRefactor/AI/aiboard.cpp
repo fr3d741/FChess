@@ -3,7 +3,8 @@
 namespace Ai
 {
 
-AiBoard::AiBoard()
+AiBoard::AiBoard(AiData::State &stateRepresentation)
+    :_state(stateRepresentation)
 {
 }
 
@@ -20,7 +21,7 @@ int AiBoard::sizeHorizontal()
 
 int AiBoard::GetFigureInPosition(int x, int y)
 {
-    return cells[x][y];
+    return _state.cells[x][y];
 }
 
 bool AiBoard::TestPosition(int x, int y)

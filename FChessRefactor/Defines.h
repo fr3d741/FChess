@@ -95,7 +95,7 @@ struct Cell
     EColors cellColor;
 };
 
-extern bool             operator==(const Cell& A, const Cell& B);
+extern bool operator==(const Cell& A, const Cell& B);
 
 class MovePrimitive
 {
@@ -122,8 +122,9 @@ public:
     std::shared_ptr< Move > additionalMove;
 };
 
-extern bool             operator==(const Move& A, const Move& B);
+extern bool operator==(const Move& A, const Move& B);
 
+EColors nextColor(EColors color);
 }
 
 

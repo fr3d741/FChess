@@ -127,7 +127,13 @@ Move &Move::operator=(const MovePrimitive &rightSide)
     this->from = rightSide.from;
     this->to = rightSide.to;
     this->special = rightSide.special;
-return *this;
+    return *this;
+}
+
+EColors nextColor(EColors color)
+{
+    int c = color + 1;
+    return EColors(c%2);
 }
 
 } // end namespace

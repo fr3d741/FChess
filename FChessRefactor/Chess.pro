@@ -45,7 +45,9 @@ SOURCES += main.cpp\
     Figures/whitepawn.cpp \
     Figures/blackpawn.cpp \
     AI/aiboard.cpp \
-    Utils/boardfilter.cpp
+    Utils/boardfilter.cpp \
+    AI/decisiontree.cpp \
+    AI/Strategies/randomstrategy.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -86,7 +88,10 @@ HEADERS  += mainwindow.h \
     Figures/blackpawn.h \
     Interfaces/IBoard.h \
     AI/aiboard.h \
-    Utils/boardfilter.h
+    Utils/boardfilter.h \
+    AI/decisiontree.h \
+    AI/IStrategy.h \
+    AI/Strategies/randomstrategy.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui \
