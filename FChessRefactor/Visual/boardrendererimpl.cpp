@@ -24,7 +24,7 @@ QImage BoardRendererImpl::Render(std::shared_ptr<IBoard> board)
     int w = board->sizeHorizontal();
     QSize s = puppets::FigureInterface::IconSize();
 
-    _layerImg = QImage(s.width() * w, s.height() * h, QImage::Format_ARGB32_Premultiplied);
+    _layerImg = QImage(s.width() * w + 10, s.height() * h + 10, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&_layerImg);
 
     for ( int i = 0; i < w; ++i )
@@ -47,6 +47,16 @@ QImage BoardRendererImpl::Render(std::shared_ptr<IBoard> board)
             QRect r(i * s.width(), j * s.height(), s.width(), s.height());
             painter.drawImage(r, puppets::FigureFactory::IconImage(board->GetFigureInPosition(i, j)));
         }
+
+        QRect rtextVertical(_layerImg.width()-10, i * s.height(), 10, s.height());
+        QTextOption optionVertical;
+        optionVertical.setAlignment(Qt::AlignCenter);
+        painter.drawText(rtextVertical, QString("%1").arg(i), optionVertical);
+
+        QRect rtext(i * s.width(), _layerImg.height()-10, s.width(), 10);
+        QTextOption option;
+        option.setAlignment(Qt::AlignCenter);
+        painter.drawText(rtext, QString("%1").arg(i), option);
     }
 
     return _layerImg;
