@@ -160,6 +160,7 @@ void MainWindow::slotActualizeGUI(std::shared_ptr<Player> player)
     }
 
     ui->currentPlayer->setText( str );
+    _display->update();
 }
 
 void MainWindow::closeEvent( QCloseEvent * )

@@ -51,7 +51,7 @@ namespace puppets
         return QSize(TEXTURE_W, TEXTURE_H);
     }
 
-    bool FigureInterface::IsPositionOccupied(int j, int i)
+    bool FigureInterface::IsPositionOccupied(int i, int j)
     {
         return _board->TestPosition(i, j);
     }

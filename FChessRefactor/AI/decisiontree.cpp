@@ -128,9 +128,9 @@ void DecisionTree::BuildStateTree(DecisionTree::StateParameter parameter)
 {
     AddPossibleMovesToNode(parameter);
     BuildStateForChildren(parameter, 0);
-    qDebug() << "hehe";
-    qDebug() << "depth: " << treeDepth(_rootNode);
-    qDebug() << "leafs: " << leafNodes(_rootNode);
+//    qDebug() << "hehe";
+//    qDebug() << "depth: " << treeDepth(_rootNode);
+//    qDebug() << "leafs: " << leafNodes(_rootNode);
     //saveTreeGraph("d:\\tmp\\graph.txt");
 }
 

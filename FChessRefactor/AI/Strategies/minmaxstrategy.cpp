@@ -19,13 +19,13 @@ AiData::NodePtr MinMaxStrategy::SelectNode(Ai::DecisionTree *tree, std::shared_p
     _lastSelectedNode = path[1];
     tree->SelectedNode(_lastSelectedNode);
 
-    qDebug() << "---------";
-    while(!path.isEmpty())
-    {
-        auto item = path.takeFirst();
-        qDebug() << "***";
-        qDebug() << AiData::toString(*item);
-    }
+//    qDebug() << "---------";
+//    while(!path.isEmpty())
+//    {
+//        auto item = path.takeFirst();
+//        qDebug() << "***";
+//        qDebug() << AiData::toString(*item);
+//    }
     return _lastSelectedNode;
 }
 

@@ -19,7 +19,7 @@ Computer::Computer(Defs::EColors color, QObject *parent)
     ,_strategy(new Ai::MinMaxStrategy)
 {
     auto instance = GameplayObserver::Instance();
-    connect(instance.get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotPlayerChanged(std::shared_ptr<Player>)));
+    connect(instance.get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotPlayerChanged(std::shared_ptr<Player>)), Qt::QueuedConnection);
     connect(this, SIGNAL(signalMove(QVariant)), GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)));
 }
 
