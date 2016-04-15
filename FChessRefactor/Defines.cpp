@@ -1,8 +1,11 @@
-#include "Defines.h"
-//#include <exception>
 #include <stdexcept>
 #include <iostream>
 #include <stdlib.h>
+
+#include <QApplication>
+
+#include "Defines.h"
+//#include <exception>
 
 namespace Defs
 {
@@ -25,8 +28,8 @@ void setBit( int i, int j, state& st, bool value )
     }
     catch ( std::out_of_range& ex )
     {
-        std::cout << "Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
-        exit( -1 );
+        std::cout << __FILE__ << ":" << __LINE__ << " Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
+        QApplication::instance()->quit();
     }
 }
 
@@ -38,8 +41,8 @@ bool testBit( int i, int j, state& st )
     }
     catch ( std::out_of_range& ex )
     {
-        std::cout << "Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
-        exit( -1 );
+        std::cout << __FILE__ << ":" << __LINE__ << " Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
+        QApplication::instance()->quit();
     }
 }
 
