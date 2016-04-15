@@ -21,7 +21,7 @@ public:
 
     virtual bool TestPosition(int x, int y);
 
-    virtual Defs::Cell& cell(const Defs::Position &indexPair);
+    virtual Defs::Cell& cell(const Defs::Position &);
 
     virtual QList<Defs::Move> GetHistory();
 
@@ -29,7 +29,7 @@ public:
 
     virtual std::shared_ptr<IBoard> replicate(Defs::Move move);
 
-    virtual Defs::Position getFigurePosition(int value);
+    virtual Defs::Position getFigurePosition(int);
 
 };
 

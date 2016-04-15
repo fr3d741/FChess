@@ -25,7 +25,6 @@ namespace AiData
     {
         AInt8 x;
         AInt8 y;
-        AInt8 data;
     };
 
     struct Movement
@@ -52,13 +51,17 @@ namespace AiData
         QList<std::shared_ptr<StateNode>> childrenNodes;
     };
 
+    typedef std::shared_ptr<AiData::StateNode> NodePtr;
+
     int ValueOfState(Figure *state, int maxX, int maxY, Defs::EColors color);
     int ValueOfState(State& state, Defs::EColors color);
-    Position ConvertFrom(Defs::Position* pos);
+    Position ConvertFrom(Defs::Position*);
     State Apply(Movement& move, State& onState);
     bool operator==(const Movement& a, const Movement& b);
 
     Position ConvertToPosition(int i, int j);
     QList<AiData::Position> ConvertToPositions(Defs::state& state);
+
+    QString toString(const StateNode& node);
 }
 #endif // DATA_H

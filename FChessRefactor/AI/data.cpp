@@ -1,3 +1,5 @@
+#include <QTextStream>
+
 #include "data.h"
 
 #include "../Interfaces/figure.h"
@@ -110,7 +112,7 @@ State Apply(Movement &move, State &onState)
     return replica;
 }
 
-Position ConvertFrom(Defs::Position *pos)
+Position ConvertFrom(Defs::Position *)
 {
     return Position();
 }
@@ -121,6 +123,16 @@ bool operator==(const Movement &a, const Movement &b)
             a.from.y == b.from.y &&
             a.to.x == b.to.x &&
             a.to.y == b.to.y;
+}
+
+QString toString(const StateNode &node)
+{
+    QString txt;
+    QTextStream stream(&txt);
+    stream << "player:" << (node.playerColor==Defs::White?"White":"Black") << "\n";
+    stream << "value:" << node.value << "\n";
+    stream << "Move " << QString("[%1,%2]=>[%3,%4]").arg(node.move.from.x).arg(node.move.from.y).arg(node.move.to.x).arg(node.move.to.y) << "\n";
+return txt;
 }
 
 }

@@ -8,7 +8,7 @@
 #include "../AI/data.h"
 #include "../Factories/figurefactory.h"
 #include "../Interfaces/figure.h"
-#include "../AI/Strategies/randomstrategy.h"
+#include "../AI/Strategies/minmaxstrategy.h"
 
 Computer::Computer(Defs::EColors color, QObject *parent)
     :Player(color, parent)
@@ -16,7 +16,7 @@ Computer::Computer(Defs::EColors color, QObject *parent)
     ,_root()
     ,_rootValid(false)
     ,_decisionTree()
-    ,_strategy(new Ai::RandomStrategy)
+    ,_strategy(new Ai::MinMaxStrategy)
 {
     auto instance = GameplayObserver::Instance();
     connect(instance.get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotPlayerChanged(std::shared_ptr<Player>)));
@@ -42,8 +42,12 @@ void Computer::slotPlayerChanged(std::shared_ptr<Player> player)
     std::shared_ptr<IBoard> board = instance->GetBoard();
 
     _decisionTree.BuildTree(board, color());
-    auto selected = _strategy->SelectNode(&_decisionTree);
+    auto selected = _strategy->SelectNode(&_decisionTree, board);
 
+    if (board->GetFigureInPosition(selected->move.from.x, selected->move.from.y) == 0)
+    {
+        _decisionTree.saveTreeGraph("D:\\tmp\\wrong_move.dot");
+    }
     Defs::MovePrimitive move;
     move.from.x = selected->move.from.x;
     move.from.y = selected->move.from.y;

@@ -176,6 +176,11 @@ void MainWindow::SetupDialogUI()
     _dialogUi->whitePlayerBox->addItem(_humanString);
     _dialogUi->whitePlayerBox->addItem(_computerString);
     _dialogUi->whitePlayerBox->addItem(_networkString);
+
+    _dialogUi->strategyBoxBlack->addItem("Random");
+    _dialogUi->strategyBoxBlack->addItem("MinMax");
+    _dialogUi->strategyBoxWhite->addItem("Random");
+    _dialogUi->strategyBoxWhite->addItem("MinMax");
 }
 
 void MainWindow::on_actionRestart_triggered()

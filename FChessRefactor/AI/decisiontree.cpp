@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <QFile>
 #include <QTime>
 #include <QDebug>
@@ -8,6 +9,7 @@
 
 #include "../Interfaces/figure.h"
 #include "../Factories/figurefactory.h"
+#include "../Utils/utility.h"
 
 namespace Ai
 {
@@ -15,42 +17,26 @@ namespace Ai
 DecisionTree::DecisionTree()
     :_rootNode(nullptr)
     ,_lastSelectedNode(nullptr)
-    ,_maxDepth(2)
+    ,_maxDepth(3)
 {
-}
-
-AiData::State DecisionTree::ConvertToState(std::shared_ptr<IBoard> board)
-{
-    AiData::State aiState;
-    for(int i = 0, c = 0; i < 8; ++i)
-        for(int j = 0; j < 8; ++j, ++c)
-        {
-            int figure = board->GetFigureInPosition(i, j);
-            aiState[i][j] = (AInt8)figure;
-        }
-
-    return aiState;
 }
 
 void DecisionTree::BuildTree(std::shared_ptr<IBoard> board, Defs::EColors color)
 {
-    AiData::State aiState = ConvertToState(board);
+    AiData::State aiState = Utils::ConvertToState(board);
 
-    if (_rootNode == nullptr)
-    {
-        _rootNode = std::shared_ptr<AiData::StateNode>(new AiData::StateNode);
-        _rootNode->playerColor = color;
-        _lastSelectedNode = _rootNode;
-    }
-    else
-        UpdateLastSelectedNode(board);
+    _rootNode = std::shared_ptr<AiData::StateNode>(new AiData::StateNode);
+    _rootNode->playerColor = color;
+    _lastSelectedNode = _rootNode;
 
     BuildStateTree({_lastSelectedNode, aiState, std::shared_ptr<IBoard>(new AiBoard(aiState)), color});
-    Analyze(board);
 }
 
 void DecisionTree::UpdateLastSelectedNode(std::shared_ptr<IBoard> board)
 {
+    if (board->GetHistory().isEmpty())
+        return;
+
     Defs::Move move = board->lastMove();
     AiData::Movement aiMovement
     {
@@ -69,15 +55,14 @@ void DecisionTree::UpdateLastSelectedNode(std::shared_ptr<IBoard> board)
     }
 }
 
-void DecisionTree::Analyze(std::shared_ptr<IBoard> board)
-{
-    AiData::State aiState = ConvertToState(board);
-    AnalyzeNode(_lastSelectedNode, aiState);
-}
-
 std::shared_ptr<AiData::StateNode> DecisionTree::Root()
 {
     return _rootNode;
+}
+
+std::shared_ptr<AiData::StateNode> DecisionTree::LastSelectedNode()
+{
+    return _lastSelectedNode;
 }
 
 void DecisionTree::SelectedNode(std::shared_ptr<AiData::StateNode> node)
@@ -105,6 +90,8 @@ void DecisionTree::CreateChildNodes(StateParameter parameter)
             AiData::Position from;
             from.x = (AInt8)i;
             from.y = (AInt8)j;
+            assert(0 <= from.x && from.x < 8);
+            assert(0 <= from.y && from.y < 8);
             QList<AiData::Position> converted = AiData::ConvertToPositions(reachableCells);
             while(!converted.isEmpty())
             {
@@ -112,7 +99,9 @@ void DecisionTree::CreateChildNodes(StateParameter parameter)
                 std::shared_ptr<AiData::StateNode> node = std::shared_ptr<AiData::StateNode>(new AiData::StateNode);
                 node->move.from = from;
                 node->move.to = p;
-                node->playerColor = parameter.color;
+                assert(0 <= node->move.to.x && node->move.to.x < 8);
+                assert(0 <= node->move.to.y && node->move.to.y < 8);
+                node->playerColor = AlternateColor(parameter.color);
                 parameter.rootNode->childrenNodes.push_back(node);
             }
         }
@@ -142,18 +131,7 @@ void DecisionTree::BuildStateTree(DecisionTree::StateParameter parameter)
     qDebug() << "hehe";
     qDebug() << "depth: " << treeDepth(_rootNode);
     qDebug() << "leafs: " << leafNodes(_rootNode);
-    saveTreeGraph("d:\\tmp\\graph.txt");
-}
-
-void DecisionTree::AnalyzeNode(std::shared_ptr<AiData::StateNode> node, AiData::State& state)
-{
-    node->value = AiData::ValueOfState(state, node->playerColor);
-    auto children = node->childrenNodes;
-    for(ChildrenList::iterator it = children.begin(); it != children.end(); ++it)
-    {
-        AiData::State currentState = AiData::Apply((*it)->move, state);
-        AnalyzeNode(*it, currentState);
-    }
+    //saveTreeGraph("d:\\tmp\\graph.txt");
 }
 
 int DecisionTree::treeDepth(std::shared_ptr<AiData::StateNode> node) const

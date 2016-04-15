@@ -73,6 +73,12 @@
         </property>
        </spacer>
       </item>
+      <item row="0" column="3">
+       <widget class="QComboBox" name="strategyBoxBlack"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="strategyBoxWhite"/>
+      </item>
      </layout>
     </widget>
    </item>

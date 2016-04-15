@@ -30,7 +30,7 @@ public:
 
     void addHumanPlayer(Defs::EColors playerColor);
 
-    void addPlayer( Defs::EPlayers playerType, Defs::EColors playerColor);
+    std::shared_ptr<Player> addPlayer( Defs::EPlayers playerType, Defs::EColors playerColor);
 
     std::shared_ptr<IBoard> GetBoard() const;
 

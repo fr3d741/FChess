@@ -8,6 +8,8 @@ namespace AiData{
 struct StateNode;
 }
 
+class IBoard;
+
 #include <memory>
 
 namespace Ai {
@@ -15,7 +17,8 @@ namespace Ai {
 class IStrategy
 {
 public:
-    virtual std::shared_ptr<AiData::StateNode> SelectNode(DecisionTree* tree) = 0;
+
+    virtual std::shared_ptr<AiData::StateNode> SelectNode(DecisionTree* tree, std::shared_ptr<IBoard> board) = 0;
 };
 
 }

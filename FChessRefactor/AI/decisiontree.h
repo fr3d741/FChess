@@ -24,24 +24,23 @@ public:
     DecisionTree();
 
     void BuildTree(std::shared_ptr<IBoard> board, Defs::EColors color);
-    void Analyze(std::shared_ptr<IBoard> board);
 
     std::shared_ptr<AiData::StateNode> Root();
+    std::shared_ptr<AiData::StateNode> LastSelectedNode();
     void SelectedNode(std::shared_ptr<AiData::StateNode> node);
 
-    AiData::State ConvertToState(std::shared_ptr<IBoard> board);
     void UpdateLastSelectedNode(std::shared_ptr<IBoard> board);
+
+    void saveTreeGraph(QString path);
 private:
     Defs::EColors AlternateColor(Defs::EColors color);
     void CreateChildNodes(StateParameter parameter);
     void BuildStateForChildren(StateParameter parameter, int actDepth);
     void BuildStateTree(StateParameter parameter);
-    void AnalyzeNode(std::shared_ptr<AiData::StateNode> node, AiData::State &state);
 
     int treeDepth(std::shared_ptr<AiData::StateNode> node) const;
     int leafNodes(std::shared_ptr<AiData::StateNode> node);
     QString dumpTreeGraph(std::shared_ptr<AiData::StateNode> node, unsigned long &id);
-    void saveTreeGraph(QString path);
 };
 
 }

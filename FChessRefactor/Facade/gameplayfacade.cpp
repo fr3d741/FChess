@@ -42,9 +42,11 @@ void GameplayFacade::addHumanPlayer(Defs::EColors playerColor)
     _playerStack.push_back(PlayerFactory::createPlayer(playerColor, Defs::Human));
 }
 
-void GameplayFacade::addPlayer(Defs::EPlayers playerType, Defs::EColors playerColor)
+std::shared_ptr<Player> GameplayFacade::addPlayer(Defs::EPlayers playerType, Defs::EColors playerColor)
 {
-    _playerStack.push_back(PlayerFactory::createPlayer(playerColor, playerType));
+    std::shared_ptr<Player> player = PlayerFactory::createPlayer(playerColor, playerType);
+    _playerStack.push_back(player);
+return player;
 }
 
 std::shared_ptr<IBoard> GameplayFacade::GetBoard() const

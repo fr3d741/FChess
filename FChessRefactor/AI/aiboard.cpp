@@ -29,7 +29,7 @@ bool AiBoard::TestPosition(int x, int y)
     return GetFigureInPosition(x, y) != 0;
 }
 
-Defs::Cell &AiBoard::cell(const Defs::Position &indexPair)
+Defs::Cell &AiBoard::cell(const Defs::Position &)
 {
     return Defs::Cell();
 }
@@ -49,7 +49,7 @@ std::shared_ptr<IBoard> AiBoard::replicate(Defs::Move move)
     return std::shared_ptr<IBoard>(nullptr);
 }
 
-Defs::Position AiBoard::getFigurePosition(int value)
+Defs::Position AiBoard::getFigurePosition(int)
 {
     return Defs::Position();
 }
