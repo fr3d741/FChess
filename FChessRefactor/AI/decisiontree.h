@@ -34,7 +34,7 @@ public:
     void saveTreeGraph(QString path);
 private:
     Defs::EColors AlternateColor(Defs::EColors color);
-    void CreateChildNodes(StateParameter parameter);
+    void AddPossibleMovesToNode(StateParameter parameter);
     void BuildStateForChildren(StateParameter parameter, int actDepth);
     void BuildStateTree(StateParameter parameter);
 

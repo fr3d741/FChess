@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     Utils/boardfilter.cpp \
     AI/decisiontree.cpp \
     AI/Strategies/randomstrategy.cpp \
-    AI/Strategies/minmaxstrategy.cpp
+    AI/Strategies/minmaxstrategy.cpp \
+    AI/aiEvaluator.cpp
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -93,7 +94,8 @@ HEADERS  += mainwindow.h \
     AI/decisiontree.h \
     AI/IStrategy.h \
     AI/Strategies/randomstrategy.h \
-    AI/Strategies/minmaxstrategy.h
+    AI/Strategies/minmaxstrategy.h \
+    AI/aiEvaluator.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui \

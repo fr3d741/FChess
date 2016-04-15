@@ -42,29 +42,6 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
 return false;
 }
 
-bool Evaluator::check( Defs::EColors color )
-{
-    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
-    Defs::Position pos = board->getFigurePosition(color | Defs::King);
-    Defs::state result;
-
-    for( int i = 0; i < (int)board->sizeHorizontal(); ++i )
-        for( int j = 0; j < (int)board->sizeVerical(); ++j )
-        {
-            result.reset();
-            QPair<int,int> fpos = QPair<int,int>( i, j );
-            int figure = board->GetFigureInPosition(i, j);
-            if ( !figure )
-                continue;
-
-            puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
-            if ( Defs::testBit( pos.x, pos.y, result ) )
-                return true;
-
-        }
-return false;
-}
-
 bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& pointList )
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();

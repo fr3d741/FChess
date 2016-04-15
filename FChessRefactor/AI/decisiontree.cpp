@@ -75,7 +75,7 @@ Defs::EColors DecisionTree::AlternateColor(Defs::EColors color)
     return color == Defs::White?Defs::Black:Defs::White;
 }
 
-void DecisionTree::CreateChildNodes(StateParameter parameter)
+void DecisionTree::AddPossibleMovesToNode(StateParameter parameter)
 {
     for(int i = 0, c = 0; i < 8; ++i)
         for(int j = 0; j < 8; ++j, ++c)
@@ -119,14 +119,14 @@ void DecisionTree::BuildStateForChildren(DecisionTree::StateParameter parameter,
         AiData::State state = AiData::Apply((*it)->move, parameter.state);
         std::shared_ptr<IBoard> board = std::shared_ptr<IBoard>(new AiBoard(state));
         Defs::EColors alternateColor = AlternateColor(parameter.color);
-        CreateChildNodes({*it,state, board, alternateColor});
+        AddPossibleMovesToNode({*it,state, board, alternateColor});
         BuildStateForChildren({*it,state, board, alternateColor}, actDepth + 1);
     }
 }
 
 void DecisionTree::BuildStateTree(DecisionTree::StateParameter parameter)
 {
-    CreateChildNodes(parameter);
+    AddPossibleMovesToNode(parameter);
     BuildStateForChildren(parameter, 0);
     qDebug() << "hehe";
     qDebug() << "depth: " << treeDepth(_rootNode);
