@@ -125,6 +125,8 @@ public:
 extern bool operator==(const Move& A, const Move& B);
 
 EColors nextColor(EColors color);
+QString toString(const Cell& cell);
+QString toString(const Position& pos);
 }
 
 

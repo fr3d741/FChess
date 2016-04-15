@@ -28,7 +28,7 @@ signals:
 protected slots:
     void slotPlayerChanged(std::shared_ptr<Player> player);
 
-
+    void slotNodeSelected(AiData::NodePtr selected);
 };
 
 #endif // COMPUTER_H

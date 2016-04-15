@@ -136,4 +136,14 @@ EColors nextColor(EColors color)
     return EColors(c%2);
 }
 
+QString toString(const Cell &cell)
+{
+    return QString("%1").arg(cell.figure);
+}
+
+QString toString(const Position &pos)
+{
+    return QString("[%1,%2]").arg(pos.x).arg(pos.y);
+}
+
 } // end namespace

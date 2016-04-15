@@ -61,9 +61,9 @@ QString Queen::notation()
 
 void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState )
 {
-    for ( int i = xFrom, j = yFrom; IsPositionCoordinatesValid(i,j); i += xDiff, j += yDiff )
+    for ( int i = xFrom, j = yFrom; IsPositionCoordinatesValid(i, j); i += xDiff, j += yDiff )
     {
-        if ( !IsPositionOccupied(i, j) )
+        if ( IsPositionOccupied(i, j) )
         {
             if ( !IsSameColorFigureOnPosition(i, j) )
                 Defs::setBit( i, j, resultState );

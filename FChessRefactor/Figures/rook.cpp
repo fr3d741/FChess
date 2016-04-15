@@ -72,7 +72,7 @@ void Rook::checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resu
 
     for ( int i = xFrom, j = yFrom; i <= xTo && j <= yTo; i += diff_x, j += diff_y )
     {
-        if (IsPositionOccupied(j, i))
+        if (IsPositionOccupied(i, j))
         {
             if ( !IsSameColorFigureOnPosition(i,j) )
             {

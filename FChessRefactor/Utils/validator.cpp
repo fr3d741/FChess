@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "validator.h"
 #include "../Facade/gameplayfacade.h"
 #include "../Interfaces/figure.h"
@@ -18,7 +19,10 @@ bool Validator::isValidMove(Defs::MovePrimitive move, Defs::EColors playerColor)
     bool toValid = !(t.figure & playerColor);
 
     if (!fromValid || !toValid)
+    {
+        qDebug() << "Invalid move: " << QString("%1:%2=>%3:%4").arg(Defs::toString(move.from)).arg(f.figure).arg(Defs::toString(move.to)).arg(t.figure);
         return false;
+    }
 
     std::shared_ptr<puppets::FigureInterface> instance = puppets::FigureFactory::createFigure(board, playerColor, f.figure);
     bool isFigureOk = instance->isValidMove(move);

@@ -78,6 +78,7 @@ bool GameplayFacade::start()
 
 void GameplayFacade::slotMove(QVariant variant)
 {
+    qDebug() << __FILE__;
     std::shared_ptr<Player> player = currentPlayer();
     Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
     Defs::Move move = construct(m);
@@ -88,6 +89,14 @@ void GameplayFacade::slotMove(QVariant variant)
 
     bool isValidForPlayer = Validator::isValidMove(m, player->color());
     bool isThereCheck = Evaluator::isCheckFor(player->color(), move);
+    if (!isValidForPlayer)
+    {
+        qDebug() << "Invalid move " << Defs::toString(m.from) << "=>" << Defs::toString(m.to);
+    }
+    if (isThereCheck)
+    {
+        qDebug() << "Invalid move: Player step in check";
+    }
     if (!isValidForPlayer || isThereCheck)
     {
         emit signalNextPlayer(currentPlayer());

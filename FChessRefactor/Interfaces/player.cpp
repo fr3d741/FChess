@@ -6,7 +6,6 @@ Player::Player(Defs::EColors color, QObject *parent)
     :QObject(parent)
     ,_playerColor( color )
 {
-    //qRegisterMetaType<std::shared_ptr<Player>>();
     qRegisterMetaType<std::shared_ptr<Player>>("std::shared_ptr<Player>const&");
 }
 
