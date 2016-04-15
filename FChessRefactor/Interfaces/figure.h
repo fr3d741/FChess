@@ -32,16 +32,6 @@ public:
     virtual ~FigureInterface();
 
     /*!
-    * \brief texture cache
-    */
-    virtual const QPixmap& iconPixmap();
-
-    /*!
-    * \brief texture cache
-    */
-    virtual const QImage& iconImage();
-
-    /*!
     * \brief color of figure
     */
     virtual Defs::EColors color();
@@ -79,11 +69,8 @@ private:
     FigureInterface();
 
 protected:
-    QImage*         _icon;
-    QPixmap*        _iconPix;
     Defs::EColors    _color;
     Defs::EFigures   _figure;
-    QString          _path;
     std::shared_ptr<IBoard> _board;
 };
 

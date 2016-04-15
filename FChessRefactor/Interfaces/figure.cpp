@@ -11,38 +11,14 @@ namespace puppets
 {
 
     FigureInterface::FigureInterface(std::shared_ptr<IBoard> board, Defs::EColors color, int figure )
-        :_icon(0)
-        ,_iconPix(0)
-        ,_color( color )
+        :_color( color )
         ,_figure( (Defs::EFigures)figure )
-        ,_path()
         ,_board(board)
     {
-        _path = FigureFactory::IconPath(color | figure);
     }
 
     FigureInterface::~FigureInterface()
     {
-        delete _icon;
-        delete _iconPix;
-    }
-
-    const QPixmap& FigureInterface::iconPixmap()
-    {
-        if ( !_iconPix )
-        {
-            _iconPix = new QPixmap( _path );
-        }
-        return *_iconPix;
-    }
-
-    const QImage& FigureInterface::iconImage()
-    {
-        if ( !_icon )
-        {
-            _icon = new QImage( _path );
-        }
-        return *_icon;
     }
 
     Defs::EColors FigureInterface::color()
