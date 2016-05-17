@@ -4,6 +4,7 @@
 
 #include "../Interfaces/figure.h"
 #include "../Factories/figurefactory.h"
+#include "aiboard.h"
 
 namespace AiData {
 
@@ -100,6 +101,9 @@ int ValueOfState(State &state, Defs::EColors color)
             sum += value * (figure & color?1:-1);
         }
 
+    if (IsPlayerInCheckState(state, color))
+        sum -= 11;
+
     return sum;
 }
 
@@ -132,7 +136,45 @@ QString toString(const StateNode &node)
     stream << "player:" << (node.playerColor==Defs::White?"White":"Black") << "\n";
     stream << "value:" << node.value << "\n";
     stream << "Move " << QString("[%1,%2]=>[%3,%4]").arg(node.move.from.x).arg(node.move.from.y).arg(node.move.to.x).arg(node.move.to.y) << "\n";
-return txt;
+    return txt;
+}
+
+bool IsPlayerInCheckState(State &state, Defs::EColors color)
+{
+    Position ofKing;
+    for(int i = 0; i < 8; ++i)
+    {
+        for(int j = 0; j < 8; ++j)
+        {
+            if (state[i][j] != (Defs::King | color))
+                continue;
+            ofKing.x = i;
+            ofKing.y = j;
+            goto kingFound;
+        }
+    }
+kingFound:;
+    auto board = std::make_shared<Ai::AiBoard>(state);
+    for(int i = 0; i < 8; ++i)
+    {
+        for(int j = 0; j < 8; ++j)
+        {
+            AInt8 val = state[i][j];
+            if (!val || (val & color))
+                continue;
+
+            Defs::MovePrimitive m;
+            m.from.x = i;
+            m.from.y = j;
+            m.to.x = ofKing.x;
+            m.to.y = ofKing.y;
+            auto figure = puppets::FigureFactory::createFigure(board, state[i][j]);
+            if (figure->isValidMove(m))
+                return true;
+        }
+    }
+
+    return false;
 }
 
 }

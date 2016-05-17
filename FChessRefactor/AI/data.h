@@ -55,6 +55,7 @@ namespace AiData
 
     int ValueOfState(Figure *state, int maxX, int maxY, Defs::EColors color);
     int ValueOfState(State& state, Defs::EColors color);
+    bool IsPlayerInCheckState(State& state, Defs::EColors color);
     Position ConvertFrom(Defs::Position*);
     State Apply(Movement& move, State& onState);
     bool operator==(const Movement& a, const Movement& b);
