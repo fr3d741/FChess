@@ -67,7 +67,6 @@ public:
 
     void dumpState();
 
-    void ApplyCastling(int rookX, int rookY, Defs::Move& move, Defs::Cell& c1, int diff, Defs::Cell& c2);
 signals:
     void signalMessage( QString );
 
@@ -83,10 +82,6 @@ signals:
 public slots:
 
 protected:
-    /*!
-    * \brief Handles Castling, En passant, Promotion etc.
-    */
-    int handleSpecificCases( Defs::Move& move );
 
 private:
     void CreateMove(Defs::Move& m, Defs::MovePrimitive& move);
