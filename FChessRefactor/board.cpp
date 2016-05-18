@@ -234,7 +234,19 @@ int Board::handleSpecificCases( Defs::Move& move )
         {
         }
     }
-return Defs::NOT_HANDLED;
+    return Defs::NOT_HANDLED;
+}
+
+void Board::CreateMove(Defs::Move &m, Defs::MovePrimitive &move)
+{
+    Defs::Cell& c1 = cell(move.from);
+    Defs::Cell& c2 = cell(move.to);
+
+    m.from = move.from;
+    m.to = move.to;
+    m.fromCell = c1;
+    m.toCell = c2;
+    m.figure = c1.figure;
 }
 
 bool Board::applyMove(Defs::MovePrimitive& move)
@@ -254,14 +266,21 @@ bool Board::applyMove(Defs::MovePrimitive& move)
             c1.figure = 0;
             break;
         case Defs::EnPassant:
+            {
+                Defs::Position p{move.from.x, move.to.y};
+                cell(p).figure = 0;
+                m.special = Defs::EnPassant;
+
+                CreateMove(m, move);
+
+                c2.figure = c1.figure;
+                c1.figure = 0;
+            }
+            break;
         case Defs::Castling:
         case Defs::None:
         default:
-            m.from = move.from;
-            m.to = move.to;
-            m.fromCell = c1;
-            m.toCell = c2;
-            m.figure = c1.figure;
+            CreateMove(m, move);
 
             c2.figure = c1.figure;
             c1.figure = 0;

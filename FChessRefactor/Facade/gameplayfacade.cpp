@@ -78,7 +78,6 @@ bool GameplayFacade::start()
 
 void GameplayFacade::slotMove(QVariant variant)
 {
-    qDebug() << __FILE__;
     std::shared_ptr<Player> player = currentPlayer();
     Defs::MovePrimitive m = variant.value<Defs::MovePrimitive>();
     Defs::Move move = construct(m);

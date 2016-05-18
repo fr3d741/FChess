@@ -5,7 +5,7 @@
 #include <QApplication>
 
 #include "Defines.h"
-//#include <exception>
+#include "exceptions.h"
 
 namespace Defs
 {
@@ -136,7 +136,10 @@ Move &Move::operator=(const MovePrimitive &rightSide)
 EColors nextColor(EColors color)
 {
     int c = color + 1;
-    return EColors(c%2);
+    if (color == White) return Black;
+    if (color == Black) return White;
+
+    throw InvalidArgumentException(QString("%1:%2:Invalid color %3").arg(__FILE__).arg(__LINE__).arg(color).toStdString().c_str());
 }
 
 QString toString(const Cell &cell)

@@ -18,6 +18,7 @@ class Player;
 class Board : public QObject, public IBoard, public MessageInterface
 {
     Q_OBJECT
+
 public:
 
     explicit Board(QObject *parent = 0);
@@ -86,6 +87,9 @@ protected:
     * \brief Handles Castling, En passant, Promotion etc.
     */
     int handleSpecificCases( Defs::Move& move );
+
+private:
+    void CreateMove(Defs::Move& m, Defs::MovePrimitive& move);
 
 protected:
     Defs::Cell**            _boardState;

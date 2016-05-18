@@ -86,8 +86,7 @@ QString Pawn::notation()
 Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
-    Defs::Cell& piece = board->cell(step.from);
-    BoardFilter filter = BoardFilter(board);
+    Defs::Cell& piece = _board->cell(step.from);
     Defs::Position diff = step.to - step.from;
     Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
     int inc = color==Defs::White?1:-1;
@@ -105,16 +104,23 @@ Defs::ESpecials Pawn::isSpecial(const Defs::MovePrimitive &step)
         Defs::Cell& cell = _board->cell(pos);
         if (cell.figure & Defs::Pawn && !(cell.figure & _color))
         {
-            std::function<bool(const Defs::Move&)> fn = [pos,this](const Defs::Move &m)->bool{return (m.figure & Defs::Pawn)
-                                                                                            && !((m.figure & 0x03) & this->color())
-                                                                                            && m.to == pos;};
-            auto filteredHistory = filter.filterHistory(fn);
+//            std::function<bool(const Defs::Move&)> fn = [pos,this](const Defs::Move &m)->bool{return (m.figure & Defs::Pawn)
+//                                                                                            && !((m.figure & 0x03) & this->color())
+//                                                                                            && m.to == pos;};
+//            auto filteredHistory = filter.filterHistory(fn);
             auto lastMove = board->lastMove();
-            auto lastDiff = lastMove.to - lastMove.from;
-            if (filteredHistory.size() == 1 && filteredHistory.takeFirst() == lastMove && abs(lastDiff.x) == 2)
+            auto alternateColor = Defs::nextColor(_color);
+
+            bool isCorrectFigure = lastMove.figure == (Defs::Pawn | alternateColor);
+            bool isLastMoveXValid = abs(lastMove.from.x - lastMove.to.x) == 2;
+            bool isLastMoveYValid = abs(lastMove.from.y - lastMove.to.y) == 0;
+            bool isCurrentMoveValid = lastMove.to.y == step.to.y;
+            if (!isCorrectFigure || !isLastMoveXValid || !isLastMoveYValid || !isCurrentMoveValid)
             {
-                return Defs::Castling;
+                return Defs::None;
             }
+
+            return Defs::EnPassant;
         }
     }
 
