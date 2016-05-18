@@ -21,6 +21,16 @@ Display::Display(QWidget *parent, Qt::WindowFlags f )
     connect(VisualObserver::Instance().get(), SIGNAL(signalUpdateView()), SLOT(update()), Qt::QueuedConnection);
 }
 
+void Display::slotRotateRight()
+{
+
+}
+
+void Display::slotRotateLeft()
+{
+
+}
+
 void Display::paintEvent( QPaintEvent * )
 {
     QPainter p(this);

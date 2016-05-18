@@ -21,6 +21,9 @@ signals:
     void signalError( QString );
 
 public slots:
+    void slotRotateRight();
+
+    void slotRotateLeft();
 
 protected:
 

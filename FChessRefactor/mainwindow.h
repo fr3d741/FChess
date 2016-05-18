@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QActionGroup>
 #include "board.h"
-#include "Visual/display.h"
 
 namespace Ui {
 class MainWindow;
@@ -60,13 +59,16 @@ protected:
 private slots:
     void on_actionRestart_triggered();
 
+    void on_actionRotate_Right_triggered();
+
+    void on_actionRotate_Left_triggered();
+
 private:
     void SetupDialogUI();
 
 private:
     Ui::MainWindow *ui;
     Ui::NewGameDialog* _dialogUi;
-    chessVisialization::Display* _display;
 
     QString _humanString;
     QString _networkString;

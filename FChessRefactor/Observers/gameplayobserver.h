@@ -13,8 +13,9 @@ class Player;
 
 class GameplayObserver : public QObject, public Singleton<GameplayObserver>
 {
-    friend class Singleton<GameplayObserver>;
     Q_OBJECT
+
+    friend class Singleton<GameplayObserver>;
 
     explicit GameplayObserver();
 

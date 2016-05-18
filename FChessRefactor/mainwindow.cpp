@@ -13,14 +13,16 @@
 #include "Factories/figurefactory.h"
 #include "Interfaces/figure.h"
 #include "Facade/gameplayfacade.h"
+#include "Facade/uifacade.h"
 #include "Observers/gameplayobserver.h"
+#include "Observers/messenger.h"
 #include "Proxy/visualproxy.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent)
     ,ui(new Ui::MainWindow)
     ,_dialogUi(new Ui::NewGameDialog)
-    ,_display(0)
     ,_humanString("Human")
     ,_networkString("Network")
     ,_computerString("Computer")
@@ -38,9 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout* layout = new QHBoxLayout;
     ui->boardPlaceholder->setLayout( layout );
 
-    _display = new chessVisialization::Display( ui->boardPlaceholder );
-    _display->setMinimumSize( 10, 10 );
-    _display->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    QWidget* _display = UiFacade::Instance()->CreateDisplayWidget(ui->boardPlaceholder);
 
     layout->addWidget(_display);
 
@@ -59,7 +59,7 @@ void MainWindow::makeConnections()
     connect( ui->actionExit,    SIGNAL( triggered() ),  qApp, SLOT( quit() ) );
     connect( ui->undoLastButton,SIGNAL( pressed() ),    this, SLOT( slotUndoLastMove() ) );
 
-    connect( _display, SIGNAL( signalMessage( QString ) ),     SLOT( slotReceivedMessage( QString ) ) );
+    connect( Messenger::Instance().get(), SIGNAL(signalMessageToGUI(QString)), SLOT(slotReceivedMessage(QString)));
     connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotActualizeGUI(std::shared_ptr<Player>)) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)), SLOT(slotCheck(Defs::EColors)));
 }
@@ -70,22 +70,11 @@ QString MainWindow::stringify(Defs::Move &move)
     QString txt = instance->notation();
     static std::vector<QString> letters{"a","b","c","d","e","f","g","h"};
 
-
-
 return txt;
 }
 
 void MainWindow::slotRefresh()
 {
-//    if ( _chessBoard->started() )
-//    {
-//        if ( !_chessBoard->stack().isEmpty() )
-//        {
-//            ui->undoLastButton->setEnabled( true );
-//			return;
-//        }
-//    }
-
     ui->undoLastButton->setEnabled( false );
 }
 
@@ -96,12 +85,6 @@ void MainWindow::slotCheck(Defs::EColors player)
 
 void MainWindow::slotUndoLastMove()
 {
-//    if ( _chessBoard->started() )
-//    {
-//        _chessBoard->revertStep();
-//        _display->boardChanged();
-//        _display->repaint();
-//    }
 }
 
 void MainWindow::start( QAction* )
@@ -122,8 +105,7 @@ void MainWindow::start( QAction* )
     if ( instance->start() && sndrAction )
     {
         ui->actionRestart->setEnabled(true);
-        _display->installEventFilter( GameplayFacade::Instance()->currentPlayer().get() );
-		_display->update();
+        UiFacade::Instance()->NextPlayer(GameplayFacade::Instance()->currentPlayer());
     }
     startingDialog->deleteLater();
 }
@@ -143,7 +125,7 @@ void MainWindow::slotActualizeGUI(std::shared_ptr<Player> player)
     QString str;
     if ( p.get() )
     {
-        _display->installEventFilter( p.get() );
+        UiFacade::Instance()->NextPlayer(p);
 
         if ( p->color() == Defs::White )
         {
@@ -160,7 +142,6 @@ void MainWindow::slotActualizeGUI(std::shared_ptr<Player> player)
     }
 
     ui->currentPlayer->setText( str );
-    _display->update();
 }
 
 void MainWindow::closeEvent( QCloseEvent * )
@@ -188,5 +169,14 @@ void MainWindow::on_actionRestart_triggered()
 {
     auto instance = GameplayFacade::Instance();
     instance->start();
-    _display->update();
+    UiFacade::Instance()->UpdateUi();
+}
+
+void MainWindow::on_actionRotate_Right_triggered()
+{
+}
+
+void MainWindow::on_actionRotate_Left_triggered()
+{
+
 }

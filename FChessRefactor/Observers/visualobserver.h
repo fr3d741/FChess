@@ -7,8 +7,9 @@
 
 class VisualObserver : public QObject, public Singleton<VisualObserver>
 {
-    friend class Singleton<VisualObserver>;
     Q_OBJECT
+
+    friend class Singleton<VisualObserver>;
 
     explicit VisualObserver();
 public:

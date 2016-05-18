@@ -104,8 +104,16 @@
      <string>Players</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuBoard">
+    <property name="title">
+     <string>Board</string>
+    </property>
+    <addaction name="actionRotate_Right"/>
+    <addaction name="actionRotate_Left"/>
+   </widget>
    <addaction name="menuStart"/>
    <addaction name="menuPlayers"/>
+   <addaction name="menuBoard"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -132,6 +140,16 @@
    </property>
    <property name="text">
     <string>Restart</string>
+   </property>
+  </action>
+  <action name="actionRotate_Right">
+   <property name="text">
+    <string>Rotate Right</string>
+   </property>
+  </action>
+  <action name="actionRotate_Left">
+   <property name="text">
+    <string>Rotate Left</string>
    </property>
   </action>
  </widget>

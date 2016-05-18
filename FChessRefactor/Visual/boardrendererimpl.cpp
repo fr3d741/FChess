@@ -25,6 +25,7 @@ QImage BoardRendererImpl::Render(std::shared_ptr<IBoard> board)
     QSize s = puppets::FigureInterface::IconSize();
 
     _layerImg = QImage(s.width() * w + 10, s.height() * h + 10, QImage::Format_ARGB32_Premultiplied);
+    _layerImg.fill(0);
     QPainter painter(&_layerImg);
 
     for ( int i = 0; i < w; ++i )

@@ -15,8 +15,8 @@ class IBoard;
 
 class GameplayFacade : public QObject, public Singleton<GameplayFacade>
 {
-    friend class Singleton<GameplayFacade>;
     Q_OBJECT
+    friend class Singleton<GameplayFacade>;
 
     QList<std::shared_ptr<Player>>          _playerStack;
     std::shared_ptr<Board>                  _board;
