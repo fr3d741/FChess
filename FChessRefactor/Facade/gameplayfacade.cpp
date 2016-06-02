@@ -86,17 +86,18 @@ void GameplayFacade::slotMove(QVariant variant)
     if (m.special == Defs::Promotion)
         move.figure = VisualProxy::Instance()->FigurePicker(player->color()) | player->color();
 
-    bool isValidForPlayer = Validator::isValidMove(m, player->color());
-    bool isThereCheck = Evaluator::isCheckFor(player->color(), move);
-    if (!isValidForPlayer)
-    {
-        qDebug() << "Invalid move " << Defs::toString(m.from) << "=>" << Defs::toString(m.to);
-    }
-    if (isThereCheck)
-    {
-        qDebug() << "Invalid move: Player step in check";
-    }
-    if (!isValidForPlayer || isThereCheck)
+//    bool isValidForPlayer = Validator::isValidMove(m, player->color());
+//    if (!isValidForPlayer)
+//    {
+//        qDebug() << "Invalid move " << Defs::toString(m.from) << "=>" << Defs::toString(m.to);
+//    }
+//    bool isThereCheck = Evaluator::isCheckFor(player->color(), move);
+//    if (isThereCheck)
+//    {
+//        qDebug() << "Invalid move: Player step in check";
+//    }
+    if (!Validator::isValidMove(m, player->color()) ||
+            Evaluator::isCheckFor(player->color(), move))
     {
         emit signalNextPlayer(currentPlayer());
         return;

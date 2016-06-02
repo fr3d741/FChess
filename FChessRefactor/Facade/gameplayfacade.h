@@ -49,7 +49,6 @@ public slots:
 
 protected:
     Defs::Move construct(Defs::MovePrimitive& m);
-
 };
 
 #endif // GAMEPLAYFACADE_H

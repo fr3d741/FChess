@@ -111,10 +111,6 @@ void Board::dumpState()
     }
 }
 
-
-
-
-
 void Board::CreateMove(Defs::Move &m, Defs::MovePrimitive &move)
 {
     Defs::Cell& c1 = cell(move.from);

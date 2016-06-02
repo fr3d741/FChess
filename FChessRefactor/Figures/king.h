@@ -15,9 +15,13 @@ public:
 
     virtual void reachableCells( Defs::state& , QPair<int,int>&  );
 
+    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& move);
+
     virtual QString name();
 
     virtual QString notation();
+private:
+    bool IsThereKingInVicinityAt(Defs::Position pos);
 };
 
 } //end namespace

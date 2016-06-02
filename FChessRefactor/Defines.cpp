@@ -152,4 +152,14 @@ QString toString(const Position &pos)
     return QString("[%1,%2]").arg(pos.x).arg(pos.y);
 }
 
+bool isPositionValid(int x, int y)
+{
+    return 0 <= x && x < HORIZONTAL_SIZE && 0 <= y && y < VERTICAL_SIZE;
+}
+
+bool isPositionValid(Position p)
+{
+    return isPositionValid(p.x, p.y);
+}
+
 } // end namespace
