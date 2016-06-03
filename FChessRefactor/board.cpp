@@ -152,6 +152,32 @@ bool Board::applyMove(Defs::MovePrimitive& move)
             }
             break;
         case Defs::Castling:
+            {
+                Defs::Position diff = move.to - move.from;
+                Defs::Position rook;
+                int direction = diff.y / abs(diff.y);
+                Defs::EColors kingColor = Defs::colorOfFigure(c1.figure);
+                for(int i = move.from.y; Defs::isPositionValid(move.from.x, i); i += direction)
+                {
+                    if (GetFigureInPosition(move.from.x, i) == (Defs::Rook | kingColor))
+                    {
+                        rook.x = move.from.x;
+                        rook.y = i;
+                        break;
+                    }
+                }
+
+                Defs::Cell& rookCell = cell(rook);
+                rookCell.figure = 0;
+                c1.figure = 0;
+                c2.figure = Defs::King | kingColor;
+                Defs::Position targetCellRook = {move.from.x, move.from.y + direction};
+                Defs::Cell& targetCell = cell(targetCellRook);
+                targetCell.figure = Defs::Rook | kingColor;
+
+                CreateMove(m, move);
+            }
+            break;
         case Defs::None:
         default:
             CreateMove(m, move);

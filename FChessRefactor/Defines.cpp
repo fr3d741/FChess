@@ -162,4 +162,9 @@ bool isPositionValid(Position p)
     return isPositionValid(p.x, p.y);
 }
 
+EColors colorOfFigure(int figure)
+{
+    return (Defs::EColors)(figure & 0x3);
+}
+
 } // end namespace

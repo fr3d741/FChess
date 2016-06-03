@@ -127,6 +127,7 @@ extern bool operator==(const Move& A, const Move& B);
 bool isPositionValid(Defs::Position p);
 bool isPositionValid(int x, int y);
 EColors nextColor(EColors color);
+EColors colorOfFigure(int figure);
 QString toString(const Cell& cell);
 QString toString(const Position& pos);
 }

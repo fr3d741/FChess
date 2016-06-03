@@ -39,7 +39,7 @@ Defs::ESpecials King::isSpecial(const Defs::MovePrimitive &move)
     BoardFilter filter(board);
 
     int direction = move.from.y - move.to.y;
-    if (direction < 2)
+    if (abs(direction) < 2)
         return Defs::None;
 
     Defs::Position pos = move.from;
@@ -51,10 +51,11 @@ Defs::ESpecials King::isSpecial(const Defs::MovePrimitive &move)
 
     direction = direction / abs(direction);
     Defs::Position p{-1, -1};
-    for(int i = move.from.y; i <= 0 && i < VERTICAL_SIZE; i += direction)
+    for(int i = move.from.y; 0 <= i && i < VERTICAL_SIZE; i += direction)
     {
         Defs::Position tempp{move.from.x, i};
-        if (_board->cell(p).figure == (Defs::Rook | color()))
+        Defs::Cell& c = _board->cell(tempp);
+        if (c.figure == (Defs::Rook | color()))
         {
             p = tempp;
             break;
