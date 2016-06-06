@@ -12,8 +12,9 @@ class IBoard;
 
 #include "../Defines.h"
 #include "../Interfaces/singleton.h"
+#include "../Interfaces/iserializable.h"
 
-class GameplayFacade : public QObject, public Singleton<GameplayFacade>
+class GameplayFacade : public QObject, public Singleton<GameplayFacade>, public ISerializable
 {
     Q_OBJECT
     friend class Singleton<GameplayFacade>;
@@ -49,6 +50,11 @@ public slots:
 
 protected:
     Defs::Move construct(Defs::MovePrimitive& m);
+
+    // ISerializable interface
+public:
+    QString SaveState() override;
+    void LoadState(QString state) override;
 };
 
 #endif // GAMEPLAYFACADE_H

@@ -9,7 +9,6 @@ QT       += core gui network widgets
 TARGET = Chess
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     board.cpp \
@@ -51,7 +50,7 @@ SOURCES += main.cpp\
     AI/Strategies/minmaxstrategy.cpp \
     AI/aiEvaluator.cpp \
     Facade/uifacade.cpp \
-    Observers/messenger.cpp
+    Observers/messenger.cpp \
 
 HEADERS  += mainwindow.h \
     board.h \
@@ -99,7 +98,8 @@ HEADERS  += mainwindow.h \
     AI/Strategies/minmaxstrategy.h \
     AI/aiEvaluator.h \
     Facade/uifacade.h \
-    Observers/messenger.h
+    Observers/messenger.h \
+    Interfaces/iserializable.h
 
 FORMS    += mainwindow.ui \
     networkSettings.ui \

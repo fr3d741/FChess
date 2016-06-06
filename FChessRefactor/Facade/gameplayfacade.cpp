@@ -86,16 +86,6 @@ void GameplayFacade::slotMove(QVariant variant)
     if (m.special == Defs::Promotion)
         move.figure = VisualProxy::Instance()->FigurePicker(player->color()) | player->color();
 
-//    bool isValidForPlayer = Validator::isValidMove(m, player->color());
-//    if (!isValidForPlayer)
-//    {
-//        qDebug() << "Invalid move " << Defs::toString(m.from) << "=>" << Defs::toString(m.to);
-//    }
-//    bool isThereCheck = Evaluator::isCheckFor(player->color(), move);
-//    if (isThereCheck)
-//    {
-//        qDebug() << "Invalid move: Player step in check";
-//    }
     if (!Validator::isValidMove(m, player->color()) ||
             Evaluator::isCheckFor(player->color(), move))
     {
@@ -117,4 +107,35 @@ Defs::Move GameplayFacade::construct(Defs::MovePrimitive &m)
     move.figure = move.fromCell.figure;
 
     return move;
+}
+
+QString GameplayFacade::SaveState()
+{
+    QString retvalue;
+    QTextStream stream(&retvalue);
+
+    stream << currentPlayer()->color() << "\n";
+    QString state = _board->SaveState();
+    stream << state;
+
+    return retvalue;
+}
+
+void GameplayFacade::LoadState(QString state)
+{
+    QTextStream stream(&state);
+    QString colorLine = stream.readLine();
+    bool ok;
+    Defs::EColors color = (Defs::EColors) colorLine.toInt(&ok);
+    if (!ok)
+        return;
+
+    QString boardState = stream.readAll();
+
+    addHumanPlayer(color);
+    addHumanPlayer(Defs::nextColor(color));
+    _board->LoadState(boardState);
+
+    emit signalBoardChanged(_board);
+    emit signalNextPlayer(currentPlayer());
 }

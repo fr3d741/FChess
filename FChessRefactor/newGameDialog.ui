@@ -17,7 +17,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>New game</string>
+      <string>Select players</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="2">

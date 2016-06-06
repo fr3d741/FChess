@@ -3,8 +3,9 @@
 
 #include "board.h"
 
-#include "Interfaces/figure.h"
+#include "exceptions.h"
 #include "evaluator.h"
+#include "Interfaces/figure.h"
 #include "Visual/figureselector.h"
 #include "Factories/figurefactory.h"
 
@@ -108,6 +109,52 @@ void Board::dumpState()
         {
             qDebug() << "[" << x << "," << y << "]:" << _boardState[x][y].figure;
         }
+    }
+}
+
+QString Board::SaveState()
+{
+    QString txt;
+    QTextStream stream(&txt);
+
+    for(int j = 0; j < VERTICAL_SIZE; ++j)
+    {
+        for (int i = 0; i < HORIZONTAL_SIZE; ++i)
+        {
+            stream << _boardState[i][j].figure << " ";
+        }
+        stream << "\n";
+    }
+
+    return txt;
+}
+
+void Board::LoadState(QString state)
+{
+    QRegExp exp(" |\n");
+    QStringList tokens = state.split(exp);
+    int x,y;
+    x = y = 0;
+    while(!tokens.isEmpty())
+    {
+        bool ok;
+        QString token = tokens.takeFirst();
+        if (token == "")
+            continue;
+        int t = token.toInt(&ok);
+        if (ok)
+            _boardState[x][y].figure = t;
+        else
+            throw InvalidArgumentException(QString("Error in load: %1, %2:%3 ").arg(state).arg(x).arg(y).toStdString().c_str());
+        x++;
+
+        if (x == HORIZONTAL_SIZE)
+        {
+            x = 0; y++;
+        }
+
+        if (y == VERTICAL_SIZE)
+            break;
     }
 }
 

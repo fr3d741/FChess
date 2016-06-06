@@ -2,6 +2,7 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QTreeWidget>
+#include <QFileDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -12,6 +13,7 @@
 #include "Factories/playerfactory.h"
 #include "Factories/figurefactory.h"
 #include "Interfaces/figure.h"
+#include "Interfaces/IBoard.h"
 #include "Facade/gameplayfacade.h"
 #include "Facade/uifacade.h"
 #include "Observers/gameplayobserver.h"
@@ -179,4 +181,32 @@ void MainWindow::on_actionRotate_Right_triggered()
 void MainWindow::on_actionRotate_Left_triggered()
 {
 
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QString file = QFileDialog::getSaveFileName(this, "", ".");
+    QFile output(file);
+    QTextStream stream(&output);
+    output.open(QIODevice::WriteOnly);
+
+    if (!output.isOpen())
+        return;
+
+    auto instance = GameplayFacade::Instance();
+    QString state = instance->SaveState();
+    stream << state;
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this, "Select the file for load", ".");
+    QFile input(file);
+    input.open(QIODevice::ReadOnly);
+
+    QTextStream stream(&input);
+
+    QString content = stream.readAll();
+    auto instance = GameplayFacade::Instance();
+    instance->LoadState(content);
 }

@@ -1,9 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
 #include <QMainWindow>
 #include <QActionGroup>
-#include "board.h"
+
+#include "Defines.h"
+#include "Interfaces/player.h"
 
 namespace Ui {
 class MainWindow;
@@ -62,6 +65,10 @@ private slots:
     void on_actionRotate_Right_triggered();
 
     void on_actionRotate_Left_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionLoad_triggered();
 
 private:
     void SetupDialogUI();

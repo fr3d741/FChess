@@ -11,11 +11,12 @@ class Player;
 #include "Defines.h"
 #include "messageinterface.h"
 #include "Interfaces/IBoard.h"
+#include "Interfaces/iserializable.h"
 
 /*!
 * \brief Main class, handling players, figures, turn order, containg board data
 */
-class Board : public QObject, public IBoard, public MessageInterface
+class Board : public QObject, public IBoard, public MessageInterface, public ISerializable
 {
     Q_OBJECT
 
@@ -66,6 +67,10 @@ public:
     Defs::Cell* operator[](int index);
 
     void dumpState();
+
+    QString SaveState() override;
+
+    void LoadState(QString state) override;
 
 signals:
     void signalMessage( QString );
