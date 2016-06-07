@@ -48,7 +48,8 @@ void Pawn::CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& posit
     if ( IsPositionOccupied(position, sign, 0) )
         return;
 
-    Defs::setBit( position.first + sign, position.second, result );
+    if (Defs::isPositionValid(position.first + sign, position.second))
+        Defs::setBit( position.first + sign, position.second, result );
 }
 
 void Pawn::CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::state& result)
@@ -59,7 +60,8 @@ void Pawn::CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::state&
     if ( !IsPositionOccupied(position, sign, -1) || IsSameColor(position, sign, -1) )
         return;
 
-    Defs::setBit( position.first + sign, position.second - 1, result );
+    if (Defs::isPositionValid(position.first + sign, position.second))
+        Defs::setBit( position.first + sign, position.second - 1, result );
 }
 
 void Pawn::CheckAndSetFrontUp(QPair<int,int>& position, Defs::state& result, int sign)
@@ -70,7 +72,8 @@ void Pawn::CheckAndSetFrontUp(QPair<int,int>& position, Defs::state& result, int
     if (!IsPositionOccupied(position, sign, 1) || IsSameColor(position, sign, 1))
         return;
 
-    Defs::setBit( position.first + sign, position.second + 1, result );
+    if (Defs::isPositionValid(position.first + sign, position.second))
+        Defs::setBit( position.first + sign, position.second + 1, result );
 }
 
 QString Pawn::name()
