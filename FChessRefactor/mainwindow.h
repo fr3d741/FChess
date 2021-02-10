@@ -52,6 +52,8 @@ public slots:
 
     void slotCheck(Defs::EColors player);
 
+    void slotMove(QVariant data);
+
 protected:
     virtual void closeEvent( QCloseEvent * );
 

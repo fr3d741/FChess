@@ -26,10 +26,6 @@ bool Validator::isValidMove(Defs::MovePrimitive move, Defs::EColors playerColor)
         return false;
     }
 
-//    std::shared_ptr<puppets::FigureInterface> instance = puppets::FigureFactory::createFigure(board, playerColor, f.figure);
-//    bool isFigureOk = instance->isValidMove(move);
-
-
     return FigureGlobals::isValidMove(board.get(), playerColor, f.figure, move);
 }
 

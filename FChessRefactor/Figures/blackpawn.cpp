@@ -35,12 +35,13 @@ void BlackPawn::reachableCells(IBoard* board, Defs::state &result, QPair<int, in
 {
     int sign = -1;
 
-    if ( position.first == 6 && 0 <= position.first - 2 )
+    if (position.first == 6)
     {
-        if ( !IsPositionOccupied(board, position, -2, 0) )
-        {
-            Defs::setBit( position.first - 2, position.second, result );
-        }
+      if (!board->TestPosition(position.first - 2, position.second) &&
+          !board->TestPosition(position.first - 1, position.second))
+      {
+        Defs::setBit(position.first - 2, position.second, result);
+      }
     }
 
     if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )

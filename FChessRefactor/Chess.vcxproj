@@ -241,7 +241,6 @@
     <ClCompile Include="Figures\rook.cpp" />
     <ClCompile Include="rules.cpp" />
     <ClCompile Include="Players\tcpiplayer.cpp" />
-    <ClCompile Include="Utils\timer.cpp" />
     <ClCompile Include="Facade\uifacade.cpp" />
     <ClCompile Include="Utils\utility.cpp" />
     <ClCompile Include="Utils\validator.cpp" />
@@ -307,7 +306,6 @@
     <ClInclude Include="Interfaces\singleton.h" />
     <QtMoc Include="Players\tcpiplayer.h">
     </QtMoc>
-    <ClInclude Include="Utils\timer.h" />
     <QtMoc Include="Facade\uifacade.h">
     </QtMoc>
     <ClInclude Include="Utils\utility.h" />

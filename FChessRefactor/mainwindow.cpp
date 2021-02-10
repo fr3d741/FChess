@@ -64,6 +64,7 @@ void MainWindow::makeConnections()
     connect( Messenger::Instance().get(), SIGNAL(signalMessageToGUI(QString)), SLOT(slotReceivedMessage(QString)));
     connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotActualizeGUI(std::shared_ptr<Player>)) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)), SLOT(slotCheck(Defs::EColors)));
+    connect( GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)), SLOT(slotMove(QVariant)));
 }
 
 QString MainWindow::stringify(Defs::Move &move)
@@ -83,6 +84,14 @@ void MainWindow::slotRefresh()
 void MainWindow::slotCheck(Defs::EColors player)
 {
     ui->logWindow->addItem(QString("%1 player in Check!").arg(player==Defs::White?"White":"Black"));
+}
+
+void MainWindow::slotMove(QVariant data) 
+{
+  Defs::MovePrimitive m = data.value<Defs::MovePrimitive>();
+  auto msg = QString("Moved [%1, %2] -> [%3, %4]").arg(m.from.x).arg(m.from.y).arg(m.to.x).arg(m.to.x);
+  ui->moveHistoryWidget->addItem(msg);
+  ui->moveHistoryWidget->scrollToBottom();
 }
 
 void MainWindow::slotUndoLastMove()

@@ -177,23 +177,20 @@
     <ClCompile Include="Facade\gameplayfacade.cpp">
       <Filter>Globals</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\timer.cpp">
-      <Filter>Globals</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\validator.cpp">
       <Filter>Globals</Filter>
     </ClCompile>
     <ClCompile Include="Defines.cpp">
       <Filter>Globals</Filter>
     </ClCompile>
-    <ClCompile Include="Proxy\visualproxy.cpp">
-      <Filter>Globals</Filter>
-    </ClCompile>
-    <ClCompile Include="Observers\visualobserver.cpp">
-      <Filter>Globals</Filter>
-    </ClCompile>
     <ClCompile Include="Figures\FigureGlobals.cpp">
       <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Proxy\visualproxy.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Observers\visualobserver.cpp">
+      <Filter>Visuals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="Interfaces\singleton.h">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\timer.h">
-      <Filter>Globals</Filter>
     </ClInclude>
     <ClInclude Include="Utils\validator.h">
       <Filter>Globals</Filter>
