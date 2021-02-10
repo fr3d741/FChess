@@ -1,4 +1,6 @@
 #include <QDebug>
+
+#include <Figures/FigureGlobals.h>
 #include "validator.h"
 #include "../Facade/gameplayfacade.h"
 #include "../Interfaces/figure.h"
@@ -24,10 +26,11 @@ bool Validator::isValidMove(Defs::MovePrimitive move, Defs::EColors playerColor)
         return false;
     }
 
-    std::shared_ptr<puppets::FigureInterface> instance = puppets::FigureFactory::createFigure(board, playerColor, f.figure);
-    bool isFigureOk = instance->isValidMove(move);
+//    std::shared_ptr<puppets::FigureInterface> instance = puppets::FigureFactory::createFigure(board, playerColor, f.figure);
+//    bool isFigureOk = instance->isValidMove(move);
 
-    return isFigureOk;
+
+    return FigureGlobals::isValidMove(board.get(), playerColor, f.figure, move);
 }
 
 bool Validator::isValidCell(int x, int y, Defs::EColors playerColor)

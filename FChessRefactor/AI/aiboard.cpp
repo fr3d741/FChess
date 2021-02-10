@@ -31,7 +31,8 @@ bool AiBoard::TestPosition(int x, int y)
 
 Defs::Cell &AiBoard::cell(const Defs::Position &)
 {
-    return Defs::Cell();
+    static auto empty = Defs::Cell();
+    return empty;
 }
 
 QList<Defs::Move> AiBoard::GetHistory()

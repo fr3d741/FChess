@@ -35,6 +35,31 @@ bool Rook::isValidMove(Defs::MovePrimitive step )
 return true;
 }
 
+bool Rook::isValidMove(IBoard* board, Defs::MovePrimitive step)
+{
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
+
+    if (diff.x && diff.y)
+        return false;
+
+    if (diff.y) stepY = diff.y / abs(diff.y);
+    else if (diff.x) stepX = diff.x / abs(diff.x);
+
+    int count = std::max(abs(diff.x), abs(diff.y));
+
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
+    {
+        if ( board->GetFigureInPosition(x, y) )
+        {
+            return false;
+        }
+    }
+
+return true;
+}
+
 void Rook::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
     checkRange( position.first + 1  , position.second       , HORIZONTAL_SIZE - 1, position.second  , result );

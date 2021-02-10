@@ -24,6 +24,21 @@ bool Knight::isValidMove(Defs::MovePrimitive step )
 return false;
 }
 
+bool Knight::isValidMove(IBoard* /*board*/, Defs::MovePrimitive step )
+{
+    Defs::Position diff = step.to - step.from;
+    int adiff1 = abs( diff.y );
+    int adiff2 = abs( diff.x );
+
+    if ( ( adiff1 == 2 && adiff2 == 1 ) ||
+         ( adiff1 == 1 && adiff2 == 2 ) )
+    {
+        return true;
+    }
+
+return false;
+}
+
 void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
 {
     if ( xFrom < 0 || yFrom < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom )

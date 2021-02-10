@@ -15,6 +15,7 @@ public:
 
     virtual bool isValidMove( Defs::MovePrimitive step );
 
+    static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
 };
 
 }

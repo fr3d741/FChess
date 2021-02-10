@@ -4,12 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network widgets
+QT       += core gui network widgets core5compat
 
 TARGET = Chess
 TEMPLATE = app
 
 SOURCES += main.cpp\
+    Utils/timer.cpp \
         mainwindow.cpp \
     board.cpp \
     rules.cpp \
@@ -53,6 +54,7 @@ SOURCES += main.cpp\
     Observers/messenger.cpp \
 
 HEADERS  += mainwindow.h \
+    Utils/timer.h \
     board.h \
     rules.h \
     Defines.h \

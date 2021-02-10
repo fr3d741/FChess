@@ -34,6 +34,31 @@ bool Queen::isValidMove(Defs::MovePrimitive step )
 return true;
 }
 
+bool Queen::isValidMove(IBoard* board, Defs::MovePrimitive step )
+{
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
+
+    if ( diff.y )
+        stepY = diff.y / abs(diff.y);
+
+    if (diff.x )
+        stepX = diff.x / abs(diff.x);
+
+    if (abs( diff.x ) != abs( diff.y ) && diff.x && diff.y)
+        return false;
+
+    int count = std::max(abs(diff.x), abs(diff.y));
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
+    {
+        if ( board->GetFigureInPosition(x, y) )
+            return false;
+    }
+
+return true;
+}
+
 void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
     checkRange( position.first + 1  , position.second + 1   , +1, +1, result );

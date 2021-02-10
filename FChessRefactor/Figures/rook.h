@@ -19,6 +19,8 @@ public:
 
     virtual QString notation();
 
+    static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
+
 protected:
     /*!
     * \brief checks the given range for which cell is empty, uses a step value of +/- 1 depending on range

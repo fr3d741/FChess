@@ -16,7 +16,8 @@ public:
     virtual QString notation();
 
     virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& step);
-
+    static Defs::ESpecials isSpecial(IBoard* board, const Defs::MovePrimitive& step, Defs::EColors color);
+    static bool IsMoveValid(IBoard* board, Defs::Position from, Defs::Position to, int step);
 protected:
     bool filterPawns(const Defs::Move& m);
 

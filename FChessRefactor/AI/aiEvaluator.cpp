@@ -1,9 +1,13 @@
 #include <QDebug>
 
+#include <Figures/FigureGlobals.h>
+
+#include <Factories/figurefactory.h>
+
 #include "aiEvaluator.h"
 #include "../Interfaces/IBoard.h"
 #include "../Interfaces/figure.h"
-#include "../Factories/figurefactory.h"
+
 
 
 namespace Ai {
@@ -30,7 +34,7 @@ bool isPlayerInCheck(Defs::EColors playerColor, std::shared_ptr<IBoard> board)
                 continue;
 
             Defs::MovePrimitive m{{i,j}, king_pos};
-            if ( puppets::FigureFactory::createFigure(board, figure)->isValidMove(m) )
+            if (FigureGlobals::isValidMove(board.get(), figure, m))
             {
                 return true;
             }

@@ -1,4 +1,4 @@
-#include <QTime>
+#include <QRandomGenerator>
 
 #include "randomstrategy.h"
 #include "../data.h"
@@ -17,9 +17,8 @@ std::shared_ptr<AiData::StateNode> RandomStrategy::SelectNode(Ai::DecisionTree *
         _lastSelectedNode = tree->Root();
     }
 
-    QTime time = QTime::currentTime();
-    qsrand((uint)time.msec());
-    int index = qrand() % ((_lastSelectedNode->childrenNodes.size()) - 0) + 0;
+    QRandomGenerator rand;
+    int index = rand.generate() % ((_lastSelectedNode->childrenNodes.size()) - 0) + 0;
     std::shared_ptr<AiData::StateNode> selected = _lastSelectedNode->childrenNodes[index];
     _lastSelectedNode->childrenNodes.clear();
     _lastSelectedNode->childrenNodes.push_back(selected);

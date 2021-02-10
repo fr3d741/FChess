@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QTimer>
 #include <limits>
 #include "minmaxstrategy.h"
 #include "../decisiontree.h"
@@ -43,6 +44,7 @@ void MinMaxStrategy::run()
 {
     DecisionTree decisionTree;
     qDebug() << "*** Build tree ***";
+
     decisionTree.BuildTree(_board, _color);
     auto selected = SelectNode(&decisionTree, _board);
 

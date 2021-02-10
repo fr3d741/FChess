@@ -13,7 +13,7 @@ class Display : public QWidget, public MessageInterface
 {
     Q_OBJECT
 public:
-    explicit Display(QWidget *parent = 0, Qt::WindowFlags f = 0 );
+    explicit Display(QWidget *parent = 0, Qt::WindowFlags f = Qt::Widget );
 
 signals:
     void signalMessage( QString );

@@ -1,6 +1,10 @@
 #include "boardfilter.h"
 
 BoardFilter::BoardFilter(std::shared_ptr<IBoard> board)
+    :_board(board.get())
+{
+}
+BoardFilter::BoardFilter(IBoard* board)
     :_board(board)
 {
 }

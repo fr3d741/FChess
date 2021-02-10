@@ -11,6 +11,11 @@ Bishop::Bishop(std::shared_ptr<IBoard> board, Defs::EColors color)
 
 bool Bishop::isValidMove( Defs::MovePrimitive step )
 {
+  return isValidMove(_board.get(), step);
+}
+
+bool Bishop::isValidMove(IBoard* board, Defs::MovePrimitive step)
+{
     Defs::Position diff = step.to - step.from;
     int stepY = 0;
     int stepX = 0;
@@ -27,7 +32,7 @@ bool Bishop::isValidMove( Defs::MovePrimitive step )
     int count = std::max(abs(diff.x), abs(diff.y));
     for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        if ( _board->GetFigureInPosition(x, y) )
+        if ( board->GetFigureInPosition(x, y) )
             return false;
     }
 

@@ -86,7 +86,8 @@ void DecisionTree::AddPossibleMovesToNode(StateParameter parameter)
 
             std::shared_ptr<puppets::FigureInterface> figureIns = puppets::FigureFactory::createFigure(parameter.replica, figure);
             Defs::state reachableCells;
-            figureIns->reachableCells(reachableCells, QPair<int,int>(i, j));
+            QPair<int,int> cell(i, j);
+            figureIns->reachableCells(reachableCells, cell);
             AiData::Position from;
             from.x = (AInt8)i;
             from.y = (AInt8)j;

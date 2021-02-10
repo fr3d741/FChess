@@ -1,3 +1,8 @@
 build/
 *.user
 build-*
+/FChessRefactor/.vs/*
+/FChessRefactor/debug/*
+/FChessRefactor/.qmake.stash
+/FChessRefactor/release/*
+/FChessRefactor/ui_*

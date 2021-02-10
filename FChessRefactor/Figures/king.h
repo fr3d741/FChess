@@ -11,6 +11,8 @@ class King : public FigureInterface
 public:
     King(std::shared_ptr<IBoard> board, Defs::EColors color );
 
+    static bool isValidMove(IBoard* board, Defs::MovePrimitive step, Defs::EColors color);
+
     virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& , QPair<int,int>&  );
@@ -21,7 +23,6 @@ public:
 
     virtual QString notation();
 private:
-    bool IsThereKingInVicinityAt(Defs::Position pos);
 };
 
 } //end namespace

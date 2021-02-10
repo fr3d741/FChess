@@ -1,5 +1,8 @@
 #include <algorithm>
 #include <QDebug>
+#include <QRegularExpression>
+#include <QString>
+#include <QRegularExpression>
 
 #include "board.h"
 
@@ -129,9 +132,9 @@ QString Board::SaveState()
     return txt;
 }
 
-void Board::LoadState(QString state)
+void Board::LoadState(const QString state)
 {
-    QRegExp exp(" |\n");
+    QRegularExpression exp(" |\n");
     QStringList tokens = state.split(exp);
     int x,y;
     x = y = 0;

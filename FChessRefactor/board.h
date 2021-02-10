@@ -28,27 +28,27 @@ public:
 
     Defs::Cell** BoardState();
     
-    int sizeVerical();
+    int sizeVerical() override;
 
-    int sizeHorizontal();
+    int sizeHorizontal() override;
 
     void resetBoard();
 
     bool applyMove(Defs::MovePrimitive &move);
 
-    std::shared_ptr<IBoard> replicate(Defs::Move move);
+    std::shared_ptr<IBoard> replicate(Defs::Move move) override;
 
-    virtual int GetFigureInPosition(int x, int y);
+    virtual int GetFigureInPosition(int x, int y) override;
 
-    virtual bool TestPosition(int x, int y);
+    virtual bool TestPosition(int x, int y) override;
 
-    Defs::Position getFigurePosition(int value);
+    Defs::Position getFigurePosition(int value) override;
 
-    Defs::Cell& cell(const Defs::Position &indexPair);
+    Defs::Cell& cell(const Defs::Position &indexPair) override;
 
-    QList<Defs::Move> GetHistory();
+    QList<Defs::Move> GetHistory() override;
 
-    Defs::Move lastMove();
+    Defs::Move lastMove() override;
 
     /*!
     * \returns list of moves so far
@@ -70,12 +70,12 @@ public:
 
     QString SaveState() override;
 
-    void LoadState(QString state) override;
+    void LoadState(const QString state) override;
 
 signals:
-    void signalMessage( QString );
+    void signalMessage( QString ) override;
 
-    void signalError( QString );
+    void signalError( QString ) override;
 
     void signalPlayerChanged(std::shared_ptr<Player>);
 

@@ -19,6 +19,8 @@ public:
 
     virtual QString notation();
 
+    static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
+
 protected:
     virtual void checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState );
 

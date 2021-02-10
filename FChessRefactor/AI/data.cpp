@@ -1,5 +1,7 @@
 #include <QTextStream>
 
+#include <Figures/FigureGlobals.h>
+
 #include "data.h"
 
 #include "../Interfaces/figure.h"
@@ -168,8 +170,8 @@ kingFound:;
             m.from.y = j;
             m.to.x = ofKing.x;
             m.to.y = ofKing.y;
-            auto figure = puppets::FigureFactory::createFigure(board, state[i][j]);
-            if (figure->isValidMove(m))
+            auto figure = (board, state[i][j]);
+            if (FigureGlobals::isValidMove(board.get(), figure, m))
                 return true;
         }
     }

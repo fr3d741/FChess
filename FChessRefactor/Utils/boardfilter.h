@@ -10,9 +10,10 @@ typedef bool (*FncPtr)(Defs::Cell& c);
 
 class BoardFilter
 {
-    std::shared_ptr<IBoard> _board;
+    IBoard* _board;
 public:
     BoardFilter(std::shared_ptr<IBoard> board);
+    BoardFilter(IBoard* board);
 
     QList<Defs::Position> filterCells(FncPtr filterFunction);
 

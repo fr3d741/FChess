@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Ai">
+      <UniqueIdentifier>{70e5c831-5891-424e-8549-4b307197974c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factories">
+      <UniqueIdentifier>{5913c8b2-3120-43e9-a267-0ce17fbf0c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Figures">
+      <UniqueIdentifier>{b45070e9-86dd-4706-8488-494890471cd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Players">
+      <UniqueIdentifier>{2bc2263c-3cce-471b-98dd-433f54e1ac7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{960d8d2f-d731-43c6-bc8a-8c5f0d4e59fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ai\Strategies">
+      <UniqueIdentifier>{5faba5b3-144e-41e0-bb57-99d4e9224b49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visuals">
+      <UniqueIdentifier>{46b980af-42e9-47f0-bd29-4da6bb6dbec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Globals">
+      <UniqueIdentifier>{33117af3-c402-4ec3-89d9-f6c9c489026c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AI\aiboard.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\aiEvaluator.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\bishop.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\blackpawn.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Visual\boardrendererimpl.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Players\computer.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\decisiontree.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\data.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Visual\display.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Interfaces\figure.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Factories\figurefactory.cpp">
+      <Filter>Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="Visual\figureselector.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Players\human.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\king.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\knight.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\Strategies\minmaxstrategy.cpp">
+      <Filter>Ai\Strategies</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\Strategies\randomstrategy.cpp">
+      <Filter>Ai\Strategies</Filter>
+    </ClCompile>
+    <ClCompile Include="Interfaces\player.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\queen.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\pawn.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Factories\playerfactory.cpp">
+      <Filter>Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="Players\tcpiplayer.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\utility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\rook.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="Facade\uifacade.cpp">
+      <Filter>Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\whitepawn.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="board.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\boardfilter.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="evaluator.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="exceptions.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Observers\gameplayobserver.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Observers\messenger.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Visual\playerlayer.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="rules.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="messageinterface.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Facade\gameplayfacade.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\timer.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\validator.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Defines.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Proxy\visualproxy.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Observers\visualobserver.cpp">
+      <Filter>Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="Figures\FigureGlobals.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Figures\whitepawn.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\utility.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\queen.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\pawn.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Factories\playerfactory.h">
+      <Filter>Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\Strategies\randomstrategy.h">
+      <Filter>Ai\Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\rook.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\knight.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\IStrategy.h">
+      <Filter>Ai\Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="Factories\figurefactory.h">
+      <Filter>Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\bishop.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\aiboard.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\aiEvaluator.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\blackpawn.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\BoardRendererInterface.h">
+      <Filter>Visuals</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\decisiontree.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\data.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\figure.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\singleton.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\timer.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\validator.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="messageinterface.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\RenderObject.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="rules.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\LayerInterface.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\iserializable.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IBoard.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="exceptions.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="evaluator.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\king.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures\FigureGlobals.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="networkSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="newGameDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bishop_b.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bishop_w.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="icons.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="king_b.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="king_w.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="knight_b.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="knight_w.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pawn_b.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pawn_w.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pawn_wt.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="queen_b.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="queen_w.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="rook_b.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="rook_w.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Interfaces\player.h">
+      <Filter>Figures</Filter>
+    </QtMoc>
+    <QtMoc Include="AI\Strategies\minmaxstrategy.h">
+      <Filter>Ai\Strategies</Filter>
+    </QtMoc>
+    <QtMoc Include="Players\tcpiplayer.h">
+      <Filter>Players</Filter>
+    </QtMoc>
+    <QtMoc Include="Players\computer.h">
+      <Filter>Players</Filter>
+    </QtMoc>
+    <QtMoc Include="Players\human.h">
+      <Filter>Players</Filter>
+    </QtMoc>
+    <QtMoc Include="Visual\boardrendererimpl.h">
+      <Filter>Visuals</Filter>
+    </QtMoc>
+    <QtMoc Include="Visual\display.h">
+      <Filter>Visuals</Filter>
+    </QtMoc>
+    <QtMoc Include="Visual\figureselector.h">
+      <Filter>Visuals</Filter>
+    </QtMoc>
+    <QtMoc Include="Proxy\visualproxy.h">
+      <Filter>Visuals</Filter>
+    </QtMoc>
+    <QtMoc Include="Observers\visualobserver.h">
+      <Filter>Visuals</Filter>
+    </QtMoc>
+    <QtMoc Include="Facade\uifacade.h">
+      <Filter>Visuals</Filter>
+    </QtMoc>
+    <QtMoc Include="Visual\playerlayer.h">
+      <Filter>Globals</Filter>
+    </QtMoc>
+    <QtMoc Include="mainwindow.h">
+      <Filter>Globals</Filter>
+    </QtMoc>
+    <QtMoc Include="Observers\messenger.h">
+      <Filter>Globals</Filter>
+    </QtMoc>
+    <QtMoc Include="Observers\gameplayobserver.h">
+      <Filter>Globals</Filter>
+    </QtMoc>
+    <QtMoc Include="Facade\gameplayfacade.h">
+      <Filter>Globals</Filter>
+    </QtMoc>
+    <QtMoc Include="board.h">
+      <Filter>Globals</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Defines.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\boardfilter.h">
+      <Filter>Globals</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

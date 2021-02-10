@@ -1,5 +1,7 @@
 #include <QDebug>
 
+#include <Figures/FigureGlobals.h>
+
 #include "evaluator.h"
 #include "Facade/gameplayfacade.h"
 #include "Interfaces/figure.h"
@@ -34,7 +36,7 @@ bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
         Defs::Position pos = figurePositions.takeFirst();
         Defs::Cell c = replica->cell(pos);
         Defs::MovePrimitive m{pos, king_pos};
-        if ( puppets::FigureFactory::createFigure(replica, (Defs::EColors)(c.figure & 0x03), c.figure)->isValidMove(m) )
+        if ( FigureGlobals::isValidMove(replica.get(), c.figure, m) )
         {
             return true;
         }

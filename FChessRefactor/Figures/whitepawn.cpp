@@ -52,4 +52,28 @@ bool WhitePawn::isValidMove(Defs::MovePrimitive step)
 return false;
 }
 
+bool WhitePawn::isValidMove(IBoard* board, Defs::MovePrimitive step)
+{
+    Defs::Position diff = step.to - step.from;
+    int stepDiff = 1;
+
+    Defs::ESpecials specType = isSpecial(board, step, Defs::White);
+
+    //move forward
+    if ( ( diff.x == stepDiff || ( diff.x == (2*stepDiff) && step.from.x == 1 ) ) && diff.y == 0 )
+    {
+        return Pawn::IsMoveValid(board, step.from, step.to, stepDiff);
+    }
+    else if ( diff.x == stepDiff && abs( diff.y ) == 1 )
+    {
+        if (specType == Defs::EnPassant)
+            return true;
+
+        //take a sidestep
+        return board->cell(step.to).figure != 0;
+    }
+
+return false;
+}
+
 }
