@@ -49,3 +49,7 @@ bool FigureGlobals::isValidMove(IBoard* board, Defs::EColors color, int figure, 
     throw new InvalidArgumentException(__FILE__ + __LINE__);
   }
 }
+
+void FigureGlobals::reachableCells(IBoard* /*board*/, Defs::state& /*result*/, QPair<int, int>& /*position*/, Defs::EColors /*color*/) {
+
+}

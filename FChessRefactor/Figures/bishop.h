@@ -21,10 +21,9 @@ public:
 
     static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
 
-protected:
-    virtual void checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState );
+    static void reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color);
 
-    bool IsInputRangeInvalid(int xFrom, int yFrom, int xTo, int yTo);
+protected:
 };
 
 } // end namespace
