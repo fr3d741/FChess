@@ -9,7 +9,7 @@ namespace Ui
 #include <QTcpSocket>
 #include <QTcpServer>
 
-#include "../player.h"
+#include "../Interfaces/player.h"
 #include "../messageinterface.h"
 
 class TCPIPlayer : public Player
@@ -32,7 +32,7 @@ public:
 
     virtual bool isValidCellForTarget( Defs::Cell* cell );
 
-    virtual bool eventFilter( QObject * watched, QEvent * event );
+    virtual bool eventFilter(QObject *, QEvent *);
 
     virtual std::pair< int, int >& cellOverCursor();
 signals:

@@ -1,56 +1,54 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+class Player;
+
+#include <functional>
 #include <QObject>
 #include <QVector>
 
+
 #include "Defines.h"
 #include "messageinterface.h"
-#include "player.h"
-
-extern Defs::Cell** Defs::boardState;
-extern Defs::ColorState Defs::WhiteBlackState;
+#include "Interfaces/IBoard.h"
+#include "Interfaces/iserializable.h"
 
 /*!
 * \brief Main class, handling players, figures, turn order, containg board data
 */
-class Board : public QObject, public MessageInterface
+class Board : public QObject, public IBoard, public MessageInterface, public ISerializable
 {
     Q_OBJECT
+
 public:
-    /*!
-    * \brief Construktor
-    */
+
     explicit Board(QObject *parent = 0);
 
     ~Board();
+
+    Defs::Cell** BoardState();
     
-    void setNumberOfPlayers( int i );
+    int sizeVerical() override;
 
-    int sizeVerical();
-
-    int sizeHorizontal();
+    int sizeHorizontal() override;
 
     void resetBoard();
 
-    void addPlayer( Player* player );
+    bool applyMove(Defs::MovePrimitive &move);
 
-    void setPlayer( int i, Player* player );
+    std::shared_ptr<IBoard> replicate(Defs::Move move) override;
 
-    bool isValidCell( Defs::Cell& cell );
+    virtual int GetFigureInPosition(int x, int y) override;
 
-    bool setMove( Defs::Move& move );
+    virtual bool TestPosition(int x, int y) override;
 
-    Player* currentPlayer();
+    Defs::Position getFigurePosition(int value) override;
 
-    std::pair<int, int>& selectedCell();
+    Defs::Cell& cell(const Defs::Position &indexPair) override;
 
-    QString formatMove( Defs::Move& move );
+    QList<Defs::Move> GetHistory() override;
 
-    /*!
-    * \returns true if the games has started
-    */
-    bool started();
+    Defs::Move lastMove() override;
 
     /*!
     * \returns list of moves so far
@@ -62,17 +60,24 @@ public:
     */
     void revertStep( Defs::Move* move = 0 );
 
-    /*!
-    * \brief deletes player, in case of some error
-    */
-    void deletePlayer( int index );
+    void init();
+
+    Defs::Cell operator()(Defs::Position& indexPair);
+
+    Defs::Cell* operator[](int index);
+
+    void dumpState();
+
+    QString SaveState() override;
+
+    void LoadState(const QString state) override;
+
 signals:
-    //void signalSendMessage( QString );
-    virtual void signalMessage( QString );
+    void signalMessage( QString ) override;
 
-    virtual void signalError( QString );
+    void signalError( QString ) override;
 
-    void signalPlayerChanged();
+    void signalPlayerChanged(std::shared_ptr<Player>);
 
     /*!
     * \brief signals general changes in the state of board
@@ -80,41 +85,20 @@ signals:
     void signalBoardChanged();
 
 public slots:
-    /*!
-    * \brief validates cell position
-    * \returns true if needed to update visuals
-    */
-    bool cellPressed( int x, int y );
-
-    bool start();
 
 protected:
-    /*!
-    * \brief Handles Castling, En passant, Promotion etc.
-    */
-    int handleSpecificCases( Defs::Move& move );
 
-    void init();
-
-    void nextPlayer();
+private:
+    void CreateMove(Defs::Move& m, Defs::MovePrimitive& move);
 
 protected:
-    bool                    _started;
+    Defs::Cell**            _boardState;
 
     bool                    _isCheck;
 
-    //! current player, handling availability through gui
-    Player*                 _currentPlayer;
-
-    //! array of players
-    QVector<Player*>        _players;
-
-    //!
-    std::pair< int, int >   _selectedCell;
-
     QList< Defs::Move >     _stack;
 
-    QVector< int >             _movedCells;
+    QVector< int >          _movedCells;
 };
 
 #endif // BOARD_H

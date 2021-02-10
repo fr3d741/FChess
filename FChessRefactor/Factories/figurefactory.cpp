@@ -3,62 +3,88 @@
 #include "../Figures/bishop.h"
 #include "../Figures/king.h"
 #include "../Figures/knight.h"
-#include "../Figures/pawn.h"
 #include "../Figures/queen.h"
 #include "../Figures/rook.h"
+#include "../Figures/whitepawn.h"
+#include "../Figures/blackpawn.h"
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
+
+#include "../exceptions.h"
 
 namespace puppets
 {
 
-std::auto_ptr< FigureFactory > FigureFactory::_globalInst;
-
-FigureFactory::FigureFactory()
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, int figure)
 {
-    _texturePaths[ Defs::White | Defs::Pawn ]   = QString( ":/icon/figure/pawn_w.png" );
-    _texturePaths[ Defs::White | Defs::Knight ] = QString( ":/icon/figure/knight_w.png" );
-    _texturePaths[ Defs::White | Defs::Rook ]   = QString( ":/icon/figure/rook_w.png" );
-    _texturePaths[ Defs::White | Defs::Bishop ] = QString( ":/icon/figure/bishop_w.png" );
-    _texturePaths[ Defs::White | Defs::King ]   = QString( ":/icon/figure/king_w.png" );
-    _texturePaths[ Defs::White | Defs::Queen ]  = QString( ":/icon/figure/queen_w.png" );
-
-    _texturePaths[ Defs::Black | Defs::Pawn ]   = QString( ":/icon/figure/pawn_b.png" );
-    _texturePaths[ Defs::Black | Defs::Knight ] = QString( ":/icon/figure/knight_b.png" );
-    _texturePaths[ Defs::Black | Defs::Rook ]   = QString( ":/icon/figure/rook_b.png" );
-    _texturePaths[ Defs::Black | Defs::Bishop ] = QString( ":/icon/figure/bishop_b.png" );
-    _texturePaths[ Defs::Black | Defs::King ]   = QString( ":/icon/figure/king_b.png" );
-    _texturePaths[ Defs::Black | Defs::Queen ]  = QString( ":/icon/figure/queen_b.png" );
+    return createFigure(board, (Defs::EColors)(figure & 0x3), (Defs::EFigures)(figure & 0xFC));
 }
 
-Figure* FigureFactory::createFigure( Defs::EColors color, Defs::EFigures figure )
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure )
+{
+    return createFigure(board, color, (Defs::EFigures)(figure & 0xFC));
+}
+
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure)
 {
     switch (figure)
     {
         case Defs::Pawn:
-            return new Pawn( _texturePaths[color | figure], color, figure );
+            switch(color)
+            {
+                case Defs::White:
+                    return std::shared_ptr<FigureInterface>(new WhitePawn(board));
+                case Defs::Black:
+                    return std::shared_ptr<FigureInterface>(new BlackPawn(board));
+                default:
+                    throw new InvalidArgumentException(__FILE__ + __LINE__);
+            }
+            break;
         case Defs::Knight:
-            return new Knight( _texturePaths[color | figure], color, figure );
+            return std::shared_ptr<FigureInterface>(new Knight( board, color ));
         case Defs::Rook:
-            return new Rook( _texturePaths[color | figure], color, figure );
+            return std::shared_ptr<FigureInterface>(new Rook( board, color ));
         case Defs::Bishop:
-            return new Bishop( _texturePaths[color | figure], color, figure );
+            return std::shared_ptr<FigureInterface>(new Bishop( board, color ));
         case Defs::King:
-            return new King( _texturePaths[color | figure], color, figure );
+            return std::shared_ptr<FigureInterface>(new King( board, color ));
         case Defs::Queen:
-            return new Queen( _texturePaths[color | figure], color, figure );
+            return std::shared_ptr<FigureInterface>(new Queen( board, color ));
         default:
-            return 0;
+            throw new InvalidArgumentException(__FILE__ + __LINE__);
     }
 }
 
-const std::auto_ptr< FigureFactory > FigureFactory::Instance()
+QString FigureFactory::IconPath(int id)
 {
-    if ( !_globalInst.get() )
+    switch(id)
     {
-        _globalInst = std::auto_ptr< FigureFactory >( new FigureFactory() );
+        case Defs::White | Defs::Pawn: return QString( ":/icon/figure/pawn_w.png" );
+        case Defs::White | Defs::Knight: return QString( ":/icon/figure/knight_w.png" );
+        case Defs::White | Defs::Rook: return QString( ":/icon/figure/rook_w.png" );
+        case Defs::White | Defs::Bishop: return QString( ":/icon/figure/bishop_w.png" );
+        case Defs::White | Defs::King: return QString( ":/icon/figure/king_w.png" );
+        case Defs::White | Defs::Queen: return QString( ":/icon/figure/queen_w.png" );
+
+        case Defs::Black | Defs::Pawn: return QString( ":/icon/figure/pawn_b.png" );
+        case Defs::Black | Defs::Knight: return QString( ":/icon/figure/knight_b.png" );
+        case Defs::Black | Defs::Rook: return QString( ":/icon/figure/rook_b.png" );
+        case Defs::Black | Defs::Bishop: return QString( ":/icon/figure/bishop_b.png" );
+        case Defs::Black | Defs::King: return QString( ":/icon/figure/king_b.png" );
+        case Defs::Black | Defs::Queen: return QString( ":/icon/figure/queen_b.png" );
+        default:break;
     }
-    return _globalInst;
+
+    return QString("");
+}
+
+QImage FigureFactory::IconImage(int id)
+{
+    QString path = IconPath(id);
+    if (path.length())
+        return QImage(IconPath(id));
+
+    return QImage();
 }
 
 } // end namespace

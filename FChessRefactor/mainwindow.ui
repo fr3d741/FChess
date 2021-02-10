@@ -35,7 +35,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -54,6 +54,9 @@
           <string>Undo last move</string>
          </property>
         </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QListWidget" name="moveHistoryWidget"/>
        </item>
       </layout>
      </widget>
@@ -92,7 +95,11 @@
     <property name="title">
      <string>Game</string>
     </property>
+    <addaction name="actionSave"/>
+    <addaction name="actionLoad"/>
+    <addaction name="separator"/>
     <addaction name="actionStart"/>
+    <addaction name="actionRestart"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuPlayers">
@@ -100,8 +107,16 @@
      <string>Players</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuBoard">
+    <property name="title">
+     <string>Board</string>
+    </property>
+    <addaction name="actionRotate_Right"/>
+    <addaction name="actionRotate_Left"/>
+   </widget>
    <addaction name="menuStart"/>
    <addaction name="menuPlayers"/>
+   <addaction name="menuBoard"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -120,6 +135,34 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionRestart">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Restart</string>
+   </property>
+  </action>
+  <action name="actionRotate_Right">
+   <property name="text">
+    <string>Rotate Right</string>
+   </property>
+  </action>
+  <action name="actionRotate_Left">
+   <property name="text">
+    <string>Rotate Left</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Load</string>
    </property>
   </action>
  </widget>

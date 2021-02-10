@@ -1,21 +1,37 @@
 #include "knight.h"
+#include "../board.h"
 
 namespace puppets
 {
 
-Knight::Knight( QString path, Defs::EColors color, Defs::EFigures figure )
-    :Figure( path, color, figure )
+Knight::Knight(std::shared_ptr<IBoard> board, Defs::EColors color )
+    :FigureInterface( board, color, Defs::Knight )
 {
 }
 
-bool Knight::isValidMove( Defs::Move step )
+bool Knight::isValidMove(Defs::MovePrimitive step )
 {
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
-    int adiff1 = abs( diff1 );
-    int adiff2 = abs( diff2 );
+    Defs::Position diff = step.to - step.from;
+    int adiff1 = abs( diff.y );
+    int adiff2 = abs( diff.x );
 
-    if ( ( adiff1 == 2 && adiff2 == 1 ) || ( adiff1 == 1 && adiff2 == 2 ) )
+    if ( ( adiff1 == 2 && adiff2 == 1 ) ||
+         ( adiff1 == 1 && adiff2 == 2 ) )
+    {
+        return true;
+    }
+
+return false;
+}
+
+bool Knight::isValidMove(IBoard* /*board*/, Defs::MovePrimitive step )
+{
+    Defs::Position diff = step.to - step.from;
+    int adiff1 = abs( diff.y );
+    int adiff2 = abs( diff.x );
+
+    if ( ( adiff1 == 2 && adiff2 == 1 ) ||
+         ( adiff1 == 1 && adiff2 == 2 ) )
     {
         return true;
     }
@@ -25,21 +41,11 @@ return false;
 
 void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
 {
-    bool occupied = false;
-    bool sameColor = false;
-
     if ( xFrom < 0 || yFrom < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom )
-    {
         return;
-    }
 
-
-    occupied = Defs::testBit( xFrom, yFrom, Defs::WhiteBlackState._board );
-    sameColor = Defs::boardState[xFrom][yFrom].figure & _color;
-    if ( !occupied || !sameColor )
-    {
+    if ( !IsPositionOccupied(xFrom, yFrom) || !IsSameColorFigureOnPosition(xFrom, yFrom) )
         Defs::setBit( xFrom, yFrom, resultState );
-    }
 }
 
 void Knight::reachableCells( Defs::state& result, QPair<int,int>& position )
@@ -54,6 +60,16 @@ void Knight::reachableCells( Defs::state& result, QPair<int,int>& position )
     checkRange( position.first - 1, position.second - 2, result );
     checkRange( position.first - 1, position.second + 2, result );
 
+}
+
+QString Knight::name()
+{
+    return QString("Knight");
+}
+
+QString Knight::notation()
+{
+    return QString("N");
 }
 
 } //end namespace

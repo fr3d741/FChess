@@ -1,28 +1,42 @@
+#include <QDebug>
+
+#include <Figures/FigureGlobals.h>
+
 #include "evaluator.h"
-#include "figure.h"
+#include "Facade/gameplayfacade.h"
+#include "Interfaces/figure.h"
+#include "Factories/figurefactory.h"
+#include "Utils/boardfilter.h"
+
+Defs::EColors playerColorGlobal;
+
+bool filterOutPlayerCells(Defs::Cell& c)
+{
+    bool b = c.figure && !(c.figure & playerColorGlobal);
+    return b;
+}
 
 Evaluator::Evaluator()
 {
 }
 
-bool Evaluator::check( Defs::EColors color )
+bool Evaluator::isCheckFor(Defs::EColors playerColor, Defs::Move move)
 {
-    QPair<int, int> pos = Defs::getFigurePosition( color | Defs::King, color );
-    Defs::state result;
-    Defs::state& reference = Defs::WhiteBlackState._board;
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
+    std::shared_ptr<IBoard> replica = board->replicate(move);
+    BoardFilter filter = BoardFilter(replica);
 
-    //for ( QMap< int, puppets::Figure* >::iterator it = puppets::ChessFigures.begin(); it != puppets::ChessFigures.end(); ++it )
-    for( int i = 0; i < (int)reference.size(); ++i )
+    //replica->applyMove(move);
+    Defs::Position king_pos = replica->getFigurePosition(playerColor | Defs::King);
+    playerColorGlobal = playerColor;
+
+    QList<Defs::Position> figurePositions = filter.filterCells(&filterOutPlayerCells);
+    while(!figurePositions.isEmpty())
     {
-        result.reset();
-        QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = Defs::boardState[fpos.first][fpos.second].figure;
-        if ( !figure )
-        {
-            continue;
-        }
-        puppets::ChessFigures[figure]->reachableCells( result, fpos );
-        if ( Defs::testBit( pos.first, pos.second, result ) )
+        Defs::Position pos = figurePositions.takeFirst();
+        Defs::Cell c = replica->cell(pos);
+        Defs::MovePrimitive m{pos, king_pos};
+        if ( FigureGlobals::isValidMove(replica.get(), c.figure, m) )
         {
             return true;
         }
@@ -32,28 +46,38 @@ return false;
 
 bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& pointList )
 {
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::state result;
-    Defs::state& reference = Defs::WhiteBlackState._board;
 
-    for( int i = 0; i < (int)reference.size(); ++i )
-    {
-        result.reset();
-        QPair<int,int> fpos = Defs::getPosition( i );
-        int figure = Defs::boardState[fpos.first][fpos.second].figure;
-        if ( !figure || (figure & color) )
+    for( int i = 0; i < (int)board->sizeHorizontal(); ++i )
+        for( int j = 0; j < (int)board->sizeVerical(); ++j )
         {
-            continue;
-        }
+            result.reset();
+            QPair<int,int> fpos = QPair<int,int>(i, j);
+            int figure = board->GetFigureInPosition(fpos.first, fpos.second);
+            if ( !figure || (figure & color) )
+                continue;
 
-        puppets::ChessFigures[figure]->reachableCells( result, fpos );
-        for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
-        {
-            QPair<int, int>& pos = (*it);
-            if ( Defs::testBit( pos.first, pos.second, result ) )
+            puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
+            for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
             {
-                return true;
+                QPair<int, int>& pos = (*it);
+                if ( Defs::testBit( pos.first, pos.second, result ) )
+                {
+                    return true;
+                }
             }
         }
-    }
-return false;
+
+    return false;
+}
+
+Defs::ESpecials Evaluator::defineSpecial(Defs::MovePrimitive &move)
+{
+    std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
+    Defs::Cell& piece = board->cell(move.from);
+    Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
+    auto instance = puppets::FigureFactory::createFigure(board, color, piece.figure );
+
+    return instance->isSpecial(move);
 }

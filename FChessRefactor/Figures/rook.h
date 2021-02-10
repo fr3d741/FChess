@@ -1,24 +1,33 @@
 #ifndef ROOK_H
 #define ROOK_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Rook : public Figure
+class Rook : public FigureInterface
 {
 public:
-    Rook( QString path, Defs::EColors color, Defs::EFigures figure );
+    Rook(std::shared_ptr<IBoard> board, Defs::EColors color);
 
-    virtual bool isValidMove( Defs::Move step );
+    virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
+
+    virtual QString name();
+
+    virtual QString notation();
+
+    static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
+
 protected:
     /*!
     * \brief checks the given range for which cell is empty, uses a step value of +/- 1 depending on range
     */
     virtual void checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState );
+
+    bool IsInputRangeInvalid(int yFrom, int xTo, int yTo, int xFrom);
 };
 
 }

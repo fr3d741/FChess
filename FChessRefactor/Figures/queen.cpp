@@ -1,74 +1,66 @@
 #include "queen.h"
+#include "../board.h"
 
 namespace puppets
 {
 
-Queen::Queen( QString path, Defs::EColors color, Defs::EFigures figure )
-    :Figure( path, color, figure )
+Queen::Queen(std::shared_ptr<IBoard> board, Defs::EColors color )
+    :FigureInterface( board, color, Defs::Queen )
 {
 }
 
-bool Queen::isValidMove( Defs::Move step )
+bool Queen::isValidMove(Defs::MovePrimitive step )
 {
-    int diff1 = step.to.first - step.from.first;
-    int diff2 = step.to.second - step.from.second;
-    int step1 = 0;
-    int step2 = 0;
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
 
-    if ( diff1 )
+    if ( diff.y )
+        stepY = diff.y / abs(diff.y);
+
+    if (diff.x )
+        stepX = diff.x / abs(diff.x);
+
+    if (abs( diff.x ) != abs( diff.y ) && diff.x && diff.y)
+        return false;
+
+    int count = std::max(abs(diff.x), abs(diff.y));
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        step1 = diff1 / abs(diff1);
+        if ( _board->GetFigureInPosition(x, y) )
+            return false;
     }
 
-    if (diff2)
+return true;
+}
+
+bool Queen::isValidMove(IBoard* board, Defs::MovePrimitive step )
+{
+    Defs::Position diff = step.to - step.from;
+    int stepY = 0;
+    int stepX = 0;
+
+    if ( diff.y )
+        stepY = diff.y / abs(diff.y);
+
+    if (diff.x )
+        stepX = diff.x / abs(diff.x);
+
+    if (abs( diff.x ) != abs( diff.y ) && diff.x && diff.y)
+        return false;
+
+    int count = std::max(abs(diff.x), abs(diff.y));
+    for ( int x = step.from.x + stepX, y = step.from.y + stepY, i = 1; i < count; x += stepX, y += stepY, ++i )
     {
-        step2 = diff2 / abs(diff2);
+        if ( board->GetFigureInPosition(x, y) )
+            return false;
     }
 
-    if ( abs( diff1 ) == abs( diff2 ) )
-    {
-        for ( int i = step.from.first + step1, j = step.from.second + step2; i != step.to.first || j != step.to.second; i += step1, j += step2 )
-        {
-            if ( Defs::boardState[i][j].figure )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    else if ( !diff1 && diff2 )
-    {
-        for ( int i = step.from.second + step2; i != step.to.second; i += step2 )
-        {
-            if ( Defs::boardState[step.from.first][i].figure )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    else if ( diff1 && !diff2 )
-    {
-        for ( int i = step.from.first + step1; i != step.to.first; i += step1 )
-        {
-            if ( Defs::boardState[i][step.from.second].figure )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-return false;
+return true;
 }
 
 void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
-    //qDebug("Queen::reachableCells + ");
     checkRange( position.first + 1  , position.second + 1   , +1, +1, result );
     checkRange( position.first - 1  , position.second - 1   , -1, -1, result );
 
@@ -80,42 +72,38 @@ void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 
     checkRange( position.first      , position.second + 1   , 0, +1, result );
     checkRange( position.first      , position.second - 1   , 0, -1, result );
+}
 
-    //qDebug("Queen::reachableCells - ");
+QString Queen::name()
+{
+    return QString("Queen");
+}
+
+QString Queen::notation()
+{
+    return QString("Q");
 }
 
 void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState )
 {
-    int diff_x = xDiff;
-    int diff_y = yDiff;
-
-    bool occupied = false;
-    bool finish = false;
+    for ( int i = xFrom, j = yFrom; IsPositionCoordinatesValid(i, j); i += xDiff, j += yDiff )
     {
-        for ( int i = xFrom, j = yFrom; !finish; i += diff_x, j += diff_y )
+        if ( IsPositionOccupied(i, j) )
         {
-            if ( i < 0 || HORIZONTAL_SIZE <= i || j < 0 || VERTICAL_SIZE <= j )
-            {
-                break;
-            }
-
-            occupied = Defs::testBit( i, j, Defs::WhiteBlackState._board );
-
-			if ( !occupied )
-            {
+            if ( !IsSameColorFigureOnPosition(i, j) )
                 Defs::setBit( i, j, resultState );
-            }
-            else if ( occupied )
-            {
-                // same color
-                finish = true;
-                if ( !(_color & Defs::boardState[i][j].figure ) )
-                {
-                    Defs::setBit( i, j, resultState );
-                }
-            }
+
+            break;
         }
+
+        Defs::setBit( i, j, resultState );
     }
+}
+
+bool Queen::IsPositionCoordinatesValid(int i, int j)
+{
+    return 0 <= i && i < HORIZONTAL_SIZE &&
+            0 <= j && j < VERTICAL_SIZE;
 }
 
 } //end namespace

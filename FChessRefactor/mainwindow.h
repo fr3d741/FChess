@@ -1,13 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
 #include <QMainWindow>
 #include <QActionGroup>
-#include "board.h"
-#include "Visual/display.h"
+
+#include "Defines.h"
+#include "Interfaces/player.h"
 
 namespace Ui {
 class MainWindow;
+class NewGameDialog;
 }
 
 class MainWindow : public QMainWindow
@@ -21,11 +24,6 @@ public:
     
 public slots:
     /*!
-    * \brief sets new player to the board
-    */
-    void slotSetupPlayer();
-
-    /*!
     * \brief handles message coming from classes
     */
     void slotReceivedMessage( QString );
@@ -33,7 +31,7 @@ public slots:
     /*!
     * \brief refreshes GUI elements
     */
-    void slotActualizeGUI();
+    void slotActualizeGUI(std::shared_ptr<Player> player);
 
     void init();
 
@@ -52,19 +50,36 @@ public slots:
     */
     void slotRefresh();
 
+    void slotCheck(Defs::EColors player);
+
 protected:
     virtual void closeEvent( QCloseEvent * );
 
     void makeConnections();
 
-    void addPlayerAction( QString& action, QMenu* menu, QActionGroup* agroup );
+    QString stringify(Defs::Move& move);
+
+private slots:
+    void on_actionRestart_triggered();
+
+    void on_actionRotate_Right_triggered();
+
+    void on_actionRotate_Left_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionLoad_triggered();
+
+private:
+    void SetupDialogUI();
 
 private:
     Ui::MainWindow *ui;
+    Ui::NewGameDialog* _dialogUi;
 
-    chessVisialization::Display* _display;
-
-    Board*          _chessBoard;
+    QString _humanString;
+    QString _networkString;
+    QString _computerString;
 };
 
 #endif // MAINWINDOW_H

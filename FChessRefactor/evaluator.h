@@ -3,16 +3,15 @@
 
 #include "Defines.h"
 
-extern Defs::Cell** Defs::boardState;
-
 class Evaluator
 {
-public:
     Evaluator();
-
-    static bool check( Defs::EColors );
+public:
+    static bool isCheckFor(Defs::EColors playerColor, Defs::Move move = Defs::Move() );
 
     static bool checkPositions( Defs::EColors, QList< QPair<int,int> >& pointList );
+
+    static Defs::ESpecials defineSpecial(Defs::MovePrimitive& move);
 };
 
 #endif // EVALUATOR_H

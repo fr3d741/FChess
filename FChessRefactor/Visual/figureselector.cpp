@@ -7,7 +7,8 @@
 #include <QMouseEvent>
 
 #include "figureselector.h"
-#include "../figure.h"
+#include "../Interfaces/figure.h"
+#include "../Factories/figurefactory.h"
 
 FigureSelector::FigureSelector(QWidget *parent)
     :QDialog(parent)
@@ -20,8 +21,6 @@ FigureSelector::FigureSelector(QWidget *parent)
     bbox->addButton( "Select", QDialogButtonBox::AcceptRole );
     connect( bbox, SIGNAL(accepted()), this, SLOT(accept()));
 
-    QLabel* label = 0;
-
     QHBoxLayout* whites = new QHBoxLayout();
     QHBoxLayout* blacks = new QHBoxLayout();
 
@@ -31,40 +30,16 @@ FigureSelector::FigureSelector(QWidget *parent)
     layout->insertWidget( 0, &_whiteFrame );
     layout->insertWidget( 0, &_blackFrame );
     layout->insertWidget( 0, new QLabel( "Select a figure for promotion:" ) );
-    for ( QMap< int, puppets::Figure* >::iterator it = puppets::ChessFigures.begin(); it != puppets::ChessFigures.end(); ++it )
-    {
-        int fig = it.key();
-        if ( fig & Defs::King )
-        {
-            continue;
-        }
 
-        if ( fig & Defs::White )
-        {
-            QFrame* frame = new QFrame(this);
-            QHBoxLayout* hFrameLayout = new QHBoxLayout;
-            label = new QLabel(frame);
-            frame->setLayout( hFrameLayout );
-            hFrameLayout->addWidget( label );
-            label->installEventFilter(this);
-            label->setPixmap( it.value()->iconPixmap() );
-            label->setProperty( "figure", QVariant( fig ) );
-            whites->addWidget( frame );
-        }
-        else if ( fig & Defs::Black )
-        {
-            QFrame* frame = new QFrame(this);
-            QHBoxLayout* hFrameLayout = new QHBoxLayout;
-            label = new QLabel(frame);
-            frame->setLayout( hFrameLayout );
-            hFrameLayout->addWidget( label );
-            label->installEventFilter(this);
-            label->setPixmap( it.value()->iconPixmap() );
-            label->setProperty( "figure", QVariant( fig ) );
-            blacks->addWidget( frame );
-        }
-    }
+    whites->addWidget( CreateFrame(Defs::White | Defs::Queen) );
+    whites->addWidget( CreateFrame(Defs::White | Defs::Bishop) );
+    whites->addWidget( CreateFrame(Defs::White | Defs::Rook) );
+    whites->addWidget( CreateFrame(Defs::White | Defs::Knight) );
 
+    blacks->addWidget( CreateFrame(Defs::Black | Defs::Queen) );
+    blacks->addWidget( CreateFrame(Defs::Black | Defs::Bishop) );
+    blacks->addWidget( CreateFrame(Defs::Black | Defs::Rook) );
+    blacks->addWidget( CreateFrame(Defs::Black | Defs::Knight) );
 }
 
 bool FigureSelector::eventFilter( QObject * watched, QEvent* event )
@@ -115,4 +90,19 @@ int FigureSelector::getFigure( Defs::EColors color )
     }
 
 return -1;
+}
+
+QFrame * FigureSelector::CreateFrame(int id)
+{
+    QImage img = puppets::FigureFactory::IconImage(id);
+    QFrame* frame = new QFrame(this);
+    QHBoxLayout* hFrameLayout = new QHBoxLayout;
+    QLabel* label = new QLabel(frame);
+    frame->setLayout( hFrameLayout );
+    hFrameLayout->addWidget( label );
+    label->installEventFilter(this);
+    label->setPixmap( QPixmap::fromImage(img) );
+    label->setProperty( "figure", QVariant( id ) );
+
+    return frame;
 }

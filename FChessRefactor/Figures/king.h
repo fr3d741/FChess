@@ -1,22 +1,28 @@
 #ifndef KING_H
 #define KING_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class King : public Figure
+class King : public FigureInterface
 {
 public:
-    King( QString path, Defs::EColors color, Defs::EFigures figure );
+    King(std::shared_ptr<IBoard> board, Defs::EColors color );
 
-    virtual bool isValidMove( Defs::Move step );
+    static bool isValidMove(IBoard* board, Defs::MovePrimitive step, Defs::EColors color);
+
+    virtual bool isValidMove( Defs::MovePrimitive step );
 
     virtual void reachableCells( Defs::state& , QPair<int,int>&  );
 
-protected:
+    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& move);
 
+    virtual QString name();
+
+    virtual QString notation();
+private:
 };
 
 } //end namespace

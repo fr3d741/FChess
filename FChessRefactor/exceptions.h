@@ -14,4 +14,10 @@ public:
     NetworkException();
 };
 
+class InvalidArgumentException : public std::exception
+{
+public:
+    InvalidArgumentException(const char* msg);
+};
+
 #endif // EXCEPTIONS_H

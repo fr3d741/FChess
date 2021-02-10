@@ -1,8 +1,10 @@
 #ifndef FIGUREFACTORY_H
 #define FIGUREFACTORY_H
 
+class IBoard;
+
 namespace puppets{
-class Figure;
+class FigureInterface;
 }
 
 #include <memory>
@@ -18,16 +20,19 @@ namespace puppets
     class FigureFactory
     {
         public:
-            Figure *createFigure( Defs::EColors color, Defs::EFigures figure );
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, int figure );
 
-            static const std::auto_ptr< FigureFactory > Instance();
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure );
+
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure );
+
+            static QString IconPath(int id);
+
+            static QImage IconImage(int id);
 
         private:
+
             FigureFactory();
-
-            static std::auto_ptr< FigureFactory >   _globalInst;
-
-            QMap< int, QString >             _texturePaths;
     };
 }
 

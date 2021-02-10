@@ -117,7 +117,7 @@ std::pair< int, int >& TCPIPlayer::cellOverCursor()
     return _cellOverCursor;
 }
 
-bool TCPIPlayer::eventFilter( QObject * watched, QEvent * event )
+bool TCPIPlayer::eventFilter( QObject*, QEvent* )
 {
 return false;
 }

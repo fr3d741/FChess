@@ -17,6 +17,7 @@ public:
 
     virtual bool eventFilter ( QObject * watched, QEvent * event );
 
+    QFrame * CreateFrame(int id);
 signals:
     
 public slots:

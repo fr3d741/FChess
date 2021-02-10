@@ -1,31 +1,14 @@
-#include "Defines.h"
-//#include <exception>
 #include <stdexcept>
 #include <iostream>
 #include <stdlib.h>
 
+#include <QApplication>
+
+#include "Defines.h"
+#include "exceptions.h"
+
 namespace Defs
 {
-
-Cell** boardState = 0;
-ColorState WhiteBlackState;
-ColorState& WhiteState = WhiteBlackState;
-ColorState& BlackState = WhiteBlackState;
-
-Move::Move()
-    :from()
-    ,to()
-    ,figure(0)
-    ,fromCell()
-    ,toCell()
-    ,additionalMove()
-{
-}
-
-Move::~Move()
-{
-    //delete additionalMove;
-}
 
 QPair<int, int> getPosition( int i )
 {
@@ -38,21 +21,6 @@ int getPosition( int i, int j )
     return i * HORIZONTAL_SIZE + j;
 }
 
-int getFigureID( int i )
-{
-    div_t dt = div( i, HORIZONTAL_SIZE );
-    try
-    {
-        return boardState[dt.quot][dt.rem].figure;
-     //   qDebug("Access: %d, %d", dt.quot, dt.rem);
-    }
-    catch (...)
-    {
-        qDebug("Exception: %d, %d", dt.quot, dt.rem);
-    }
-return -1;
-}
-
 void setBit( int i, int j, state& st, bool value )
 {
     try{
@@ -60,8 +28,8 @@ void setBit( int i, int j, state& st, bool value )
     }
     catch ( std::out_of_range& ex )
     {
-        std::cout << "Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
-        exit( -1 );
+        std::cout << __FILE__ << ":" << __LINE__ << " Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
+        QApplication::instance()->quit();
     }
 }
 
@@ -73,36 +41,19 @@ bool testBit( int i, int j, state& st )
     }
     catch ( std::out_of_range& ex )
     {
-        std::cout << "Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
-        exit( -1 );
+        std::cout << __FILE__ << ":" << __LINE__ << " Position:" << i * HORIZONTAL_SIZE + j << " Out of Range error: " << ex.what() << " " << i << ";" << j <<std::endl;
+        QApplication::instance()->quit();
     }
 }
 
-QPair<int,int> getFigurePosition( int figure, int color )
+QPair<int,int> getFigurePosition( int figure, int, ColorState& state )
 {
-    if ( color == White )
-    {
-        return WhiteState._figures[figure];
-    }
-    else if ( color == Black )
-    {
-        return BlackState._figures[figure];
-    }
-
-return QPair<int,int>( -1, -1 );
+    return state._figures[figure];
 }
 
-void setFigurePosition( int figure, int i, int j )
+void setFigurePosition(int figure, int i, int j , ColorState &state)
 {
-    WhiteBlackState._figures[figure] = QPair<int,int>(i,j);
-//    if ( color == White )
-//    {
-//        WhiteState._figures[figure] = QPair<int,int>(i,j);
-//    }
-//    else if ( color == Black )
-//    {
-//        BlackState._figures[figure] = QPair<int,int>(i,j);
-//    }
+    state._figures[figure] = QPair<int,int>(i,j);
 }
 
 
@@ -146,7 +97,74 @@ QString convertFigureToString( int fig )
             break;
     }
 
-return ret;
+    return ret;
+}
+
+bool operator==(const Position &A, const Position &B)
+{
+    return A.x == B.x && A.y == B.y;
+}
+
+Defs::Position operator-(const Position &A, const Position &B)
+{
+    return {A.x - B.x, A.y - B.y};
+}
+
+bool operator==(const Move &A, const Move &B)
+{
+    return  A.from == B.from &&
+            A.to == B.to &&
+            A.figure == B.figure &&
+            A.fromCell == B.fromCell &&
+            A.toCell == B.toCell &&
+            A.special == B.special;
+}
+
+bool operator==(const Cell &A, const Cell &B)
+{
+    return A.cellColor == B.cellColor && A.figure == B.figure;
+}
+
+Move &Move::operator=(const MovePrimitive &rightSide)
+{
+    this->from = rightSide.from;
+    this->to = rightSide.to;
+    this->special = rightSide.special;
+    return *this;
+}
+
+EColors nextColor(EColors color)
+{
+    int c = color + 1;
+    if (color == White) return Black;
+    if (color == Black) return White;
+
+    throw InvalidArgumentException(QString("%1:%2:Invalid color %3").arg(__FILE__).arg(__LINE__).arg(color).toStdString().c_str());
+}
+
+QString toString(const Cell &cell)
+{
+    return QString("%1").arg(cell.figure);
+}
+
+QString toString(const Position &pos)
+{
+    return QString("[%1,%2]").arg(pos.x).arg(pos.y);
+}
+
+bool isPositionValid(int x, int y)
+{
+    return 0 <= x && x < HORIZONTAL_SIZE && 0 <= y && y < VERTICAL_SIZE;
+}
+
+bool isPositionValid(Position p)
+{
+    return isPositionValid(p.x, p.y);
+}
+
+EColors colorOfFigure(int figure)
+{
+    return (Defs::EColors)(figure & 0x3);
 }
 
 } // end namespace

@@ -1,22 +1,37 @@
 #ifndef PAWN_H
 #define PAWN_H
 
-#include "../figure.h"
+#include "../Interfaces/figure.h"
 
 namespace puppets
 {
 
-class Pawn : public Figure
+class Pawn : public FigureInterface
 {
 public:
-    Pawn( QString path, Defs::EColors color, Defs::EFigures figure );
+    Pawn(std::shared_ptr<IBoard> board, Defs::EColors color);
 
-    virtual bool isValidMove( Defs::Move step );
+    virtual QString name();
 
-    virtual void reachableCells( Defs::state& result, QPair<int,int>& position );
+    virtual QString notation();
 
+    virtual Defs::ESpecials isSpecial(const Defs::MovePrimitive& step);
+    static Defs::ESpecials isSpecial(IBoard* board, const Defs::MovePrimitive& step, Defs::EColors color);
+    static bool IsMoveValid(IBoard* board, Defs::Position from, Defs::Position to, int step);
 protected:
+    bool filterPawns(const Defs::Move& m);
 
+    void CheckAndSetFront(Defs::state& result, int sign, QPair<int,int>& position);
+
+    void CheckAndSetFrontDown(int sign, QPair<int,int>& position, Defs::state& result);
+
+    void CheckAndSetFrontUp(QPair<int,int>& position, Defs::state& result, int sign);
+
+    bool IsPositionOccupied(QPair<int,int>& position, int sign, int offset);
+
+    bool IsSameColor(QPair<int,int>& position, int sign, int offset);
+
+    bool IsMoveValid(Defs::Position from, Defs::Position to, int step);
 };
 
 } //end namespace
