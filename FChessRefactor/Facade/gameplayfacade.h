@@ -21,6 +21,7 @@ class GameplayFacade : public QObject, public Singleton<GameplayFacade>, public 
 
     QList<std::shared_ptr<Player>>          _playerStack;
     std::shared_ptr<Board>                  _board;
+    QList<Defs::MovePrimitive>              _moveHistory;
 
     explicit GameplayFacade();
 public:
@@ -38,6 +39,9 @@ public:
     void Reset();
 
     bool start();
+
+    void setBoardToState(int index);
+
 signals:
     void signalCheckForPlayer(Defs::EColors player);
 

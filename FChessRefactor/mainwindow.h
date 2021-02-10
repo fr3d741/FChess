@@ -8,6 +8,8 @@
 #include "Defines.h"
 #include "Interfaces/player.h"
 
+class QListWidgetItem;
+
 namespace Ui {
 class MainWindow;
 class NewGameDialog;
@@ -53,6 +55,8 @@ public slots:
     void slotCheck(Defs::EColors player);
 
     void slotMove(QVariant data);
+
+    void slotSetState(QListWidgetItem* item);
 
 protected:
     virtual void closeEvent( QCloseEvent * );

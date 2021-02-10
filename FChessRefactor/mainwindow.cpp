@@ -60,6 +60,8 @@ void MainWindow::makeConnections()
     connect( ui->actionStart,   SIGNAL( triggered() ),  this, SLOT( start() ) );
     connect( ui->actionExit,    SIGNAL( triggered() ),  qApp, SLOT( quit() ) );
     connect( ui->undoLastButton,SIGNAL( pressed() ),    this, SLOT( slotUndoLastMove() ) );
+    connect( ui->moveHistoryWidget,SIGNAL(itemDoubleClicked(QListWidgetItem*) ), this, SLOT( slotSetState(QListWidgetItem*) ) );
+
 
     connect( Messenger::Instance().get(), SIGNAL(signalMessageToGUI(QString)), SLOT(slotReceivedMessage(QString)));
     connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotActualizeGUI(std::shared_ptr<Player>)) );
@@ -90,8 +92,20 @@ void MainWindow::slotMove(QVariant data)
 {
   Defs::MovePrimitive m = data.value<Defs::MovePrimitive>();
   auto msg = QString("Moved [%1, %2] -> [%3, %4]").arg(m.from.x).arg(m.from.y).arg(m.to.x).arg(m.to.x);
-  ui->moveHistoryWidget->addItem(msg);
+  auto item = new QListWidgetItem(msg);
+  item->setData(Qt::UserRole, QVariant(ui->moveHistoryWidget->count()));
+  ui->moveHistoryWidget->addItem(item);
   ui->moveHistoryWidget->scrollToBottom();
+}
+
+void MainWindow::slotSetState(QListWidgetItem* item) 
+{
+  auto index = item->data(Qt::UserRole).toInt();;
+  GameplayFacade::Instance()->setBoardToState(index);
+  for (int i = ui->moveHistoryWidget->count() - 1; index < i; --i) {
+    delete ui->moveHistoryWidget->takeItem(i);
+  }
+  UiFacade::Instance()->UpdateUi();
 }
 
 void MainWindow::slotUndoLastMove()

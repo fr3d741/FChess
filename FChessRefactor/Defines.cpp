@@ -10,6 +10,11 @@
 namespace Defs
 {
 
+EColors alternateColor(EColors color)
+{
+  return color == White ? Black : White;
+}
+
 QPair<int, int> getPosition( int i )
 {
     div_t dt = div( i, HORIZONTAL_SIZE );

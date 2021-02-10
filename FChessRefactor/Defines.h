@@ -124,6 +124,7 @@ public:
 
 extern bool operator==(const Move& A, const Move& B);
 
+EColors alternateColor(EColors color);
 bool isPositionValid(Defs::Position p);
 bool isPositionValid(int x, int y);
 EColors nextColor(EColors color);

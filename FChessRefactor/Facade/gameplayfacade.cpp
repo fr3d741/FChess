@@ -76,6 +76,22 @@ bool GameplayFacade::start()
     return true;
 }
 
+void GameplayFacade::setBoardToState(int index) {
+
+  _board->init();
+  Defs::EColors currentColor = Defs::White;
+  for (int i = 0; i <= index; ++i) 
+  {
+    _board->applyMove(_moveHistory[i]);
+    currentColor = Defs::alternateColor(currentColor);
+  }
+
+  _moveHistory.remove(index);
+
+  if (currentPlayer()->color() != currentColor)
+    nextPlayer();
+}
+
 void GameplayFacade::slotMove(QVariant variant)
 {
     std::shared_ptr<Player> player = currentPlayer();
@@ -93,6 +109,7 @@ void GameplayFacade::slotMove(QVariant variant)
         return;
     }
 
+    _moveHistory.push_back(move);
     _board->applyMove(move);
     emit signalBoardChanged(_board);
     nextPlayer();

@@ -56,7 +56,14 @@
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="QListWidget" name="moveHistoryWidget"/>
+        <widget class="QListWidget" name="moveHistoryWidget">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="flow">
+          <enum>QListView::TopToBottom</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -88,7 +95,7 @@
      <x>0</x>
      <y>0</y>
      <width>582</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuStart">
