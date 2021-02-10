@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QStringBuilder>
 
+#include <Figures/FigureGlobals.h>
+
 #include "decisiontree.h"
 #include "aiboard.h"
 
@@ -77,35 +79,40 @@ Defs::EColors DecisionTree::AlternateColor(Defs::EColors color)
 
 void DecisionTree::AddPossibleMovesToNode(StateParameter parameter)
 {
-    for(int i = 0, c = 0; i < 8; ++i)
-        for(int j = 0; j < 8; ++j, ++c)
-        {
-            AInt8 figure = parameter.state[i][j];
-            if (!figure || !(figure & parameter.color))
-                continue;
+  for (int i = 0, c = 0; i < 8; ++i) 
+  {
+    for (int j = 0; j < 8; ++j, ++c)
+    {
+      AInt8 figure = parameter.state[i][j];
+      if (!figure || !(figure & parameter.color))
+        continue;
 
-            std::shared_ptr<puppets::FigureInterface> figureIns = puppets::FigureFactory::createFigure(parameter.replica, figure);
-            Defs::state reachableCells;
-            QPair<int,int> cell(i, j);
-            figureIns->reachableCells(reachableCells, cell);
-            AiData::Position from;
-            from.x = (AInt8)i;
-            from.y = (AInt8)j;
-            assert(0 <= from.x && from.x < 8);
-            assert(0 <= from.y && from.y < 8);
-            QList<AiData::Position> converted = AiData::ConvertToPositions(reachableCells);
-            while(!converted.isEmpty())
-            {
-                AiData::Position p = converted.takeFirst();
-                std::shared_ptr<AiData::StateNode> node = std::shared_ptr<AiData::StateNode>(new AiData::StateNode);
-                node->move.from = from;
-                node->move.to = p;
-                assert(0 <= node->move.to.x && node->move.to.x < 8);
-                assert(0 <= node->move.to.y && node->move.to.y < 8);
-                node->playerColor = AlternateColor(parameter.color);
-                parameter.rootNode->childrenNodes.push_back(node);
-            }
+      Defs::state reachableCells;
+      QPair<int, int> cell(i, j);
+      FigureGlobals::reachableCells(parameter.replica.get(), reachableCells, cell, parameter.color);
+
+      AiData::Position from;
+      from.x = (AInt8)i;
+      from.y = (AInt8)j;
+      assert(0 <= from.x && from.x < 8);
+      assert(0 <= from.y && from.y < 8);
+      for (int i = 0, c = 0; i < 8; ++i)
+        for (int j = 0; j < 8; ++j, ++c)
+        {
+          if (!reachableCells.test(c))
+            continue;
+
+          auto p = AiData::ConvertToPosition(i, j);
+          std::shared_ptr<AiData::StateNode> node = std::shared_ptr<AiData::StateNode>(new AiData::StateNode);
+          node->move.from = from;
+          node->move.to = p;
+          assert(0 <= node->move.to.x && node->move.to.x < 8);
+          assert(0 <= node->move.to.y && node->move.to.y < 8);
+          node->playerColor = AlternateColor(parameter.color);
+          parameter.rootNode->childrenNodes.push_back(node);
         }
+    }
+  }
 }
 
 void DecisionTree::BuildStateForChildren(DecisionTree::StateParameter parameter, int actDepth)

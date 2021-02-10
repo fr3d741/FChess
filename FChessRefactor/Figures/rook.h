@@ -20,14 +20,8 @@ public:
     virtual QString notation();
 
     static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
-
+    static void reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color);
 protected:
-    /*!
-    * \brief checks the given range for which cell is empty, uses a step value of +/- 1 depending on range
-    */
-    virtual void checkRange( int xFrom, int yFrom, int xTo, int yTo, Defs::state& resultState );
-
-    bool IsInputRangeInvalid(int yFrom, int xTo, int yTo, int xFrom);
 };
 
 }

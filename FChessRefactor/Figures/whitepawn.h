@@ -15,6 +15,8 @@ public:
     virtual bool isValidMove( Defs::MovePrimitive step );
 
     static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
+
+    static void reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position);
 };
 
 }

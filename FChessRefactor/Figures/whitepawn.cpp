@@ -13,7 +13,7 @@ void WhitePawn::reachableCells(Defs::state &result, QPair<int, int> &position)
 {
     int sign = 1;
 
-    if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE && !IsPositionOccupied(position, 2, 0))
+    if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE && !IsPositionOccupied(_board.get(), position, 2, 0))
     {
         Defs::setBit( position.first + 2, position.second, result );
     }
@@ -21,11 +21,30 @@ void WhitePawn::reachableCells(Defs::state &result, QPair<int, int> &position)
     if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
         return;
 
-    CheckAndSetFrontDown(sign, position, result);
+    CheckAndSetFrontDown(_board.get(), sign, position, result, Defs::White);
 
-    CheckAndSetFront(result, sign, position);
+    CheckAndSetFront(_board.get(), result, sign, position, Defs::White);
 
-    CheckAndSetFrontUp(position, result, sign);
+    CheckAndSetFrontUp(_board.get(), position, result, sign, Defs::White);
+}
+
+void WhitePawn::reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position)
+{
+    int sign = 1;
+
+    if ( position.first == 1 && position.first + 2 < HORIZONTAL_SIZE && !IsPositionOccupied(board, position, 2, 0))
+    {
+        Defs::setBit( position.first + 2, position.second, result );
+    }
+
+    if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
+        return;
+
+    CheckAndSetFrontDown(board, sign, position, result, Defs::White);
+
+    CheckAndSetFront(board, result, sign, position, Defs::White);
+
+    CheckAndSetFrontUp(board, position, result, sign, Defs::White);
 }
 
 bool WhitePawn::isValidMove(Defs::MovePrimitive step)

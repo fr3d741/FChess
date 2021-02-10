@@ -1,6 +1,38 @@
 #include "queen.h"
 #include "../board.h"
 
+static bool IsPositionOccupied(IBoard* board, int i, int j)
+{
+  return board->TestPosition(i, j);
+}
+
+static bool IsSameColorFigureOnPosition(IBoard* board, int i, int j, Defs::EColors color)
+{
+  return color & board->GetFigureInPosition(i, j);
+}
+
+static bool IsPositionCoordinatesValid(int i, int j)
+{
+  return 0 <= i && i < HORIZONTAL_SIZE &&
+    0 <= j && j < VERTICAL_SIZE;
+}
+
+static void checkRange(IBoard* board, int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState, Defs::EColors color)
+{
+  for (int i = xFrom, j = yFrom; IsPositionCoordinatesValid(i, j); i += xDiff, j += yDiff)
+  {
+    if (IsPositionOccupied(board, i, j))
+    {
+      if (!IsSameColorFigureOnPosition(board, i, j, color))
+        Defs::setBit(i, j, resultState);
+
+      break;
+    }
+
+    Defs::setBit(i, j, resultState);
+  }
+}
+
 namespace puppets
 {
 
@@ -61,17 +93,33 @@ return true;
 
 void Queen::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
-    checkRange( position.first + 1  , position.second + 1   , +1, +1, result );
-    checkRange( position.first - 1  , position.second - 1   , -1, -1, result );
+  reachableCells(_board.get(), result, position, _color);
+    //checkRange( position.first + 1  , position.second + 1   , +1, +1, result );
+    //checkRange( position.first - 1  , position.second - 1   , -1, -1, result );
 
-    checkRange( position.first - 1  , position.second + 1   , -1, +1, result );
-    checkRange( position.first + 1  , position.second - 1   , +1, -1, result );
+    //checkRange( position.first - 1  , position.second + 1   , -1, +1, result );
+    //checkRange( position.first + 1  , position.second - 1   , +1, -1, result );
 
-    checkRange( position.first + 1  , position.second       , +1, 0, result );
-    checkRange( position.first - 1  , position.second       , -1, 0, result );
+    //checkRange( position.first + 1  , position.second       , +1, 0, result );
+    //checkRange( position.first - 1  , position.second       , -1, 0, result );
 
-    checkRange( position.first      , position.second + 1   , 0, +1, result );
-    checkRange( position.first      , position.second - 1   , 0, -1, result );
+    //checkRange( position.first      , position.second + 1   , 0, +1, result );
+    //checkRange( position.first      , position.second - 1   , 0, -1, result );
+}
+
+void Queen::reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color)
+{
+    checkRange(board, position.first + 1  , position.second + 1   , +1, +1, result, color);
+    checkRange(board, position.first - 1  , position.second - 1   , -1, -1, result, color);
+
+    checkRange(board, position.first - 1  , position.second + 1   , -1, +1, result, color);
+    checkRange(board, position.first + 1  , position.second - 1   , +1, -1, result, color);
+
+    checkRange(board, position.first + 1  , position.second       , +1, 0, result, color);
+    checkRange(board, position.first - 1  , position.second       , -1, 0, result, color);
+
+    checkRange(board, position.first      , position.second + 1   , 0, +1, result, color);
+    checkRange(board, position.first      , position.second - 1   , 0, -1, result, color);
 }
 
 QString Queen::name()
@@ -82,28 +130,6 @@ QString Queen::name()
 QString Queen::notation()
 {
     return QString("Q");
-}
-
-void Queen::checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState )
-{
-    for ( int i = xFrom, j = yFrom; IsPositionCoordinatesValid(i, j); i += xDiff, j += yDiff )
-    {
-        if ( IsPositionOccupied(i, j) )
-        {
-            if ( !IsSameColorFigureOnPosition(i, j) )
-                Defs::setBit( i, j, resultState );
-
-            break;
-        }
-
-        Defs::setBit( i, j, resultState );
-    }
-}
-
-bool Queen::IsPositionCoordinatesValid(int i, int j)
-{
-    return 0 <= i && i < HORIZONTAL_SIZE &&
-            0 <= j && j < VERTICAL_SIZE;
 }
 
 } //end namespace

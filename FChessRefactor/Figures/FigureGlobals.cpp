@@ -11,6 +11,11 @@
 
 using namespace puppets;
 
+Defs::EFigures FigureGlobals::getFigure(int code) {
+
+  return (Defs::EFigures)(code & 0xFC);
+}
+
 bool FigureGlobals::isValidMove(IBoard* board, int figure, Defs::MovePrimitive move){
 
   auto color = (Defs::EColors)(figure & 0x3);
@@ -50,6 +55,42 @@ bool FigureGlobals::isValidMove(IBoard* board, Defs::EColors color, int figure, 
   }
 }
 
-void FigureGlobals::reachableCells(IBoard* /*board*/, Defs::state& /*result*/, QPair<int, int>& /*position*/, Defs::EColors /*color*/) {
+void FigureGlobals::reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color) {
 
+  auto figure = getFigure(board->GetFigureInPosition(position.first, position.second));
+  switch (figure)
+  {
+  case Defs::Pawn:
+    switch (color)
+    {
+    case Defs::White:
+      WhitePawn::reachableCells(board, result, position);
+      break;
+    case Defs::Black:
+      BlackPawn::reachableCells(board, result, position);
+      break;
+    default:
+      throw new InvalidArgumentException(__FILE__ + __LINE__);
+    }
+    break;
+  case Defs::Knight:
+    Knight::reachableCells(board, result, position, color);
+    break;
+  case Defs::Rook:
+    Rook::reachableCells(board, result, position, color);
+    break;
+  case Defs::Bishop:
+    Bishop::reachableCells(board, result, position, color);
+    break;
+  case Defs::King:
+    //King::reachableCells(board, result, position, color);
+    break;
+  case Defs::Queen:
+    Queen::reachableCells(board, result, position, color);
+    break;
+  default:
+    throw new InvalidArgumentException(__FILE__ + __LINE__);
+  }
+
+  
 }

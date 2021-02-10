@@ -15,7 +15,7 @@ void BlackPawn::reachableCells(Defs::state &result, QPair<int, int> &position)
 
     if ( position.first == 6 && 0 <= position.first - 2 )
     {
-        if ( !IsPositionOccupied(position, -2, 0) )
+        if ( !IsPositionOccupied(_board.get(), position, -2, 0) )
         {
             Defs::setBit( position.first - 2, position.second, result );
         }
@@ -24,11 +24,33 @@ void BlackPawn::reachableCells(Defs::state &result, QPair<int, int> &position)
     if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
         return;
 
-    CheckAndSetFrontDown(sign, position, result);
+    CheckAndSetFrontDown(_board.get(), sign, position, result, Defs::Black);
 
-    CheckAndSetFront(result, sign, position);
+    CheckAndSetFront(_board.get(), result, sign, position, Defs::Black);
 
-    CheckAndSetFrontUp(position, result, sign);
+    CheckAndSetFrontUp(_board.get(), position, result, sign, Defs::Black);
+}
+
+void BlackPawn::reachableCells(IBoard* board, Defs::state &result, QPair<int, int> &position)
+{
+    int sign = -1;
+
+    if ( position.first == 6 && 0 <= position.first - 2 )
+    {
+        if ( !IsPositionOccupied(board, position, -2, 0) )
+        {
+            Defs::setBit( position.first - 2, position.second, result );
+        }
+    }
+
+    if ( position.first + sign < 0 && HORIZONTAL_SIZE <= position.first + sign )
+        return;
+
+    CheckAndSetFrontDown(board, sign, position, result, Defs::Black);
+
+    CheckAndSetFront(board, result, sign, position, Defs::Black);
+
+    CheckAndSetFrontUp(board, position, result, sign, Defs::Black);
 }
 
 bool BlackPawn::isValidMove(Defs::MovePrimitive step)

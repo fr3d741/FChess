@@ -57,7 +57,8 @@ bool checkPositions(Defs::EColors color, std::shared_ptr<IBoard> board, QList< Q
             if ( !figure || (figure & color) )
                 continue;
 
-            puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
+            //puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
+            FigureGlobals::reachableCells(board.get(), result, fpos, color);
             for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
             {
                 QPair<int, int>& pos = (*it);

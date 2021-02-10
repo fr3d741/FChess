@@ -20,10 +20,8 @@ public:
     virtual QString notation();
 
     static bool isValidMove(IBoard* board, Defs::MovePrimitive step);
+    static void reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color);
 protected:
-    virtual void checkRange( int xFrom, int yFrom, int xDiff, int yDiff, Defs::state& resultState );
-
-    bool IsPositionCoordinatesValid(int i, int j);
 };
 
 } //end namespace
