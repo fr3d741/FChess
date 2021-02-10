@@ -9,6 +9,9 @@ public:
   FigureGlobals() = delete;
   ~FigureGlobals() = delete;
 
+  static Defs::EFigures getFigure(int code);
+
   static bool isValidMove(IBoard* board, Defs::EColors color, int figure, Defs::MovePrimitive move);
   static bool isValidMove(IBoard* board, int figure, Defs::MovePrimitive move);
+  static void reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color);
 };

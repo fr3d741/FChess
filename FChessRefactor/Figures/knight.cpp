@@ -1,6 +1,25 @@
 #include "knight.h"
 #include "../board.h"
 
+static bool IsPositionOccupied(IBoard* board, int i, int j)
+{
+  return board->TestPosition(i, j);
+}
+
+static bool IsSameColorFigureOnPosition(IBoard* board, int i, int j, Defs::EColors color)
+{
+  return color & board->GetFigureInPosition(i, j);
+}
+
+static void checkRange(IBoard* board, int xFrom, int yFrom, Defs::state& resultState, Defs::EColors color)
+{
+  if (xFrom < 0 || yFrom < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom)
+    return;
+
+  if (!IsPositionOccupied(board, xFrom, yFrom) || !IsSameColorFigureOnPosition(board, xFrom, yFrom, color))
+    Defs::setBit(xFrom, yFrom, resultState);
+}
+
 namespace puppets
 {
 
@@ -39,27 +58,30 @@ bool Knight::isValidMove(IBoard* /*board*/, Defs::MovePrimitive step )
 return false;
 }
 
-void Knight::checkRange( int xFrom, int yFrom, Defs::state& resultState )
-{
-    if ( xFrom < 0 || yFrom < 0 || HORIZONTAL_SIZE <= xFrom || VERTICAL_SIZE <= yFrom )
-        return;
-
-    if ( !IsPositionOccupied(xFrom, yFrom) || !IsSameColorFigureOnPosition(xFrom, yFrom) )
-        Defs::setBit( xFrom, yFrom, resultState );
-}
-
 void Knight::reachableCells( Defs::state& result, QPair<int,int>& position )
 {
-    checkRange( position.first + 2, position.second - 1, result );
-    checkRange( position.first + 2, position.second + 1, result );
-    checkRange( position.first - 2, position.second - 1, result );
-    checkRange( position.first - 2, position.second + 1, result );
+  checkRange(_board.get(), position.first + 2, position.second - 1, result, _color);
+  checkRange(_board.get(), position.first + 2, position.second + 1, result, _color);
+  checkRange(_board.get(), position.first - 2, position.second - 1, result, _color);
+  checkRange(_board.get(), position.first - 2, position.second + 1, result, _color);
 
-    checkRange( position.first + 1, position.second - 2, result );
-    checkRange( position.first + 1, position.second + 2, result );
-    checkRange( position.first - 1, position.second - 2, result );
-    checkRange( position.first - 1, position.second + 2, result );
+  checkRange(_board.get(), position.first + 1, position.second - 2, result, _color);
+  checkRange(_board.get(), position.first + 1, position.second + 2, result, _color);
+  checkRange(_board.get(), position.first - 1, position.second - 2, result, _color);
+  checkRange(_board.get(), position.first - 1, position.second + 2, result, _color);
+}
 
+void Knight::reachableCells(IBoard* board, Defs::state& result, QPair<int,int>& position, Defs::EColors color )
+{
+    checkRange(board, position.first + 2, position.second - 1, result, color);
+    checkRange(board, position.first + 2, position.second + 1, result, color);
+    checkRange(board, position.first - 2, position.second - 1, result, color);
+    checkRange(board, position.first - 2, position.second + 1, result, color);
+
+    checkRange(board, position.first + 1, position.second - 2, result, color);
+    checkRange(board, position.first + 1, position.second + 2, result, color);
+    checkRange(board, position.first - 1, position.second - 2, result, color);
+    checkRange(board, position.first - 1, position.second + 2, result, color);
 }
 
 QString Knight::name()
