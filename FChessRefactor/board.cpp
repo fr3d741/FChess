@@ -258,7 +258,7 @@ std::shared_ptr<IBoard> Board::replicate(Defs::Move move)
     return std::shared_ptr<IBoard>(replica);
 }
 
-int Board::GetFigureInPosition(int x, int y)
+Ftype Board::GetFigureInPosition(int x, int y)
 {
     return _boardState[x][y].figure;
 }

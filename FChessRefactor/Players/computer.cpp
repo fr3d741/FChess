@@ -71,3 +71,8 @@ void Computer::slotNodeSelected(AiData::NodePtr selected)
     move.to.y = selected->move.to.y;
     emit signalMove(QVariant::fromValue(move));
 }
+
+Ftype Computer::getPromoted(Defs::MovePrimitive )
+{
+  return Defs::Queen | _playerColor;
+}

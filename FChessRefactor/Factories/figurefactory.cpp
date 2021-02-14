@@ -15,14 +15,14 @@
 namespace puppets
 {
 
-std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, int figure)
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Ftype figure)
 {
-    return createFigure(board, (Defs::EColors)(figure & 0x3), (Defs::EFigures)(figure & 0xFC));
+    return createFigure(board, Defs::getColor(figure), Defs::getFigure(figure));
 }
 
-std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure )
+std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Ftype figure )
 {
-    return createFigure(board, color, (Defs::EFigures)(figure & 0xFC));
+    return createFigure(board, color, Defs::getFigure(figure));
 }
 
 std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure)
@@ -55,7 +55,7 @@ std::shared_ptr<FigureInterface> FigureFactory::createFigure(std::shared_ptr<IBo
     }
 }
 
-QString FigureFactory::IconPath(int id)
+QString FigureFactory::IconPath(Ftype id)
 {
     switch(id)
     {
@@ -78,7 +78,7 @@ QString FigureFactory::IconPath(int id)
     return QString("");
 }
 
-QImage FigureFactory::IconImage(int id)
+QImage FigureFactory::IconImage(Ftype id)
 {
     QString path = IconPath(id);
     if (path.length())

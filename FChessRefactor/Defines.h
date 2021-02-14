@@ -9,6 +9,7 @@
 #define VERTICAL_SIZE 8
 #define HORIZONTAL_SIZE 8
 #define NUMBER_OF_PLAYERS 2
+#define BOARD_SIZE VERTICAL_SIZE * HORIZONTAL_SIZE
 
 #define CELL_TEXTURE_W 44
 #define CELL_TEXTURE_H 44
@@ -22,6 +23,8 @@
 #include <memory>
 
 #define RELEASE_VERSION "0.3"
+
+typedef uint8_t Ftype;
 
 namespace Defs
 {
@@ -68,9 +71,9 @@ enum ESpecials
 
 enum EColors
 {
-    Invalid = -1,
-    White = 1,
-    Black = 2
+    White = 0x00,
+    Black = 0x80,
+    Invalid = 0xFF
 };
 
 enum EPlayers
@@ -81,17 +84,17 @@ enum EPlayers
 
 enum EFigures
 {
-    King = 4,
-    Queen = 8,
-    Bishop = 16,
-    Knight = 32,
-    Rook = 64,
-    Pawn = 128
+  Pawn = 1,
+  Bishop = 2,
+  Knight = 4,
+  Rook = 8,
+  Queen = 16,
+  King = 32,
 };
 
 struct Cell
 {
-    int     figure;
+    Ftype     figure;
     EColors cellColor;
 };
 
@@ -125,6 +128,8 @@ public:
 extern bool operator==(const Move& A, const Move& B);
 
 EColors alternateColor(EColors color);
+EColors getColor(Ftype figure);
+EFigures getFigure(Ftype figure);
 bool isPositionValid(Defs::Position p);
 bool isPositionValid(int x, int y);
 EColors nextColor(EColors color);

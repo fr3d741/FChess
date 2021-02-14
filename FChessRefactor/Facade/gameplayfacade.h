@@ -48,6 +48,8 @@ signals:
     void signalBoardChanged(std::shared_ptr<IBoard>);
 
     void signalNextPlayer(std::shared_ptr<Player>);
+    
+    void signalValidMove(QVariant);
 
 public slots:
     void slotMove(QVariant variant);

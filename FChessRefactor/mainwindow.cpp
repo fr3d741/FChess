@@ -31,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     VisualProxy::CreateInstance(this);
     ui->setupUi(this);
-
     setWindowTitle( QString( "FChess %1").arg(RELEASE_VERSION) );
 
     //***********************************
@@ -66,7 +65,7 @@ void MainWindow::makeConnections()
     connect( Messenger::Instance().get(), SIGNAL(signalMessageToGUI(QString)), SLOT(slotReceivedMessage(QString)));
     connect( GameplayObserver::Instance().get(), SIGNAL(signalPlayerChanged(std::shared_ptr<Player>)), SLOT(slotActualizeGUI(std::shared_ptr<Player>)) );
     connect( GameplayObserver::Instance().get(), SIGNAL(signalCheckForPlayer(Defs::EColors)), SLOT(slotCheck(Defs::EColors)));
-    connect( GameplayObserver::Instance().get(), SIGNAL(signalMove(QVariant)), SLOT(slotMove(QVariant)));
+    connect( GameplayFacade::Instance().get(), SIGNAL(signalValidMove(QVariant)), SLOT(slotMove(QVariant)));
 }
 
 QString MainWindow::stringify(Defs::Move &move)

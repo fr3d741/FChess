@@ -32,9 +32,9 @@ Defs::EFigures VisualProxy::FigurePicker(Defs::EColors color)
     QWidget* parentW = dynamic_cast<QWidget*>(_instance->parent());
     FigureSelector fs(parentW);
 
-    int result = fs.getFigure(color);
+    Ftype result = fs.getFigure(color);
 
-return (Defs::EFigures)(result & 0xFC);
+return Defs::getFigure(result);
 }
 
 void VisualProxy::slotDeleted()

@@ -1,10 +1,9 @@
 #ifndef IBOARD_H
 #define IBOARD_H
 
-#include <functional>
 #include <QList>
 
-#include "../Defines.h"
+#include <Defines.h>
 
 class IBoard
 {
@@ -13,15 +12,11 @@ public:
 
     virtual int sizeHorizontal() = 0;
 
-    virtual int GetFigureInPosition(int, int) = 0;
+    virtual Ftype GetFigureInPosition(int, int) = 0;
 
     virtual bool TestPosition(int, int) = 0;
 
     virtual Defs::Cell& cell(const Defs::Position &indexPair) = 0;
-
-//    virtual QList<Defs::Move> filterHistory(std::function<bool(const Defs::Move&)>& filterFunc) = 0;
-
-//    virtual QList<Defs::Position> filterCells(FncPtr filterFunction) = 0;
 
     virtual QList<Defs::Move> GetHistory() = 0;
 

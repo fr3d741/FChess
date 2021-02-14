@@ -15,6 +15,18 @@ EColors alternateColor(EColors color)
   return color == White ? Black : White;
 }
 
+EColors getColor(Ftype figure) {
+  auto f = static_cast<int8_t>(figure);
+  if (f < 0) return Defs::Black;
+  if (f > 0) return Defs::White;
+
+  return Defs::Invalid;
+}
+
+EFigures getFigure(Ftype figure) {
+  return static_cast<EFigures>(figure & 0x7F);
+}
+
 QPair<int, int> getPosition( int i )
 {
     div_t dt = div( i, HORIZONTAL_SIZE );
@@ -140,7 +152,6 @@ Move &Move::operator=(const MovePrimitive &rightSide)
 
 EColors nextColor(EColors color)
 {
-    int c = color + 1;
     if (color == White) return Black;
     if (color == Black) return White;
 

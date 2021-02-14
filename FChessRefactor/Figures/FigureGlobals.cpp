@@ -11,21 +11,16 @@
 
 using namespace puppets;
 
-Defs::EFigures FigureGlobals::getFigure(int code) {
+bool FigureGlobals::isValidMove(IBoard* board, Ftype figure, Defs::MovePrimitive move){
 
-  return (Defs::EFigures)(code & 0xFC);
-}
-
-bool FigureGlobals::isValidMove(IBoard* board, int figure, Defs::MovePrimitive move){
-
-  auto color = (Defs::EColors)(figure & 0x3);
+  auto color = Defs::getColor(figure);
   return isValidMove(board, color, figure, move);
 }
 
-bool FigureGlobals::isValidMove(IBoard* board, Defs::EColors color, int figure, Defs::MovePrimitive move) {
+bool FigureGlobals::isValidMove(IBoard* board, Defs::EColors color, Ftype figure, Defs::MovePrimitive move) {
 
   //auto color = (Defs::EColors)(figure & 0x3);
-  auto puppet = (Defs::EFigures)(figure & 0xFC);
+  auto puppet = Defs::getFigure(figure);
 
   switch (puppet)
   {
@@ -57,7 +52,7 @@ bool FigureGlobals::isValidMove(IBoard* board, Defs::EColors color, int figure, 
 
 void FigureGlobals::reachableCells(IBoard* board, Defs::state& result, QPair<int, int>& position, Defs::EColors color) {
 
-  auto figure = getFigure(board->GetFigureInPosition(position.first, position.second));
+  auto figure = Defs::getFigure(board->GetFigureInPosition(position.first, position.second));
   switch (figure)
   {
   case Defs::Pawn:

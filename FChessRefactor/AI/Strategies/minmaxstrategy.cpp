@@ -1,10 +1,13 @@
 #include <QDebug>
 #include <QTimer>
 #include <limits>
+#include <chrono>
 #include "minmaxstrategy.h"
 #include "../decisiontree.h"
 #include "../../Interfaces/IBoard.h"
 #include "../../Utils/utility.h"
+
+using namespace std::chrono;
 
 namespace Ai {
 
@@ -26,8 +29,14 @@ AiData::NodePtr MinMaxStrategy::SelectNode(Ai::DecisionTree *tree, std::shared_p
     qDebug() << "Analyze";
     Analyze(board);
     qDebug() << "select MinMax";
-    QList<AiData::NodePtr> path = SelectMaxValuedNode(_lastSelectedNode);
-    _lastSelectedNode = path[1];
+    QList<AiData::NodePtr> path;
+    if (_color == Defs::White)
+      path = SelectMaxValuedNode(_lastSelectedNode);
+    else
+      path = SelectMinValuedNode(_lastSelectedNode);
+
+    if (0 < path.size())
+      _lastSelectedNode = path[1];
     tree->SelectedNode(_lastSelectedNode);
 
     return _lastSelectedNode;
@@ -35,6 +44,7 @@ AiData::NodePtr MinMaxStrategy::SelectNode(Ai::DecisionTree *tree, std::shared_p
 
 void MinMaxStrategy::run()
 {
+    auto t1 = steady_clock::now();
     DecisionTree decisionTree;
     qDebug() << "*** Build tree ***";
 
@@ -48,6 +58,9 @@ void MinMaxStrategy::run()
         qDebug() << "Wrong move: " << figure;
     }
 
+    auto t2 = steady_clock::now();
+    duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
+    qDebug() << time_span.count() << " seconds ";
     emit signalSelectedNode(selected);
 }
 

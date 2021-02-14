@@ -10,7 +10,8 @@ Defs::EColors globalColor;
 
 static bool IsSameColor(IBoard* board, QPair<int, int>& position, int sign, int offset, Defs::EColors color)
 {
-  return board->GetFigureInPosition(position.first + sign, position.second + offset) & color;
+  auto figure = board->GetFigureInPosition(position.first + sign, position.second + offset);
+  return Defs::getColor(figure) == color;
 }
 
 namespace puppets

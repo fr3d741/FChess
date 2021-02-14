@@ -3,7 +3,7 @@
 
 #ifdef _WIN32
         //#define AInt8 __int8
-        #define AInt8 int
+        #define AInt8 int8_t
 #else
         #define AInt8 int8_t;
 #endif
@@ -23,6 +23,8 @@ namespace AiData
 
     struct Position
     {
+        Position(){}
+        Position(int i, int j) : x(static_cast<AInt8>(i)), y(static_cast<AInt8>(j)) {}
         AInt8 x;
         AInt8 y;
     };
@@ -35,12 +37,16 @@ namespace AiData
 
     struct State
     {
-        AInt8 cells[8][8];
+    private:
+        AInt8 cells[HORIZONTAL_SIZE * VERTICAL_SIZE];
+    public:
 
         AInt8* operator[](int i)
         {
-            return cells[i];
+            return &cells[i * HORIZONTAL_SIZE];
         }
+
+        AInt8* data() { return cells; }
     };
 
     struct StateNode
@@ -53,7 +59,7 @@ namespace AiData
 
     typedef std::shared_ptr<AiData::StateNode> NodePtr;
 
-    int ValueOfState(Figure *state, int maxX, int maxY, Defs::EColors color);
+    //int ValueOfState(Figure *state, int maxX, int maxY, Defs::EColors color);
     int ValueOfState(State& state, Defs::EColors color);
     bool IsPlayerInCheckState(State& state, Defs::EColors color);
     Position ConvertFrom(Defs::Position*);

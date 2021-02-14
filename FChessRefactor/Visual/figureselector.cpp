@@ -70,29 +70,21 @@ bool FigureSelector::eventFilter( QObject * watched, QEvent* event )
 return false;
 }
 
-int FigureSelector::getFigure( Defs::EColors color )
+Ftype FigureSelector::getFigure( Defs::EColors color )
 {
-    if ( color == Defs::White )
-    {
-        _blackFrame.setVisible( false );
-        _whiteFrame.setVisible( true );
-    }
-    else if ( color == Defs::Black )
-    {
-        _blackFrame.setVisible( true );
-        _whiteFrame.setVisible( false );
-    }
+    _blackFrame.setVisible(color == Defs::Black);
+    _whiteFrame.setVisible(color == Defs::White);
 
     int result = exec();
     if ( result == QDialog::Accepted )
     {
-        return _selectedLabel->property( "figure" ).toInt();
+        return static_cast<Ftype>(_selectedLabel->property( "figure" ).toInt());
     }
 
-return -1;
+return 0;
 }
 
-QFrame * FigureSelector::CreateFrame(int id)
+QFrame * FigureSelector::CreateFrame(Ftype id)
 {
     QImage img = puppets::FigureFactory::IconImage(id);
     QFrame* frame = new QFrame(this);

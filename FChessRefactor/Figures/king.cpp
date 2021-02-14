@@ -51,7 +51,7 @@ static Defs::ESpecials isSpecial(IBoard* board, const Defs::MovePrimitive& move,
   if (p.x == -1 || p.y == -1)
     return Defs::None;
 
-  std::function<bool(const Defs::Move&)> filterRookMovement = [p, color](const Defs::Move& m)->bool {return m.figure == (Defs::Rook & color) && m.from == p; };
+  std::function<bool(const Defs::Move&)> filterRookMovement = [p, color](const Defs::Move& m)->bool {return m.figure == (Defs::Rook | color) && m.from == p; };
 
   return Defs::Castling;
 }
@@ -137,7 +137,7 @@ Defs::ESpecials King::isSpecial(const Defs::MovePrimitive &move)
     if (p.x == -1 || p.y == -1)
         return Defs::None;
 
-    std::function<bool(const Defs::Move&)> filterRookMovement = [p,this](const Defs::Move &m)->bool{return m.figure == (Defs::Rook & color()) && m.from == p;};
+    std::function<bool(const Defs::Move&)> filterRookMovement = [p,this](const Defs::Move &m)->bool{return m.figure == (Defs::Rook | color()) && m.from == p;};
 
 return Defs::Castling;
 }

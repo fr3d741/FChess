@@ -99,8 +99,12 @@ void GameplayFacade::slotMove(QVariant variant)
     Defs::Move move = construct(m);
 
     move.special = m.special = Evaluator::defineSpecial(m);
-    if (m.special == Defs::Promotion)
+    if (m.special == Defs::Promotion) {
+      if (player->IsHuman())
         move.figure = VisualProxy::Instance()->FigurePicker(player->color()) | player->color();
+      else
+        move.figure = player->getPromoted(m);
+    }
 
     if (!Validator::isValidMove(m, player->color()) ||
             Evaluator::isCheckFor(player->color(), move))
@@ -111,6 +115,7 @@ void GameplayFacade::slotMove(QVariant variant)
 
     _moveHistory.push_back(move);
     _board->applyMove(move);
+    emit signalValidMove(variant);
     emit signalBoardChanged(_board);
     nextPlayer();
 }

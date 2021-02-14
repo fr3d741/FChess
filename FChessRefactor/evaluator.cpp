@@ -12,7 +12,7 @@ Defs::EColors playerColorGlobal;
 
 bool filterOutPlayerCells(Defs::Cell& c)
 {
-    bool b = c.figure && !(c.figure & playerColorGlobal);
+    bool b = c.figure && !(Defs::getColor(c.figure) == playerColorGlobal);
     return b;
 }
 
@@ -55,10 +55,9 @@ bool Evaluator::checkPositions( Defs::EColors color, QList< QPair<int,int> >& po
             result.reset();
             QPair<int,int> fpos = QPair<int,int>(i, j);
             int figure = board->GetFigureInPosition(fpos.first, fpos.second);
-            if ( !figure || (figure & color) )
+            if (!figure || Defs::getColor(figure) == color)
                 continue;
 
-            //puppets::FigureFactory::createFigure(board, color, figure)->reachableCells( result, fpos );
             FigureGlobals::reachableCells(board.get(), result, fpos, color);
             for ( QList< QPair<int,int> >::iterator it = pointList.begin(); it != pointList.end(); ++it )
             {
@@ -77,8 +76,7 @@ Defs::ESpecials Evaluator::defineSpecial(Defs::MovePrimitive &move)
 {
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell& piece = board->cell(move.from);
-    Defs::EColors color = (Defs::EColors)(piece.figure & 0x03);
-    auto instance = puppets::FigureFactory::createFigure(board, color, piece.figure );
+    auto instance = puppets::FigureFactory::createFigure(board, piece.figure );
 
     return instance->isSpecial(move);
 }

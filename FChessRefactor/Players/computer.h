@@ -22,6 +22,10 @@ public:
     virtual std::pair< int, int >& cellOverCursor();
 
     void SetStrategy(std::shared_ptr<Ai::IStrategy> strategy);
+
+    bool IsHuman() override { return false; }
+
+    Ftype getPromoted(Defs::MovePrimitive m) override;
 signals:
     void signalMove(QVariant);
 

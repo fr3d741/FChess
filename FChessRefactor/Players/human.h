@@ -10,11 +10,13 @@ class Human : public Player
 {
     Q_OBJECT
 public:
-    Human( Defs::EColors color = Defs::Invalid, QObject *parent = 0 );
+    Human( Defs::EColors color, QObject *parent = 0 );
 
     virtual bool eventFilter(QObject *, QEvent * event );
 
     virtual std::pair< int, int >& cellOverCursor();
+
+    bool IsHuman() override { return true; }
 
 signals:
     void signalMouseOver(int, int);

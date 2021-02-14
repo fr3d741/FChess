@@ -19,9 +19,9 @@ int AiBoard::sizeHorizontal()
     return 8;
 }
 
-int AiBoard::GetFigureInPosition(int x, int y)
+Ftype AiBoard::GetFigureInPosition(int x, int y)
 {
-    return _state.cells[x][y];
+    return _state[x][y];
 }
 
 bool AiBoard::TestPosition(int x, int y)

@@ -17,8 +17,8 @@ bool Validator::isValidMove(Defs::MovePrimitive move, Defs::EColors playerColor)
     Defs::Cell f = board->cell(move.from);
     Defs::Cell t = board->cell(move.to);
 
-    bool fromValid = f.figure && ( f.figure & playerColor );
-    bool toValid = !(t.figure & playerColor);
+    bool fromValid = f.figure && (Defs::getColor(f.figure) == playerColor );
+    bool toValid = t.figure == 0 || (Defs::getColor(t.figure) != playerColor);
 
     if (!fromValid || !toValid)
     {
@@ -34,5 +34,5 @@ bool Validator::isValidCell(int x, int y, Defs::EColors playerColor)
     std::shared_ptr<IBoard> board = GameplayFacade::Instance()->GetBoard();
     Defs::Cell f = board->cell({x, y});
 
-return f.figure && ( f.figure & playerColor );
+return f.figure && (Defs::getColor(f.figure) == playerColor );
 }

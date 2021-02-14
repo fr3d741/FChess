@@ -13,7 +13,7 @@ class Player : public QObject, public MessageInterface
 {
     Q_OBJECT
 public:
-    explicit Player(Defs::EColors color = Defs::Invalid, QObject *parent = 0);
+    explicit Player(Defs::EColors color, QObject *parent = 0);
 
     virtual ~Player();
 
@@ -24,6 +24,10 @@ public:
     virtual bool isValidCellForTarget( Defs::Cell* cell );
 
     virtual std::pair< int, int >& cellOverCursor() = 0;
+
+    virtual bool IsHuman() = 0;
+
+    virtual Ftype getPromoted(Defs::MovePrimitive) { return 0; }
 
 signals:
     void signalMove( Defs::MovePrimitive );

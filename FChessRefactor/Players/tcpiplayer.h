@@ -26,7 +26,7 @@ class TCPIPlayer : public Player
     };
 
 public:
-    explicit TCPIPlayer(Defs::EColors color = Defs::Invalid, QObject *parent = 0);
+    explicit TCPIPlayer(Defs::EColors color, QObject *parent = 0);
     
     virtual bool isValidCell( Defs::Cell& cell );
 
@@ -35,6 +35,8 @@ public:
     virtual bool eventFilter(QObject *, QEvent *);
 
     virtual std::pair< int, int >& cellOverCursor();
+
+    bool IsHuman() override { return false; }
 signals:
 
 public slots:

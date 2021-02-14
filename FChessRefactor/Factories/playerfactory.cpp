@@ -22,7 +22,7 @@ return 0;
 
 Player* PlayerFactory::createPlayer( QString color, QString player )
 {
-    Defs::EColors col = Defs::Invalid;
+    Defs::EColors col;
     if ( color == "White" )
     {
         col = Defs::White;

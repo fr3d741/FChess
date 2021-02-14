@@ -11,8 +11,8 @@ AiData::State ConvertToState(std::shared_ptr<IBoard> board)
     for(int i = 0, c = 0; i < 8; ++i)
         for(int j = 0; j < 8; ++j, ++c)
         {
-            int figure = board->GetFigureInPosition(i, j);
-            aiState[i][j] = (AInt8)figure;
+            auto figure = board->GetFigureInPosition(i, j);
+            aiState[i][j] = figure;
         }
 
     return aiState;

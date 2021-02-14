@@ -349,9 +349,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Interfaces\player.h">
-      <Filter>Figures</Filter>
-    </QtMoc>
     <QtMoc Include="AI\Strategies\minmaxstrategy.h">
       <Filter>Ai\Strategies</Filter>
     </QtMoc>
@@ -399,6 +396,9 @@
     </QtMoc>
     <QtMoc Include="board.h">
       <Filter>Globals</Filter>
+    </QtMoc>
+    <QtMoc Include="Interfaces\player.h">
+      <Filter>Players</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

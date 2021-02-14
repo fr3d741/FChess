@@ -79,12 +79,12 @@ Defs::EColors DecisionTree::AlternateColor(Defs::EColors color)
 
 void DecisionTree::AddPossibleMovesToNode(StateParameter parameter)
 {
-  for (int i = 0, c = 0; i < 8; ++i) 
+  for (int i = 0; i < 8; ++i) 
   {
-    for (int j = 0; j < 8; ++j, ++c)
+    for (int j = 0; j < 8; ++j)
     {
       AInt8 figure = parameter.state[i][j];
-      if (!figure || !(figure & parameter.color))
+      if (!figure || Defs::getColor(figure) != parameter.color)
         continue;
 
       Defs::state reachableCells;
@@ -94,20 +94,17 @@ void DecisionTree::AddPossibleMovesToNode(StateParameter parameter)
       AiData::Position from;
       from.x = (AInt8)i;
       from.y = (AInt8)j;
-      assert(0 <= from.x && from.x < 8);
-      assert(0 <= from.y && from.y < 8);
-      for (int i = 0, c = 0; i < 8; ++i)
-        for (int j = 0; j < 8; ++j, ++c)
+
+      for (int k = 0, c = 0; k < 8; ++k)
+        for (int o = 0; o < 8; ++o, ++c)
         {
           if (!reachableCells.test(c))
             continue;
 
-          auto p = AiData::ConvertToPosition(i, j);
+          AiData::Position p(k, o);
           std::shared_ptr<AiData::StateNode> node = std::shared_ptr<AiData::StateNode>(new AiData::StateNode);
           node->move.from = from;
           node->move.to = p;
-          assert(0 <= node->move.to.x && node->move.to.x < 8);
-          assert(0 <= node->move.to.y && node->move.to.y < 8);
           node->playerColor = AlternateColor(parameter.color);
           parameter.rootNode->childrenNodes.push_back(node);
         }

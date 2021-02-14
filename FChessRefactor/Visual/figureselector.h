@@ -13,11 +13,11 @@ class FigureSelector : public QDialog
 public:
     explicit FigureSelector(QWidget *parent = 0);
 
-    int getFigure( Defs::EColors color );
+    Ftype getFigure( Defs::EColors color );
 
     virtual bool eventFilter ( QObject * watched, QEvent * event );
 
-    QFrame * CreateFrame(int id);
+    QFrame * CreateFrame(Ftype id);
 signals:
     
 public slots:

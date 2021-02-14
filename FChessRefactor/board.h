@@ -38,7 +38,7 @@ public:
 
     std::shared_ptr<IBoard> replicate(Defs::Move move) override;
 
-    virtual int GetFigureInPosition(int x, int y) override;
+    virtual Ftype GetFigureInPosition(int x, int y) override;
 
     virtual bool TestPosition(int x, int y) override;
 

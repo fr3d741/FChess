@@ -20,15 +20,15 @@ namespace puppets
     class FigureFactory
     {
         public:
-            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, int figure );
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Ftype figure );
 
-            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, int figure );
+            static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Ftype figure );
 
             static std::shared_ptr<FigureInterface> createFigure(std::shared_ptr<IBoard> board, Defs::EColors color, Defs::EFigures figure );
 
-            static QString IconPath(int id);
+            static QString IconPath(Ftype id);
 
-            static QImage IconImage(int id);
+            static QImage IconImage(Ftype id);
 
         private:
 

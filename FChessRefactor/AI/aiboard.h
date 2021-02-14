@@ -17,7 +17,7 @@ public:
 
     virtual int sizeHorizontal();
 
-    virtual int GetFigureInPosition(int x, int y);
+    virtual Ftype GetFigureInPosition(int x, int y);
 
     virtual bool TestPosition(int x, int y);
 

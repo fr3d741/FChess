@@ -10,43 +10,6 @@
 
 namespace AiData {
 
-//State StateNode::rootState;
-
-int ValueOfState(Figure* state, int maxX, int maxY, Defs::EColors color)
-{
-    int sum = 0;
-    for (int x = 0; x < maxX * maxY; ++x)
-    {
-        int value = 0;
-        switch(state[x].type)
-        {
-            case Defs::King:
-                value = 12;
-                break;
-            case Defs::Queen:
-                value = 9;
-                break;
-            case Defs::Rook:
-                value = 6;
-                break;
-            case Defs::Knight:
-                value = 3;
-                break;
-            case Defs::Bishop:
-                value = 2;
-                break;
-            case Defs::Pawn:
-                value = 1;
-            default:
-                value = 0;
-        }
-        sum += value * (state[x].color & color?1:-1);
-    }
-
-return sum;
-}
-
-
 Position ConvertToPosition(int i, int j)
 {
     Position p;
@@ -73,35 +36,20 @@ QList<Position> ConvertToPositions(Defs::state &state)
 int ValueOfState(State &state, Defs::EColors color)
 {
     int sum = 0;
-    for (int x = 0; x < 8; ++x)
-        for (int y = 0; y < 8; ++y)
-        {
-            int value = 0;
-            int figure = state[x][y];
-            switch(figure & 0xFFFC)
-            {
-                case Defs::King:
-                    value = 12;
-                    break;
-                case Defs::Queen:
-                    value = 9;
-                    break;
-                case Defs::Rook:
-                    value = 6;
-                    break;
-                case Defs::Knight:
-                    value = 3;
-                    break;
-                case Defs::Bishop:
-                    value = 2;
-                    break;
-                case Defs::Pawn:
-                    value = 1;
-                default:
-                    value = 0;
-            }
-            sum += value * (figure & color?1:-1);
-        }
+    auto cells = state.data();
+    for (int i = 0; i < HORIZONTAL_SIZE * VERTICAL_SIZE; ++i)
+    {
+      switch (Defs::getColor(cells[i])) {
+        case Defs::White:
+          sum += cells[i];
+          continue;
+        case Defs::Black:
+          sum -= cells[i] & 0x7F;
+          continue;
+        default:
+          break;
+      }
+    }
 
     if (IsPlayerInCheckState(state, color))
         sum -= 11;
@@ -144,11 +92,12 @@ QString toString(const StateNode &node)
 bool IsPlayerInCheckState(State &state, Defs::EColors color)
 {
     Position ofKing;
+    Ftype king = Defs::King | color;
     for(int i = 0; i < 8; ++i)
     {
         for(int j = 0; j < 8; ++j)
         {
-            if (state[i][j] != (Defs::King | color))
+            if (state[i][j] != king)
                 continue;
             ofKing.x = i;
             ofKing.y = j;
@@ -162,7 +111,7 @@ kingFound:;
         for(int j = 0; j < 8; ++j)
         {
             AInt8 val = state[i][j];
-            if (!val || (val & color))
+            if (!val || Defs::getColor(val) == color)
                 continue;
 
             Defs::MovePrimitive m;
